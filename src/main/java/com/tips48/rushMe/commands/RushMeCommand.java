@@ -207,7 +207,7 @@ public class RushMeCommand implements CommandExecutor {
 				}
 				Arena a = GameManager.getArena(args[1]);
 				if (a != null) {
-					defining.put(player.getEntityId(), a);
+					defining.remove(player.getEntityId());
 					player.sendMessage(ChatColor.AQUA + "Done defining "
 							+ a.getName());
 					return true;
