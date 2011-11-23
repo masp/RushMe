@@ -18,6 +18,8 @@
 package com.tips48.rushMe.custom.items;
 
 import com.tips48.rushMe.RushMe;
+import com.tips48.rushMe.packets.PacketGrenadeUpdate;
+import com.tips48.rushMe.util.RMUtils;
 
 import org.getspout.spoutapi.material.item.GenericCustomItem;
 
@@ -52,6 +54,10 @@ public class Grenade extends GenericCustomItem {
 		this.timeBeforeExplosion = timeBeforeExplosion;
 		this.damage = damage;
 		this.stunTime = stunTime;
+
+		PacketGrenadeUpdate packet = new PacketGrenadeUpdate();
+		packet.processGrenade(this);
+		packet.send(RMUtils.getSpoutPlayers());
 	}
 
 	public GrenadeType getType() {
@@ -68,6 +74,9 @@ public class Grenade extends GenericCustomItem {
 
 	public void setAmount(int amount) {
 		this.amount = amount;
+		PacketGrenadeUpdate packet = new PacketGrenadeUpdate();
+		packet.processGrenade(this);
+		packet.send(RMUtils.getSpoutPlayers());
 	}
 
 	public Integer getExplosionSize() {
@@ -90,7 +99,9 @@ public class Grenade extends GenericCustomItem {
 		if (amount <= 0) {
 			return;
 		}
-
+		PacketGrenadeUpdate packet = new PacketGrenadeUpdate();
+		packet.processGrenade(this);
+		packet.send(RMUtils.getSpoutPlayers());
 	}
 
 	public String getShortName() {

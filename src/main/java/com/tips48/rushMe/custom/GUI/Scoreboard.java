@@ -17,9 +17,7 @@
 
 package com.tips48.rushMe.custom.GUI;
 
-import com.tips48.rushMe.Arena;
-import com.tips48.rushMe.GameManager;
-import com.tips48.rushMe.RushMe;
+import com.tips48.rushMe.*;
 import com.tips48.rushMe.data.PlayerData;
 import com.tips48.rushMe.teams.Team;
 

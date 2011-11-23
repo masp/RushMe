@@ -14,30 +14,34 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.tips48.rushMe.custom.GUI;
+package com.tips48.rushMe.packets;
 
-import org.bukkit.entity.Player;
-import org.getspout.spoutapi.SpoutManager;
+import org.getspout.spoutapi.io.*;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
-public class Minimap {
+public class PacketQueueKill extends AddonPacket {
+	private String message;
 
-	private final SpoutPlayer player;
-
-	protected Minimap(Player player) {
-		this.player = SpoutManager.getPlayer(player);
+	@Override
+	public void read(SpoutInputStream stream) {
+		message = stream.readString("message");
 	}
 
-	public void init() {
-
+	@Override
+	public void run(SpoutPlayer sp) {
+		// Client ONLY
 	}
 
-	public void shutdown() {
-
+	@Override
+	public void write(SpoutOutputStream stream) {
+		stream.writeString(message);
 	}
 
-	public void updateMinimap() {
-
+	public String getMessage() {
+		return message;
 	}
 
+	public void setMessage(String message) {
+		this.message = message;
+	}
 }

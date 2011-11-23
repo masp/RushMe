@@ -180,12 +180,14 @@ public class RMPlayerListener extends PlayerListener {
 		Location from = event.getFrom();
 		if (GameManager.inGame(player)) {
 			Arena a = GameManager.getPlayerArena(player);
-			if (!(a.inArena(event.getTo().toVector()))) {
-				from.setX(from.getBlockX() + 0.5);
-				from.setY(from.getBlockY());
-				from.setZ(from.getBlockZ() + 0.5);
-				event.setTo(from);
-				return;
+			if (a != null) {
+				if (!(a.inArena(event.getTo().toVector()))) {
+					from.setX(from.getBlockX() + 0.5);
+					from.setY(from.getBlockY());
+					from.setZ(from.getBlockZ() + 0.5);
+					event.setTo(from);
+					return;
+				}
 			}
 		}
 	}

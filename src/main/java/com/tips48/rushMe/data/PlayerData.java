@@ -21,6 +21,8 @@ import com.tips48.rushMe.GameManager;
 import com.tips48.rushMe.custom.GUI.MainHUD;
 import com.tips48.rushMe.custom.GUI.SpoutGUI;
 import com.tips48.rushMe.custom.items.Gun;
+import com.tips48.rushMe.packets.PacketPlayerDataUpdate;
+import com.tips48.rushMe.util.RMUtils;
 
 import org.bukkit.entity.Player;
 import org.getspout.spoutapi.SpoutManager;
@@ -103,9 +105,22 @@ public class PlayerData {
 		if (getHealth(hurt) <= 0) {
 			addDeath(damager);
 			SpoutGUI.showKill(damagerP, hurtP, gun);
-			damagerHud.getPointQueue().addToQueue("Enemy killed - 100");
+			damagerHud.queuePoints("Enemy killed - 100");
 			setScore(damagerP, getScore(damagerP) + 100);
 		}
+		PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
+		packet.setDeaths(PlayerData.getDeaths(hurtP));
+		packet.setKills(PlayerData.getKills(hurtP));
+		packet.setScore(PlayerData.getScore(hurtP));
+		packet.setSpotted(PlayerData.isSpotted(hurtP));
+		packet.send(RMUtils.getSpoutPlayers());
+
+		PacketPlayerDataUpdate packet2 = new PacketPlayerDataUpdate();
+		packet2.setDeaths(PlayerData.getDeaths(damagerP));
+		packet2.setKills(PlayerData.getKills(damagerP));
+		packet2.setScore(PlayerData.getScore(damagerP));
+		packet2.setSpotted(PlayerData.isSpotted(damagerP));
+		packet2.send(RMUtils.getSpoutPlayers());
 		// TODO if keeping gun stats, do here
 	}
 
@@ -130,6 +145,7 @@ public class PlayerData {
 	 */
 	public static int getScore(int player) {
 		return scores.get(player);
+
 	}
 
 	/**
@@ -164,6 +180,12 @@ public class PlayerData {
 	 */
 	public static void setScore(int player, Integer score) {
 		scores.put(player, score);
+		PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
+		packet.setDeaths(PlayerData.getDeaths(player));
+		packet.setKills(PlayerData.getKills(player));
+		packet.setScore(PlayerData.getScore(player));
+		packet.setSpotted(PlayerData.isSpotted(player));
+		packet.send(RMUtils.getSpoutPlayers());
 	}
 
 	/**
@@ -200,6 +222,7 @@ public class PlayerData {
 	 */
 	public static void setKills(Player player, Integer kill) {
 		setKills(player.getEntityId(), kill);
+
 	}
 
 	/**
@@ -212,6 +235,12 @@ public class PlayerData {
 	 */
 	public static void setKills(int player, Integer kill) {
 		kills.put(player, kill);
+		PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
+		packet.setDeaths(PlayerData.getDeaths(player));
+		packet.setKills(PlayerData.getKills(player));
+		packet.setScore(PlayerData.getScore(player));
+		packet.setSpotted(PlayerData.isSpotted(player));
+		packet.send(RMUtils.getSpoutPlayers());
 	}
 
 	/**
@@ -260,6 +289,12 @@ public class PlayerData {
 	 */
 	public static void setDeaths(int player, Integer death) {
 		deaths.put(player, death);
+		PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
+		packet.setDeaths(PlayerData.getDeaths(player));
+		packet.setKills(PlayerData.getKills(player));
+		packet.setScore(PlayerData.getScore(player));
+		packet.setSpotted(PlayerData.isSpotted(player));
+		packet.send(RMUtils.getSpoutPlayers());
 	}
 
 	/**
@@ -281,6 +316,12 @@ public class PlayerData {
 	 */
 	public static void addKill(int player) {
 		kills.put(player, kills.get(player) + 1);
+		PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
+		packet.setDeaths(PlayerData.getDeaths(player));
+		packet.setKills(PlayerData.getKills(player));
+		packet.setScore(PlayerData.getScore(player));
+		packet.setSpotted(PlayerData.isSpotted(player));
+		packet.send(RMUtils.getSpoutPlayers());
 	}
 
 	/**
@@ -302,6 +343,12 @@ public class PlayerData {
 	 */
 	public static void addDeath(int player) {
 		deaths.put(player, deaths.get(player) + 1);
+		PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
+		packet.setDeaths(PlayerData.getDeaths(player));
+		packet.setKills(PlayerData.getKills(player));
+		packet.setScore(PlayerData.getScore(player));
+		packet.setSpotted(PlayerData.isSpotted(player));
+		packet.send(RMUtils.getSpoutPlayers());
 	}
 
 	/**
@@ -357,6 +404,12 @@ public class PlayerData {
 				hud.updateHUD();
 			}
 		}
+		PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
+		packet.setDeaths(PlayerData.getDeaths(player));
+		packet.setKills(PlayerData.getKills(player));
+		packet.setScore(PlayerData.getScore(player));
+		packet.setSpotted(PlayerData.isSpotted(player));
+		packet.send(RMUtils.getSpoutPlayers());
 	}
 
 	/**
@@ -394,6 +447,12 @@ public class PlayerData {
 				hud.updateHUD();
 			}
 		}
+		PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
+		packet.setDeaths(PlayerData.getDeaths(player));
+		packet.setKills(PlayerData.getKills(player));
+		packet.setScore(PlayerData.getScore(player));
+		packet.setSpotted(PlayerData.isSpotted(player));
+		packet.send(RMUtils.getSpoutPlayers());
 	}
 
 	/**
@@ -431,6 +490,12 @@ public class PlayerData {
 				hud.updateHUD();
 			}
 		}
+		PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
+		packet.setDeaths(PlayerData.getDeaths(player));
+		packet.setKills(PlayerData.getKills(player));
+		packet.setScore(PlayerData.getScore(player));
+		packet.setSpotted(PlayerData.isSpotted(player));
+		packet.send(RMUtils.getSpoutPlayers());
 	}
 
 	/**
@@ -484,6 +549,12 @@ public class PlayerData {
 				spotted.remove(player);
 			}
 		}
+		PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
+		packet.setDeaths(PlayerData.getDeaths(player));
+		packet.setKills(PlayerData.getKills(player));
+		packet.setScore(PlayerData.getScore(player));
+		packet.setSpotted(PlayerData.isSpotted(player));
+		packet.send(RMUtils.getSpoutPlayers());
 	}
 
 	/**

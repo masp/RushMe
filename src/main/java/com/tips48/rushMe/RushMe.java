@@ -141,6 +141,8 @@ public class RushMe extends JavaPlugin {
 		AddonPacket.register(PacketPlayerDataUpdate.class, "PlayerDataUpdate");
 		AddonPacket.register(PacketToggleHUD.class, "ToggleHUD");
 		AddonPacket.register(PacketUpdateHUD.class, "UpdateHUD");
+		AddonPacket.register(PacketQueueKill.class, "QueueKill");
+		AddonPacket.register(PacketQueuePoints.class, "QueuePoints");
 	}
 
 }

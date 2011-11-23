@@ -19,6 +19,8 @@ package com.tips48.rushMe.custom.items;
 
 import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.custom.GUI.SpoutGUI;
+import com.tips48.rushMe.packets.PacketGunUpdate;
+import com.tips48.rushMe.util.RMUtils;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -111,6 +113,10 @@ public class Gun extends GenericCustomItem {
 		this.recoilBack = recoilBack;
 		this.recoilVertical = recoilVertical;
 		this.recoilHorizontal = recoilHorizontal;
+
+		PacketGunUpdate packet = new PacketGunUpdate();
+		packet.processGun(this);
+		packet.send(RMUtils.getSpoutPlayers());
 	}
 
 	/**
@@ -170,6 +176,9 @@ public class Gun extends GenericCustomItem {
 			return;
 		}
 		this.ammo = maxAmmo;
+		PacketGunUpdate packet = new PacketGunUpdate();
+		packet.processGun(this);
+		packet.send(RMUtils.getSpoutPlayers());
 	}
 
 	/**
@@ -202,6 +211,9 @@ public class Gun extends GenericCustomItem {
 			return;
 		}
 		this.loadedInClip = maxClipSize;
+		PacketGunUpdate packet = new PacketGunUpdate();
+		packet.processGun(this);
+		packet.send(RMUtils.getSpoutPlayers());
 	}
 
 	/**
@@ -230,6 +242,9 @@ public class Gun extends GenericCustomItem {
 	 */
 	public void setTimeBetweenFire(double timeBetweenFire) {
 		this.timeBetweenFire = timeBetweenFire;
+		PacketGunUpdate packet = new PacketGunUpdate();
+		packet.processGun(this);
+		packet.send(RMUtils.getSpoutPlayers());
 	}
 
 	/**
@@ -292,6 +307,9 @@ public class Gun extends GenericCustomItem {
 				reload(player);
 			}
 		}
+		PacketGunUpdate packet = new PacketGunUpdate();
+		packet.processGun(this);
+		packet.send(RMUtils.getSpoutPlayers());
 	}
 
 	/**
@@ -304,6 +322,7 @@ public class Gun extends GenericCustomItem {
 		if (ammo <= 0) {
 			return;
 		}
+		final Gun gun = this;
 		reloading = true;
 		// SpoutGUI.showReloading(player, this);
 		RushMe.getInstance().getServer().getScheduler()
@@ -322,6 +341,9 @@ public class Gun extends GenericCustomItem {
 						}
 						reloading = false;
 						SpoutGUI.getHudOf(player).updateHUD();
+						PacketGunUpdate packet = new PacketGunUpdate();
+						packet.processGun(gun);
+						packet.send(RMUtils.getSpoutPlayers());
 					}
 				}, reloadTime);
 	}
@@ -343,6 +365,9 @@ public class Gun extends GenericCustomItem {
 	 */
 	public void setAutoReload(boolean autoReload) {
 		this.autoReload = autoReload;
+		PacketGunUpdate packet = new PacketGunUpdate();
+		packet.processGun(this);
+		packet.send(RMUtils.getSpoutPlayers());
 	}
 
 	/**

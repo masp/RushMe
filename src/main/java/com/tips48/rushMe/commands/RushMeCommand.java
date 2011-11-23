@@ -18,7 +18,6 @@
 package com.tips48.rushMe.commands;
 
 import com.tips48.rushMe.*;
-import com.tips48.rushMe.custom.GUI.SpoutGUI;
 import com.tips48.rushMe.teams.Team;
 import com.tips48.rushMe.util.RMChat;
 import com.tips48.rushMe.util.RMUtils;
@@ -82,16 +81,6 @@ public class RushMeCommand implements CommandExecutor {
 					GameManager.addToGame(a, player, null);
 					player.sendMessage(ChatColor.AQUA + "Joined the arena "
 							+ a.getName());
-					SpoutGUI.getHudOf(player).getKillFeedQueue()
-							.addToQueue("1");
-					SpoutGUI.getHudOf(player).getKillFeedQueue()
-							.addToQueue("2");
-					SpoutGUI.getHudOf(player).getKillFeedQueue()
-							.addToQueue("3");
-					SpoutGUI.getHudOf(player).getKillFeedQueue()
-							.addToQueue("4");
-					SpoutGUI.getHudOf(player).getKillFeedQueue()
-							.addToQueue("5");
 				} else {
 					player.sendMessage(ChatColor.RED
 							+ "No arena with the name " + args[1]);

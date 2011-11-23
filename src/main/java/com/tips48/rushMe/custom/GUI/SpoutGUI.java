@@ -53,11 +53,9 @@ public class SpoutGUI {
 			if (p != null) {
 				MainHUD hud = getHudOf(p);
 				if (hud != null) {
-					hud.getKillFeedQueue().addToQueue(
-							ChatColor.GREEN + killer.getDisplayName()
-									+ ChatColor.WHITE + "[" + weapon.getName()
-									+ "]" + ChatColor.RED
-									+ killed.getDisplayName());
+					hud.queueKill(ChatColor.GREEN + killer.getDisplayName()
+							+ ChatColor.WHITE + "[" + weapon.getName() + "]"
+							+ ChatColor.RED + killed.getDisplayName());
 				}
 			}
 		}
@@ -66,11 +64,9 @@ public class SpoutGUI {
 			if (p != null) {
 				MainHUD hud = getHudOf(p);
 				if (hud != null) {
-					hud.getKillFeedQueue().addToQueue(
-							ChatColor.RED + killer.getDisplayName()
-									+ ChatColor.WHITE + "[" + weapon.getName()
-									+ "]" + ChatColor.GREEN
-									+ killed.getDisplayName());
+					hud.queueKill(ChatColor.RED + killer.getDisplayName()
+							+ ChatColor.WHITE + "[" + weapon.getName() + "]"
+							+ ChatColor.GREEN + killed.getDisplayName());
 				}
 			}
 		}

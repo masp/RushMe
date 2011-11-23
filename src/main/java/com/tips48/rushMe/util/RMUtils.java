@@ -160,7 +160,7 @@ public class RMUtils {
 
 	public static Gun getGun(Player player) {
 		SpoutPlayer p = SpoutManager.getPlayer(player);
-		SpoutItemStack inHand = (SpoutItemStack) p.getItemInHand();
+		SpoutItemStack inHand = new SpoutItemStack(p.getItemInHand());
 		if (inHand.isCustomItem()) {
 			CustomItem i = (CustomItem) inHand.getMaterial();
 			return GunManager.getGun(i);
@@ -259,8 +259,8 @@ public class RMUtils {
 	 * It will return a empty Set<{@link org.bukkit.entity.Player}> if none are
 	 * found.
 	 * 
-	 * This code was contributed to RushMe by tips48, from the CounterCraftDev
-	 * team. Original file can be found at
+	 * This code was contributed to RushMe by AJCStriker, from the
+	 * CounterCraftDev team. Original file can be found at
 	 * https://github.com/AJCStriker/Counter-
 	 * Craft/edit/master/src/net/countercraft/ccserver/maths/MathsHelper.java
 	 * 
@@ -292,5 +292,13 @@ public class RMUtils {
 			}
 		}
 		return spottedList;
+	}
+
+	public static Set<SpoutPlayer> getSpoutPlayers() {
+		Set<SpoutPlayer> c = new HashSet<SpoutPlayer>();
+		for (Player p : RushMe.getInstance().getServer().getOnlinePlayers()) {
+			c.add(SpoutManager.getPlayer(p));
+		}
+		return c;
 	}
 }
