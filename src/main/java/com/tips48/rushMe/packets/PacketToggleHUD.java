@@ -25,39 +25,25 @@ import org.getspout.spoutapi.player.SpoutPlayer;
 
 public class PacketToggleHUD extends AddonPacket {
 
-	private boolean toggle;
-
 	@Override
 	public void read(SpoutInputStream stream) {
-		toggle = stream.readInt() == 0;
 	}
 
 	@Override
 	public void run(SpoutPlayer sp) {
-		if (toggle) {
-			MainHUD hud = SpoutGUI.getHudOf(sp);
-			if (hud != null) {
-				hud.init();
-			}
+		MainHUD hud = SpoutGUI.getHudOf(sp);
+		if (hud == null) {
+			return;
+		}
+		if (hud.isActive()) {
+			hud.init();
 		} else {
-			MainHUD hud = SpoutGUI.getHudOf(sp);
-			if (hud != null) {
-				hud.shutdown();
-			}
+			hud.shutdown();
 		}
 	}
 
 	@Override
 	public void write(SpoutOutputStream stream) {
-		stream.writeInt(toggle ? 0 : 1);
-	}
-
-	public boolean isToggle() {
-		return toggle;
-	}
-
-	public void setToggle(boolean toggle) {
-		this.toggle = toggle;
 	}
 
 }

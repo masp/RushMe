@@ -151,6 +151,9 @@ public class RMUtils {
 		ItemStack[] armor = player.getInventory().getArmorContents();
 		player.getInventory().clear();
 		for (ItemStack item : inventory) {
+			if (item == null) {
+				return;
+			}
 			if (!isGun(item)) {
 				player.getInventory().addItem(item);
 			}
