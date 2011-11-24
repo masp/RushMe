@@ -331,6 +331,9 @@ public class Arena {
 	}
 
 	public boolean inArena(Vector loc) {
+		if (!getCompleted()) {
+			return true;
+		}
 		final double x = loc.getX();
 		final double z = loc.getZ();
 		return (x >= loc1.getBlockX()) && (x < (loc2.getBlockX() + 1))
