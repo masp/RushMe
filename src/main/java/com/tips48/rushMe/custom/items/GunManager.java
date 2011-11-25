@@ -29,45 +29,6 @@ public class GunManager {
 
 	}
 
-	/**
-	 * Creates a gun with the specified specifications
-	 * 
-	 * @param name
-	 *            Name of gun
-	 * @param texture
-	 *            Online texture URL
-	 * @param reloadTime
-	 *            Time between reloads
-	 * @param autoReload
-	 *            If gun auto reloads
-	 * @param maxClipSize
-	 *            Max clip size
-	 * @param maxAmmo
-	 *            Max ammo of gun
-	 * @param timeBetweenFire
-	 *            Time between firing
-	 * @param bulletsExplode
-	 *            If Bullets explode
-	 * @param explosionSize
-	 *            Size of explosion (Can be null if bullets don't explode)
-	 * @param entityDamageDistance
-	 *            Distance in which entities get damaged by explosions (Can be
-	 *            null if bullets don't explode)
-	 * @param headshotDamage
-	 *            Damage of a head shot (Can be null if bullets explode)
-	 * @param bodyDamage
-	 *            Damage of a body shot (Can be null if bullets explode)
-	 * @param recoilBack
-	 *            Recoil moving the player back (Negative if the player should
-	 *            move forward)
-	 * @param recoilVertical
-	 *            Recoil moving the player's gun up (Negative if the player's
-	 *            gun should go down)
-	 * @param recoilHorizontal
-	 *            Recoil moving the player's gun to the right (Negative if the
-	 *            player's gun should go to the left)
-	 * @return {@link Gun} object with the specified specifications
-	 */
 	public static Gun createGun(String name, String texture,
 			Integer reloadTime, Boolean autoReload, Integer maxClipSize,
 			Integer maxAmmo, Double timeBetweenFire, Boolean bulletsExplode,
@@ -85,22 +46,10 @@ public class GunManager {
 		return gun;
 	}
 
-	/**
-	 * Gets a set with each gun object
-	 * 
-	 * @return set with each gun object
-	 */
 	public static Set<Gun> getGuns() {
 		return guns;
 	}
 
-	/**
-	 * Gets a gun with the specified name
-	 * 
-	 * @param name
-	 *            Name of gun
-	 * @return {@link Gun} with the specified name
-	 */
 	public static Gun getGun(String name) {
 		for (Gun g : getGuns()) {
 			if (g.getName().equals(name)) {
@@ -110,13 +59,6 @@ public class GunManager {
 		return null;
 	}
 
-	/**
-	 * Gets a gun from a CustomItem
-	 * 
-	 * @param item
-	 *            {@link CustomItem} object
-	 * @return {@link Gun} from the specified object
-	 */
 	public static Gun getGun(CustomItem item) {
 		for (Gun g : getGuns()) {
 			if (item.equals(g)) {
@@ -126,11 +68,6 @@ public class GunManager {
 		return null;
 	}
 
-	/**
-	 * Gets a set with each gun's name
-	 * 
-	 * @return a set with each guns name
-	 */
 	public static Set<String> getGunNames() {
 		Set<String> names = new HashSet<String>();
 		for (Gun g : getGuns()) {

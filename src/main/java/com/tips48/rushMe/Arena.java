@@ -34,9 +34,6 @@ import gnu.trove.set.hash.TIntHashSet;
 
 import java.util.*;
 
-/**
- * Represents an Arena
- */
 public class Arena {
 
 	private final List<Team> teams;

@@ -34,9 +34,6 @@ public class GunConfiguration {
 
 	}
 
-	/**
-	 * Loads all guns from the configuration file guns.yml
-	 */
 	public static void loadGuns() {
 		gunsFile = new File(RushMe.getInstance().getDataFolder()
 				+ File.separator + "guns.yml");

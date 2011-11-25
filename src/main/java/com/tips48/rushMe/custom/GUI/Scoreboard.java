@@ -90,15 +90,14 @@ public class Scoreboard {
 		teamHorizontalLine.setX(-400);
 		widgetsDrawn.add(teamHorizontalLine);
 
-		/*
-		 * Gradient enemyHorizontalLine = new GenericGradient();
-		 * enemyHorizontalLine.setTopColor(new Color(255, 255, 255, 100));
-		 * enemyHorizontalLine.setBottomColor(new Color(255, 255, 255, 200));
-		 * enemyHorizontalLine.setAnchor(WidgetAnchor.CENTER_CENTER);
-		 * enemyHorizontalLine.setHeight(5); enemyHorizontalLine.setWidth(400);
-		 * enemyHorizontalLine.setY(-135);
-		 * widgetsDrawn.add(enemyHorizontalLine);
-		 */
+		Gradient enemyHorizontalLine = new GenericGradient();
+		enemyHorizontalLine.setTopColor(new Color(255, 255, 255, 100));
+		enemyHorizontalLine.setBottomColor(new Color(255, 255, 255, 200));
+		enemyHorizontalLine.setAnchor(WidgetAnchor.CENTER_CENTER);
+		enemyHorizontalLine.setHeight(5);
+		enemyHorizontalLine.setWidth(400);
+		enemyHorizontalLine.setY(-135);
+		widgetsDrawn.add(enemyHorizontalLine);
 
 		Gradient playerTeamBackground = new GenericGradient();
 		playerTeamBackground.setTopColor(new Color(0, 200, 255));
@@ -111,16 +110,15 @@ public class Scoreboard {
 		playerTeamBackground.setPriority(RenderPriority.High);
 		widgetsDrawn.add(playerTeamBackground);
 
-		/*
-		 * Gradient enemyTeamBackground = new GenericGradient();
-		 * enemyTeamBackground.setTopColor(new Color(255, 0, 0));
-		 * enemyTeamBackground.setBottomColor(new Color(255, 0, 0));
-		 * enemyTeamBackground.setAnchor(WidgetAnchor.CENTER_CENTER);
-		 * enemyTeamBackground.setY(-150); enemyTeamBackground.setWidth(400);
-		 * enemyTeamBackground.setHeight(15);
-		 * enemyTeamBackground.setPriority(RenderPriority.High);
-		 * widgetsDrawn.add(enemyTeamBackground);
-		 */
+		Gradient enemyTeamBackground = new GenericGradient();
+		enemyTeamBackground.setTopColor(new Color(255, 0, 0));
+		enemyTeamBackground.setBottomColor(new Color(255, 0, 0));
+		enemyTeamBackground.setAnchor(WidgetAnchor.CENTER_CENTER);
+		enemyTeamBackground.setY(-150);
+		enemyTeamBackground.setWidth(400);
+		enemyTeamBackground.setHeight(15);
+		enemyTeamBackground.setPriority(RenderPriority.High);
+		widgetsDrawn.add(enemyTeamBackground);
 
 		Arena a = GameManager.getPlayerArena(player);
 		Team playerTeam = a.getPlayerTeam(player);
@@ -214,14 +212,15 @@ public class Scoreboard {
 			teamLine.setHeight(1);
 			widgetsDrawn.add(teamLine);
 
-			/*
-			 * & Gradient enemyLine = new GenericGradient();
-			 * enemyLine.setBottomColor(new Color(0, 0, 0, 200));
-			 * enemyLine.setTopColor(new Color(0, 0, 0, 200));
-			 * enemyLine.setAnchor(WidgetAnchor.CENTER_CENTER);
-			 * enemyLine.setY(-y); enemyLine.setWidth(400);
-			 * enemyLine.setHeight(1); widgetsDrawn.add(enemyLine);
-			 */
+			Gradient enemyLine = new GenericGradient();
+			enemyLine.setBottomColor(new Color(0, 0, 0, 200));
+			enemyLine.setTopColor(new Color(0, 0, 0, 200));
+			enemyLine.setAnchor(WidgetAnchor.CENTER_CENTER);
+			enemyLine.setY(-y);
+			enemyLine.setWidth(400);
+			enemyLine.setHeight(1);
+			widgetsDrawn.add(enemyLine);
+
 		}
 
 		int currentY = 130;

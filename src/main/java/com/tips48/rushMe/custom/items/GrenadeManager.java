@@ -36,22 +36,6 @@ public class GrenadeManager {
 
 	}
 
-	/**
-	 * Creates a gun with the specified specifications
-	 * 
-	 * @param name
-	 *            Name of grenade
-	 * @param shortName
-	 *            short name of grenade
-	 * @param texture
-	 *            Online texture URL
-	 * @param type
-	 *            Type of grenade
-	 * @param startAmount
-	 *            Default amount of grenades started with by the player
-	 * @param explosionSize
-	 *            Size of explosion
-	 */
 	public static Grenade createGrenade(String name, String shortName,
 			String texture, GrenadeType type, Integer startAmount,
 			Integer explosionSize, Integer timeBeforeExplosion, Integer damage,
@@ -66,22 +50,10 @@ public class GrenadeManager {
 		return grenade;
 	}
 
-	/**
-	 * Gets a set with each gun object
-	 * 
-	 * @return set with each gun object
-	 */
 	public static Set<Grenade> getGrenades() {
 		return grenades;
 	}
 
-	/**
-	 * Gets a grenade with the specified name
-	 * 
-	 * @param name
-	 *            Name of grenade
-	 * @return {@link Grenade} with the specified name
-	 */
 	public static Grenade getGrenade(String name) {
 		for (Grenade g : getGrenades()) {
 			if (g.getName().equals(name)) {
@@ -91,13 +63,6 @@ public class GrenadeManager {
 		return null;
 	}
 
-	/**
-	 * Gets a grenade from a CustomItem
-	 * 
-	 * @param item
-	 *            {@link CustomItem} object
-	 * @return {@link Grenade} from the specified object
-	 */
 	public static Grenade getGrenade(CustomItem item) {
 		for (Grenade g : getGrenades()) {
 			if (item.equals(g)) {
@@ -107,11 +72,6 @@ public class GrenadeManager {
 		return null;
 	}
 
-	/**
-	 * Gets a set with each grenade's name
-	 * 
-	 * @return a set with each grenade name
-	 */
 	public static Set<String> getGrenadeNames() {
 		Set<String> names = new HashSet<String>();
 		for (Grenade g : getGrenades()) {

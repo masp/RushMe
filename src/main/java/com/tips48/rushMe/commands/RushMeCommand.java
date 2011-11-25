@@ -33,19 +33,6 @@ public class RushMeCommand implements CommandExecutor {
 
 	private static TIntObjectMap<Arena> defining = new TIntObjectHashMap<Arena>();
 
-	/**
-	 * Called when a command called RushMe is sent
-	 * 
-	 * @param sender
-	 *            {@link CommandSender} Command sender object
-	 * @param cmd
-	 *            {@link Command} Command object
-	 * @param commandLabel
-	 *            Name of command sent
-	 * @param args
-	 *            Command arguments
-	 * @return if command was used
-	 */
 	public boolean onCommand(CommandSender sender, Command cmd,
 			String commandLabel, String[] args) {
 		if (args.length == 0) {

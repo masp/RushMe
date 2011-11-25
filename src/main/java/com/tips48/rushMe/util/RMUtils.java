@@ -256,20 +256,10 @@ public class RMUtils {
 	}
 
 	/**
-	 * This function can be called and will return a list of any players that
-	 * have been spotted by the player casting.
-	 * 
-	 * It will return a empty Set<{@link org.bukkit.entity.Player}> if none are
-	 * found.
-	 * 
 	 * This code was contributed to RushMe by AJCStriker, from the
 	 * CounterCraftDev team. Original file can be found at
 	 * https://github.com/AJCStriker/Counter-
 	 * Craft/edit/master/src/net/countercraft/ccserver/maths/MathsHelper.java
-	 * 
-	 * @param Player
-	 *            who has pressed the spot button as org.bukkit.entity.Player.
-	 * @return Set<String> of spotted players.
 	 */
 	public static Set<String> spot(Player spotter) {
 		Set<String> spottedList = new HashSet<String>();
