@@ -101,6 +101,7 @@ public class GameManager {
 		for (int player : a.getPlayers().toArray()) {
 			a.removePlayer(player);
 		}
+		a.onDelete();
 		games.remove(a);
 	}
 
@@ -155,6 +156,12 @@ public class GameManager {
 			names.add(a.getName());
 		}
 		return names;
+	}
+
+	public static void removeAll() {
+		for (Arena a : games) {
+			removeArena(a);
+		}
 	}
 
 	protected static PListener getPListener() {

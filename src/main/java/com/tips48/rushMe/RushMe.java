@@ -89,6 +89,7 @@ public class RushMe extends JavaPlugin {
 	}
 
 	public void onDisable() {
+		GameManager.removeAll();
 		log(Level.INFO, true, "Disabled");
 	}
 
@@ -143,6 +144,7 @@ public class RushMe extends JavaPlugin {
 		AddonPacket.register(PacketUpdateHUD.class, "UpdateHUD");
 		AddonPacket.register(PacketQueueKill.class, "QueueKill");
 		AddonPacket.register(PacketQueuePoints.class, "QueuePoints");
+		AddonPacket.register(PacketShowHit.class, "ShowHit");
 	}
 
 }
