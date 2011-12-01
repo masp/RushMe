@@ -108,7 +108,8 @@ public class RushMeCommand implements CommandExecutor {
 					return true;
 				}
 				Arena a = GameManager.createArena(args[1],
-						GameManager.getDefaultGameMode(), player.getEntityId());
+						GameManager.getDefaultGameMode(), player.getEntityId(),
+						player.getWorld());
 				RMChat.sendArenaInfo(player, a);
 				player.sendMessage(ChatColor.AQUA
 						+ "Type /RushMe define to start defining the Arena");
@@ -234,7 +235,7 @@ public class RushMeCommand implements CommandExecutor {
 					return true;
 				}
 				Arena a = GameManager.createArena(args[1], g,
-						player.getEntityId());
+						player.getEntityId(), player.getWorld());
 				RMChat.sendArenaInfo(player, a);
 				player.sendMessage(ChatColor.AQUA
 						+ "Type /RushMe define to start defining the Arena");

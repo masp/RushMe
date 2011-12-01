@@ -22,12 +22,13 @@ import com.tips48.rushMe.custom.GUI.SpoutGUI;
 import com.tips48.rushMe.teams.Team;
 import com.tips48.rushMe.util.RMUtils;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.util.Vector;
 import org.getspout.spoutapi.SpoutManager;
+import org.getspout.spoutapi.player.SpoutPlayer;
 
 import gnu.trove.set.TIntSet;
 import gnu.trove.set.hash.TIntHashSet;
@@ -56,10 +57,13 @@ public class Arena {
 	private final List<Vector> objectLocations = new ArrayList<Vector>();
 	private final List<Vector> activeObjectiveLocations = new ArrayList<Vector>();
 
-	protected Arena(GameMode gamemode, String name, int creator) {
+	private final World world;
+
+	protected Arena(GameMode gamemode, String name, int creator, World world) {
 		this.gamemode = gamemode;
 		this.name = name;
 		this.creator = creator;
+		this.world = world;
 
 		teams = gamemode.getTeams();
 
@@ -140,15 +144,14 @@ public class Arena {
 			team = t.addPlayer(player);
 		}
 
-		Player p = SpoutManager.getPlayerFromId(player);
+		SpoutPlayer p = SpoutManager.getPlayerFromId(player);
 		if (p != null) {
 			savedInventories.addInventory(p, p.getInventory());
 			p.getInventory().clear();
 			RMUtils.giveAllGuns(p);
 			savedGamemodes.addGameMode(p, p.getGameMode());
 			p.setGameMode(org.bukkit.GameMode.SURVIVAL);
-			SpoutManager.getAppearanceManager().setGlobalSkin(p,
-					getPlayerTeam(p).getSkin());
+			p.setSkin(getPlayerTeam(p).getSkin());
 			MainHUD h = SpoutGUI.getHudOf(p);
 			if (h != null) {
 				h.init();
@@ -343,9 +346,7 @@ public class Arena {
 
 	public void addFlag(Vector flag) {
 		flagLocations.add(flag);
-		Bukkit.getWorld("world")
-				.getBlockAt(flag.toLocation(Bukkit.getWorld("world")))
-				.setType(Material.BEDROCK);
+		flag.toLocation(world).getBlock().setType(Material.BEDROCK);
 	}
 
 	public List<Vector> getObjectives() {
@@ -358,16 +359,12 @@ public class Arena {
 
 	public void addObjective(Vector objective) {
 		objectLocations.add(objective);
-		Bukkit.getWorld("world")
-				.getBlockAt(objective.toLocation(Bukkit.getWorld("world")))
-				.setType(Material.BEDROCK);
+		objective.toLocation(world).getBlock().setType(Material.BEDROCK);
 	}
 
 	public void addCapturePoint(Team team, Vector capturePoint) {
 		captureLocations.put(team, capturePoint);
-		Bukkit.getWorld("world")
-				.getBlockAt(capturePoint.toLocation(Bukkit.getWorld("world")))
-				.setType(Material.BEDROCK);
+		capturePoint.toLocation(world).getBlock().setType(Material.BEDROCK);
 	}
 
 	public Map<Team, Vector> getCapturePoints() {
@@ -376,6 +373,24 @@ public class Arena {
 
 	public boolean getCompleted() {
 		return (loc1 != null) && (loc2 != null);
+	}
+
+	public void onDelete() {
+		if (flagLocations != null) {
+			for (Vector v : flagLocations) {
+				v.toLocation(world).getBlock().setTypeId(0);
+			}
+		}
+		if (captureLocations != null) {
+			for (Vector v : captureLocations.values()) {
+				v.toLocation(world).getBlock().setTypeId(0);
+			}
+		}
+		if (objectLocations != null) {
+			for (Vector v : objectLocations) {
+				v.toLocation(world).getBlock().setTypeId(0);
+			}
+		}
 	}
 
 	private static class savedInventories {

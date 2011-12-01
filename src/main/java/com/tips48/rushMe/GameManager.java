@@ -22,6 +22,7 @@ import com.tips48.rushMe.data.PlayerData;
 import com.tips48.rushMe.teams.Team;
 
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerLoginEvent;
@@ -103,8 +104,9 @@ public class GameManager {
 		games.remove(a);
 	}
 
-	public static Arena createArena(String name, GameMode gamemode, int creator) {
-		Arena a = new Arena(gamemode, name, creator);
+	public static Arena createArena(String name, GameMode gamemode,
+			int creator, World world) {
+		Arena a = new Arena(gamemode, name, creator, world);
 		games.add(a);
 		return a;
 	}
@@ -183,8 +185,8 @@ public class GameManager {
 							color = t.equals(team) ? ChatColor.GREEN
 									: ChatColor.RED;
 						}
-						SpoutManager.getAppearanceManager().setPlayerTitle(
-								SpoutManager.getPlayer(p), onlinePlayer,
+						SpoutManager.getPlayer(p).setTitleFor(
+								SpoutManager.getPlayer(onlinePlayer),
 								color + onlinePlayer.getName());
 					}
 				}
