@@ -16,6 +16,9 @@
  */
 package com.tips48.rushMe.packets;
 
+import com.tips48.rushMe.custom.GUI.MainHUD;
+import com.tips48.rushMe.custom.GUI.SpoutGUI;
+
 import org.getspout.spoutapi.io.*;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
@@ -30,7 +33,10 @@ public class PacketQueuePoints extends AddonPacket {
 
 	@Override
 	public void run(SpoutPlayer sp) {
-		// Client ONLY
+		MainHUD hud = SpoutGUI.getHudOf(sp);
+		if (hud != null) {
+			hud.queuePoints(message);
+		}
 	}
 
 	@Override

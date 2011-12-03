@@ -147,6 +147,7 @@ public class RushMe extends JavaPlugin {
 		AddonPacket.register(PacketQueueKill.class, "QueueKill");
 		AddonPacket.register(PacketQueuePoints.class, "QueuePoints");
 		AddonPacket.register(PacketShowHit.class, "ShowHit");
+		AddonPacket.register(PacketDoConcussion.class, "DoConcussion");
 	}
 
 }

@@ -55,6 +55,13 @@ public class MainHUD {
 		packet.send(player);
 	}
 
+	public void doConcussion(int startingAlpha, int time) {
+		PacketDoConcussion packet = new PacketDoConcussion();
+		packet.setStartingAlpha(startingAlpha);
+		packet.setTime(time);
+		packet.send(player);
+	}
+
 	public boolean isActive() {
 		return active;
 	}

@@ -22,32 +22,45 @@ import com.tips48.rushMe.custom.GUI.SpoutGUI;
 import org.getspout.spoutapi.io.*;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
-public class PacketQueueKill extends AddonPacket {
-	private String message;
+public class PacketDoConcussion extends AddonPacket {
+
+	private int startingAlpha;
+	private int time;
 
 	@Override
 	public void read(SpoutInputStream stream) {
-		message = stream.readString("message");
+		startingAlpha = stream.readInt();
+		time = stream.readInt();
 	}
 
 	@Override
 	public void run(SpoutPlayer sp) {
 		MainHUD hud = SpoutGUI.getHudOf(sp);
 		if (hud != null) {
-			hud.queueKill(message);
+			hud.doConcussion(startingAlpha, time);
 		}
 	}
 
 	@Override
 	public void write(SpoutOutputStream stream) {
-		stream.writeString(message);
+		stream.writeInt(startingAlpha);
+		stream.writeInt(time);
 	}
 
-	public String getMessage() {
-		return message;
+	public int getStartingAlpha() {
+		return startingAlpha;
 	}
 
-	public void setMessage(String message) {
-		this.message = message;
+	public void setStartingAlpha(int startingAlpha) {
+		this.startingAlpha = startingAlpha;
 	}
+
+	public int getTime() {
+		return time;
+	}
+
+	public void setTime(int time) {
+		this.time = time;
+	}
+
 }
