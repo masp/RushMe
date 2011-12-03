@@ -85,6 +85,9 @@ public class Arena {
 								startingIn--;
 								if (startingIn <= 0) {
 									start();
+									RushMe.getInstance().getServer()
+											.getScheduler()
+											.cancelTask(startingScheduler);
 								}
 							}
 						}, 0, 20);
@@ -169,6 +172,7 @@ public class Arena {
 			SpoutPlayer p = SpoutManager.getPlayerFromId(player);
 			if (p != null) {
 				p.resetSkin();
+				RMUtils.clearInventoryOfGuns(p);
 				if (savedInventories.hasInventory(p)) {
 					PlayerInventory pi = savedInventories.getInventory(p);
 					p.getInventory().setContents(pi.getContents());
