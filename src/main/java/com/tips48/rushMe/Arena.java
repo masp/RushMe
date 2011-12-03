@@ -166,8 +166,9 @@ public class Arena {
 	public void removePlayer(int player) {
 		if (players.contains(player)) {
 			players.remove(player);
-			Player p = SpoutManager.getPlayerFromId(player);
+			SpoutPlayer p = SpoutManager.getPlayerFromId(player);
 			if (p != null) {
+				p.resetSkin();
 				if (savedInventories.hasInventory(p)) {
 					PlayerInventory pi = savedInventories.getInventory(p);
 					p.getInventory().setContents(pi.getContents());
