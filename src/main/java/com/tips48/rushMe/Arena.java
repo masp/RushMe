@@ -44,8 +44,8 @@ public class Arena {
 	private final TIntSet players;
 	private boolean started;
 	private int startingIn;
-	private Vector loc1;
-	private Vector loc2;
+	private Vector vec1;
+	private Vector vec2;
 
 	private int doSecondScheduler;
 	private int startingScheduler;
@@ -279,30 +279,30 @@ public class Arena {
 	}
 
 	public Vector getVector1() {
-		return loc1;
+		return vec1;
 	}
 
 	public Vector getVector2() {
-		return loc2;
+		return vec2;
 	}
 
 	public void setVector1(Vector loc) {
-		if (loc1 == null) {
-			loc1 = loc;
-			if (loc2 != null) {
+		if (vec1 == null) {
+			vec1 = loc;
+			if (vec2 != null) {
 				organizeVectors();
 			}
 		}
 	}
 
 	private void organizeVectors() {
-		int minX = loc1.getBlockX();
-		int minZ = loc1.getBlockZ();
+		int minX = vec1.getBlockX();
+		int minZ = vec1.getBlockZ();
 		int maxX = minX;
 		int maxZ = minZ;
 
-		int x = loc2.getBlockX();
-		int z = loc2.getBlockZ();
+		int x = vec2.getBlockX();
+		int z = vec2.getBlockZ();
 
 		if (x < minX) {
 			minX = x;
@@ -318,27 +318,27 @@ public class Arena {
 			maxZ = z;
 		}
 
-		loc1 = new Vector(minX, loc1.getY(), minZ);
-		loc2 = new Vector(maxX, loc2.getY(), maxZ);
+		vec1 = new Vector(minX, vec1.getY(), minZ);
+		vec2 = new Vector(maxX, vec2.getY(), maxZ);
 	}
 
 	public void setVector2(Vector loc) {
-		if (loc2 == null) {
-			loc2 = loc;
-			if (loc1 != null) {
+		if (vec2 == null) {
+			vec2 = loc;
+			if (vec1 != null) {
 				organizeVectors();
 			}
 		}
 	}
 
-	public boolean inArena(Vector loc) {
+	public boolean inArena(Vector vec) {
 		if (!getCompleted()) {
 			return true;
 		}
-		final double x = loc.getX();
-		final double z = loc.getZ();
-		return (x >= loc1.getBlockX()) && (x < (loc2.getBlockX() + 1))
-				&& (z >= loc1.getBlockZ()) && (z < (loc2.getBlockZ() + 1));
+		final double x = vec.getX();
+		final double z = vec.getZ();
+		return (x >= vec1.getBlockX()) && (x < (vec2.getBlockX() + 1))
+				&& (z >= vec1.getBlockZ()) && (z < (vec2.getBlockZ() + 1));
 	}
 
 	public List<Vector> getFlags() {
@@ -373,7 +373,7 @@ public class Arena {
 	}
 
 	public boolean getCompleted() {
-		return (loc1 != null) && (loc2 != null);
+		return (vec1 != null) && (vec2 != null);
 	}
 
 	public void onDelete() {
