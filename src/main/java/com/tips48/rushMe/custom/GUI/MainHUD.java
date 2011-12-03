@@ -30,6 +30,7 @@ public class MainHUD {
 
 	public MainHUD(Player player) {
 		this.player = SpoutManager.getPlayer(player);
+		active = false;
 	}
 
 	public void init() {
