@@ -87,12 +87,27 @@ public class RMPlayerListener extends PlayerListener {
 								+ "Right click to select the location of each of the capture points");
 					}
 				} else if (type.equals(GameModeType.FLAG)) {
+					if (!a.inArena(vec)) {
+						p.sendMessage(ChatColor.RED
+								+ "Flag must be in the arena!");
+						return;
+					}
 					a.addFlag(vec);
 					p.sendMessage(ChatColor.AQUA + "Flag selected");
 				} else if (type.equals(GameModeType.OBJECTIVE)) {
+					if (!a.inArena(vec)) {
+						p.sendMessage(ChatColor.RED
+								+ "Objective must be in the arena!");
+						return;
+					}
 					a.addObjective(vec);
 					p.sendMessage(ChatColor.AQUA + "Objective selected");
 				} else if (type.equals(GameModeType.CAPTURE)) {
+					if (!a.inArena(vec)) {
+						p.sendMessage(ChatColor.RED
+								+ "Capture point must be in the arena!");
+						return;
+					}
 					Team t = a.getTeams().get(0);
 					for (Team team : a.getCapturePoints().keySet()) {
 						if (t == team) {
