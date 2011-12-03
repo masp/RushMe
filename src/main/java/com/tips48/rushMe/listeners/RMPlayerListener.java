@@ -49,7 +49,14 @@ public class RMPlayerListener extends PlayerListener {
 		if (GameManager.inGame(p)) {
 			GameManager.getPlayerArena(p).removePlayer(p);
 		}
-		RMUtils.clearInventoryOfGuns(p);
+	}
+
+	@Override
+	public void onPlayerKick(PlayerKickEvent event) {
+		Player p = event.getPlayer();
+		if (GameManager.inGame(p)) {
+			GameManager.getPlayerArena(p).removePlayer(p);
+		}
 	}
 
 	@Override

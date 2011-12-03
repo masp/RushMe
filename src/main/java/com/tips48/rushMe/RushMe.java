@@ -120,6 +120,8 @@ public class RushMe extends JavaPlugin {
 				playerListener, Priority.Monitor, this);
 		getServer().getPluginManager().registerEvent(Type.PLAYER_QUIT,
 				playerListener, Priority.Monitor, this);
+		getServer().getPluginManager().registerEvent(Type.PLAYER_KICK,
+				playerListener, Priority.Normal, this);
 		getServer().getPluginManager().registerEvent(Type.PLAYER_LOGIN,
 				GameManager.getPListener(), Priority.Lowest, this);
 		getServer().getPluginManager().registerEvent(Type.PLAYER_JOIN,
