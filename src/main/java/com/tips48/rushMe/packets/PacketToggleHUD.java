@@ -35,7 +35,7 @@ public class PacketToggleHUD extends AddonPacket {
 		if (hud == null) {
 			return;
 		}
-		if (hud.isActive()) {
+		if (!hud.isActive()) {
 			hud.init();
 		} else {
 			hud.shutdown();
