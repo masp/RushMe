@@ -19,6 +19,7 @@ package com.tips48.rushMe.custom.GUI;
 
 import com.tips48.rushMe.Arena;
 import com.tips48.rushMe.GameManager;
+import com.tips48.rushMe.custom.items.Grenade;
 import com.tips48.rushMe.custom.items.Gun;
 import com.tips48.rushMe.teams.Team;
 
@@ -40,6 +41,39 @@ public class SpoutGUI {
 	}
 
 	public static void showKill(Player killer, Player killed, Gun weapon) {
+		Arena a = GameManager.getPlayerArena(killer);
+		Team pTeam = a.getPlayerTeam(killer);
+		Team other = null;
+		for (Team t : a.getTeams()) {
+			if (t != pTeam) {
+				other = t;
+			}
+		}
+		for (int i : pTeam.getPlayers().toArray()) {
+			Player p = SpoutManager.getPlayerFromId(i);
+			if (p != null) {
+				MainHUD hud = getHudOf(p);
+				if (hud != null) {
+					hud.queueKill(ChatColor.GREEN + killer.getDisplayName()
+							+ ChatColor.WHITE + "[" + weapon.getName() + "]"
+							+ ChatColor.RED + killed.getDisplayName());
+				}
+			}
+		}
+		for (int i : other.getPlayers().toArray()) {
+			Player p = SpoutManager.getPlayerFromId(i);
+			if (p != null) {
+				MainHUD hud = getHudOf(p);
+				if (hud != null) {
+					hud.queueKill(ChatColor.RED + killer.getDisplayName()
+							+ ChatColor.WHITE + "[" + weapon.getName() + "]"
+							+ ChatColor.GREEN + killed.getDisplayName());
+				}
+			}
+		}
+	}
+
+	public static void showKill(Player killer, Player killed, Grenade weapon) {
 		Arena a = GameManager.getPlayerArena(killer);
 		Team pTeam = a.getPlayerTeam(killer);
 		Team other = null;

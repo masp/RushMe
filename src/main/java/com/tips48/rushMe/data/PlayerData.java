@@ -20,12 +20,13 @@ package com.tips48.rushMe.data;
 import com.tips48.rushMe.GameManager;
 import com.tips48.rushMe.custom.GUI.MainHUD;
 import com.tips48.rushMe.custom.GUI.SpoutGUI;
+import com.tips48.rushMe.custom.items.Grenade;
 import com.tips48.rushMe.custom.items.Gun;
 import com.tips48.rushMe.packets.PacketPlayerDataUpdate;
-import com.tips48.rushMe.util.RMUtils;
 
 import org.bukkit.entity.Player;
 import org.getspout.spoutapi.SpoutManager;
+import org.getspout.spoutapi.player.SpoutPlayer;
 
 import gnu.trove.map.TIntIntMap;
 import gnu.trove.map.hash.TIntIntHashMap;
@@ -86,15 +87,71 @@ public class PlayerData {
 		packet.setKills(PlayerData.getKills(hurtP));
 		packet.setScore(PlayerData.getScore(hurtP));
 		packet.setSpotted(PlayerData.isSpotted(hurtP));
-		packet.send(RMUtils.getSpoutPlayers());
+		packet.send(SpoutManager.getPlayer(hurtP));
 
 		PacketPlayerDataUpdate packet2 = new PacketPlayerDataUpdate();
 		packet2.setDeaths(PlayerData.getDeaths(damagerP));
 		packet2.setKills(PlayerData.getKills(damagerP));
 		packet2.setScore(PlayerData.getScore(damagerP));
 		packet2.setSpotted(PlayerData.isSpotted(damagerP));
-		packet2.send(RMUtils.getSpoutPlayers());
+		packet2.send(SpoutManager.getPlayer(damagerP));
 		// TODO if keeping gun stats, do here
+	}
+
+	public static void registerDamage(Player hurt, Player damager, int damage,
+			Grenade grenade) {
+		registerDamage(hurt.getEntityId(), damager.getEntityId(), damage,
+				grenade);
+	}
+
+	public static void registerDamage(int hurt, int damager, int damage,
+			Grenade grenade) {
+		Player hurtP = SpoutManager.getPlayerFromId(hurt);
+		Player damagerP = SpoutManager.getPlayerFromId(damager);
+
+		if ((hurtP == null) || (damagerP == null)) {
+			setHealth(hurt, damage);
+			return;
+		}
+
+		MainHUD hurtHud = SpoutGUI.getHudOf(hurtP);
+		MainHUD damagerHud = SpoutGUI.getHudOf(damagerP);
+
+		if (!(GameManager.inGame(hurtP))) {
+			return;
+		}
+
+		setHealth(hurt, damage);
+
+		if ((hurtHud != null) && hurtHud.isActive()) {
+			hurtHud.updateHUD();
+		}
+
+		if ((damagerHud != null) && damagerHud.isActive()) {
+			damagerHud.updateHUD();
+			damagerHud.showHit();
+		}
+
+		if (getHealth(hurt) <= 0) {
+			addDeath(damager);
+			SpoutGUI.showKill(damagerP, hurtP, grenade);
+			damagerHud.queuePoints("Enemy killed - 100");
+			setScore(damagerP, getScore(damagerP) + 100);
+		}
+		PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
+		packet.setDeaths(PlayerData.getDeaths(hurtP));
+		packet.setKills(PlayerData.getKills(hurtP));
+		packet.setScore(PlayerData.getScore(hurtP));
+		packet.setSpotted(PlayerData.isSpotted(hurtP));
+		packet.send(SpoutManager.getPlayer(hurtP));
+
+		PacketPlayerDataUpdate packet2 = new PacketPlayerDataUpdate();
+		packet2.setDeaths(PlayerData.getDeaths(damagerP));
+		packet2.setKills(PlayerData.getKills(damagerP));
+		packet2.setScore(PlayerData.getScore(damagerP));
+		packet2.setSpotted(PlayerData.isSpotted(damagerP));
+		packet2.send(SpoutManager.getPlayer(damagerP));
+		// TODO if keeping grenade stats, do here
 	}
 
 	public static int getScore(Player player) {
@@ -116,12 +173,15 @@ public class PlayerData {
 
 	public static void setScore(int player, Integer score) {
 		scores.put(player, score);
-		PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
-		packet.setDeaths(PlayerData.getDeaths(player));
-		packet.setKills(PlayerData.getKills(player));
-		packet.setScore(PlayerData.getScore(player));
-		packet.setSpotted(PlayerData.isSpotted(player));
-		packet.send(RMUtils.getSpoutPlayers());
+		SpoutPlayer sp = SpoutManager.getPlayerFromId(player);
+		if (sp != null) {
+			PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
+			packet.setDeaths(PlayerData.getDeaths(player));
+			packet.setKills(PlayerData.getKills(player));
+			packet.setScore(PlayerData.getScore(player));
+			packet.setSpotted(PlayerData.isSpotted(player));
+			packet.send(sp);
+		}
 	}
 
 	public static int getKills(Player player) {
@@ -139,12 +199,15 @@ public class PlayerData {
 
 	public static void setKills(int player, Integer kill) {
 		kills.put(player, kill);
-		PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
-		packet.setDeaths(PlayerData.getDeaths(player));
-		packet.setKills(PlayerData.getKills(player));
-		packet.setScore(PlayerData.getScore(player));
-		packet.setSpotted(PlayerData.isSpotted(player));
-		packet.send(RMUtils.getSpoutPlayers());
+		SpoutPlayer sp = SpoutManager.getPlayerFromId(player);
+		if (sp != null) {
+			PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
+			packet.setDeaths(PlayerData.getDeaths(player));
+			packet.setKills(PlayerData.getKills(player));
+			packet.setScore(PlayerData.getScore(player));
+			packet.setSpotted(PlayerData.isSpotted(player));
+			packet.send(sp);
+		}
 	}
 
 	public static int getDeaths(Player player) {
@@ -161,12 +224,15 @@ public class PlayerData {
 
 	public static void setDeaths(int player, Integer death) {
 		deaths.put(player, death);
-		PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
-		packet.setDeaths(PlayerData.getDeaths(player));
-		packet.setKills(PlayerData.getKills(player));
-		packet.setScore(PlayerData.getScore(player));
-		packet.setSpotted(PlayerData.isSpotted(player));
-		packet.send(RMUtils.getSpoutPlayers());
+		SpoutPlayer sp = SpoutManager.getPlayerFromId(player);
+		if (sp != null) {
+			PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
+			packet.setDeaths(PlayerData.getDeaths(player));
+			packet.setKills(PlayerData.getKills(player));
+			packet.setScore(PlayerData.getScore(player));
+			packet.setSpotted(PlayerData.isSpotted(player));
+			packet.send(sp);
+		}
 	}
 
 	public static void addKill(Player player) {
@@ -175,12 +241,15 @@ public class PlayerData {
 
 	public static void addKill(int player) {
 		kills.put(player, kills.get(player) + 1);
-		PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
-		packet.setDeaths(PlayerData.getDeaths(player));
-		packet.setKills(PlayerData.getKills(player));
-		packet.setScore(PlayerData.getScore(player));
-		packet.setSpotted(PlayerData.isSpotted(player));
-		packet.send(RMUtils.getSpoutPlayers());
+		SpoutPlayer sp = SpoutManager.getPlayerFromId(player);
+		if (sp != null) {
+			PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
+			packet.setDeaths(PlayerData.getDeaths(player));
+			packet.setKills(PlayerData.getKills(player));
+			packet.setScore(PlayerData.getScore(player));
+			packet.setSpotted(PlayerData.isSpotted(player));
+			packet.send(sp);
+		}
 	}
 
 	public static void addDeath(Player player) {
@@ -189,12 +258,15 @@ public class PlayerData {
 
 	public static void addDeath(int player) {
 		deaths.put(player, deaths.get(player) + 1);
-		PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
-		packet.setDeaths(PlayerData.getDeaths(player));
-		packet.setKills(PlayerData.getKills(player));
-		packet.setScore(PlayerData.getScore(player));
-		packet.setSpotted(PlayerData.isSpotted(player));
-		packet.send(RMUtils.getSpoutPlayers());
+		SpoutPlayer sp = SpoutManager.getPlayerFromId(player);
+		if (sp != null) {
+			PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
+			packet.setDeaths(PlayerData.getDeaths(player));
+			packet.setKills(PlayerData.getKills(player));
+			packet.setScore(PlayerData.getScore(player));
+			packet.setSpotted(PlayerData.isSpotted(player));
+			packet.send(sp);
+		}
 	}
 
 	public static int getHealth(Player player) {
@@ -211,19 +283,19 @@ public class PlayerData {
 
 	public static void setHealth(int player, Integer h) {
 		health.put(player, h);
-		Player p = SpoutManager.getPlayerFromId(player);
-		if (p != null) {
-			MainHUD hud = SpoutGUI.getHudOf(p);
+		SpoutPlayer sp = SpoutManager.getPlayerFromId(player);
+		if (sp != null) {
+			MainHUD hud = SpoutGUI.getHudOf(sp);
 			if (hud != null) {
 				hud.updateHUD();
 			}
+			PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
+			packet.setDeaths(PlayerData.getDeaths(player));
+			packet.setKills(PlayerData.getKills(player));
+			packet.setScore(PlayerData.getScore(player));
+			packet.setSpotted(PlayerData.isSpotted(player));
+			packet.send(sp);
 		}
-		PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
-		packet.setDeaths(PlayerData.getDeaths(player));
-		packet.setKills(PlayerData.getKills(player));
-		packet.setScore(PlayerData.getScore(player));
-		packet.setSpotted(PlayerData.isSpotted(player));
-		packet.send(RMUtils.getSpoutPlayers());
 	}
 
 	public static void damage(Player player, Integer h) {
@@ -237,19 +309,19 @@ public class PlayerData {
 		} else {
 			health.put(player, 0);
 		}
-		Player p = SpoutManager.getPlayerFromId(player);
-		if (p != null) {
-			MainHUD hud = SpoutGUI.getHudOf(p);
+		SpoutPlayer sp = SpoutManager.getPlayerFromId(player);
+		if (sp != null) {
+			MainHUD hud = SpoutGUI.getHudOf(sp);
 			if (hud != null) {
 				hud.updateHUD();
 			}
+			PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
+			packet.setDeaths(PlayerData.getDeaths(player));
+			packet.setKills(PlayerData.getKills(player));
+			packet.setScore(PlayerData.getScore(player));
+			packet.setSpotted(PlayerData.isSpotted(player));
+			packet.send(sp);
 		}
-		PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
-		packet.setDeaths(PlayerData.getDeaths(player));
-		packet.setKills(PlayerData.getKills(player));
-		packet.setScore(PlayerData.getScore(player));
-		packet.setSpotted(PlayerData.isSpotted(player));
-		packet.send(RMUtils.getSpoutPlayers());
 	}
 
 	public static void heal(Player player, Integer h) {
@@ -263,19 +335,19 @@ public class PlayerData {
 		} else {
 			health.put(player, 100);
 		}
-		Player p = SpoutManager.getPlayerFromId(player);
-		if (p != null) {
-			MainHUD hud = SpoutGUI.getHudOf(p);
+		SpoutPlayer sp = SpoutManager.getPlayerFromId(player);
+		if (sp != null) {
+			MainHUD hud = SpoutGUI.getHudOf(sp);
 			if (hud != null) {
 				hud.updateHUD();
 			}
+			PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
+			packet.setDeaths(PlayerData.getDeaths(player));
+			packet.setKills(PlayerData.getKills(player));
+			packet.setScore(PlayerData.getScore(player));
+			packet.setSpotted(PlayerData.isSpotted(player));
+			packet.send(sp);
 		}
-		PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
-		packet.setDeaths(PlayerData.getDeaths(player));
-		packet.setKills(PlayerData.getKills(player));
-		packet.setScore(PlayerData.getScore(player));
-		packet.setSpotted(PlayerData.isSpotted(player));
-		packet.send(RMUtils.getSpoutPlayers());
 	}
 
 	public static void setDefaults(Player player) {
@@ -301,12 +373,15 @@ public class PlayerData {
 				spotted.remove(player);
 			}
 		}
-		PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
-		packet.setDeaths(PlayerData.getDeaths(player));
-		packet.setKills(PlayerData.getKills(player));
-		packet.setScore(PlayerData.getScore(player));
-		packet.setSpotted(PlayerData.isSpotted(player));
-		packet.send(RMUtils.getSpoutPlayers());
+		SpoutPlayer sp = SpoutManager.getPlayerFromId(player);
+		if (sp != null) {
+			PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
+			packet.setDeaths(PlayerData.getDeaths(player));
+			packet.setKills(PlayerData.getKills(player));
+			packet.setScore(PlayerData.getScore(player));
+			packet.setSpotted(PlayerData.isSpotted(player));
+			packet.send(sp);
+		}
 	}
 
 	public static boolean isSpotted(Player player) {
