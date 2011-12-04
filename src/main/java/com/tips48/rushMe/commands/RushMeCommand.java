@@ -36,7 +36,7 @@ public class RushMeCommand implements CommandExecutor {
 	private static TIntObjectMap<Arena> defining = new TIntObjectHashMap<Arena>();
 
 	public boolean onCommand(CommandSender sender, Command cmd,
-	                         String commandLabel, String[] args) {
+			String commandLabel, String[] args) {
 		if (args.length == 0) {
 			RMChat.sendMainCommand(sender);
 		} else if (args.length == 1) {
@@ -233,7 +233,7 @@ public class RushMeCommand implements CommandExecutor {
 					player.sendMessage(ChatColor.RED
 							+ "Valid GameModes: "
 							+ RMUtils.readableSet(GameManager
-							.getGameModeNames()));
+									.getGameModeNames()));
 					return true;
 				}
 				Arena a = GameManager.createArena(args[1], g,

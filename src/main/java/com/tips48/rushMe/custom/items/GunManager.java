@@ -32,11 +32,11 @@ public class GunManager {
 	}
 
 	public static Gun createGun(String name, String texture,
-	                            Integer reloadTime, Boolean autoReload, Integer maxClipSize,
-	                            Integer maxAmmo, Double timeBetweenFire, Boolean bulletsExplode,
-	                            Float explosionSize, Double entityDamageDistance,
-	                            Integer headshotDamage, Integer bodyDamage, Double recoilBack,
-	                            Float recoilVertical, Float recoilHorizontal) {
+			Integer reloadTime, Boolean autoReload, Integer maxClipSize,
+			Integer maxAmmo, Double timeBetweenFire, Boolean bulletsExplode,
+			Float explosionSize, Double entityDamageDistance,
+			Integer headshotDamage, Integer bodyDamage, Double recoilBack,
+			Float recoilVertical, Float recoilHorizontal) {
 
 		Gun gun = new Gun(name, texture, reloadTime, autoReload, maxClipSize,
 				maxAmmo, timeBetweenFire, bulletsExplode, explosionSize,
@@ -46,7 +46,14 @@ public class GunManager {
 		guns.add(gun);
 
 		RMLogging.debugLog(Level.INFO, "Created gun " + gun + ".  Atributes:");
-		RMLogging.debugLog(Level.INFO, "ReloadTime = " + reloadTime + ";MaxClipSize = " + maxClipSize + ";MaxAmmo = " + maxAmmo + ";TimeBetweenFire = " + timeBetweenFire + ";AutoReload = " + autoReload + ";BulletsExplode = " + bulletsExplode + ";ExplosionSize = " + explosionSize + ";EntityDamageDistance = " + entityDamageDistance + ";HeadshotDamage = " + headshotDamage + ";BodyDamage = " + bodyDamage);
+		RMLogging.debugLog(Level.INFO, "ReloadTime = " + reloadTime
+				+ ";MaxClipSize = " + maxClipSize + ";MaxAmmo = " + maxAmmo
+				+ ";TimeBetweenFire = " + timeBetweenFire + ";AutoReload = "
+				+ autoReload + ";BulletsExplode = " + bulletsExplode
+				+ ";ExplosionSize = " + explosionSize
+				+ ";EntityDamageDistance = " + entityDamageDistance
+				+ ";HeadshotDamage = " + headshotDamage + ";BodyDamage = "
+				+ bodyDamage);
 
 		return gun;
 	}

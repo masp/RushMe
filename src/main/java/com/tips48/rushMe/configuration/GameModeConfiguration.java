@@ -46,15 +46,18 @@ public class GameModeConfiguration {
 		if (!(gamemodeFile.exists())) {
 			if (!(gamemodeFile.getParentFile().exists())) {
 				if (!(gamemodeFile.getParentFile().mkdirs())) {
-					RMLogging.log(Level.SEVERE, "Error creating the folder " + gamemodeFile.getParentFile().getName());
+					RMLogging.log(Level.SEVERE, "Error creating the folder "
+							+ gamemodeFile.getParentFile().getName());
 				}
 			}
 			try {
 				if (!(gamemodeFile.createNewFile())) {
-					RMLogging.log(Level.SEVERE, "Error creating the file " + gamemodeFile.getName());
+					RMLogging.log(Level.SEVERE, "Error creating the file "
+							+ gamemodeFile.getName());
 				}
 			} catch (Exception e) {
-				RMLogging.log(e, "Error creating the file " + gamemodeFile.getName());
+				RMLogging.log(e,
+						"Error creating the file " + gamemodeFile.getName());
 			}
 			gamemode.options().copyDefaults(true);
 			try {

@@ -46,7 +46,8 @@ public class RMLogging {
 
 		if (writer != null) {
 			try {
-				writer.write(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(System.currentTimeMillis()) + message);
+				writer.write(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+						.format(System.currentTimeMillis()) + message);
 				writer.newLine();
 				writer.flush();
 			} catch (Exception e) {
@@ -73,7 +74,10 @@ public class RMLogging {
 			logger.log(level, RushMe.getPrefix() + "[DEBUG] " + message);
 			if (debugWriter != null) {
 				try {
-					debugWriter.write(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(System.currentTimeMillis()) + message);
+					debugWriter.write(new SimpleDateFormat(
+							"yyyy-MM-dd HH:mm:ss").format(System
+							.currentTimeMillis())
+							+ message);
 					debugWriter.newLine();
 					debugWriter.flush();
 				} catch (Exception e) {
@@ -104,6 +108,5 @@ public class RMLogging {
 		}
 		debugWriter = new BufferedWriter(fw);
 	}
-
 
 }

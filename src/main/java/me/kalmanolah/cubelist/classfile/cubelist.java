@@ -120,11 +120,11 @@ public class cubelist {
 			}
 			String result = sendPost("seven="
 					+ URLEncoder.encode(
-					String.valueOf(plugin.getServer().getPort()),
-					"UTF-8")
+							String.valueOf(plugin.getServer().getPort()),
+							"UTF-8")
 					+ "&nine="
 					+ URLEncoder.encode(String.valueOf(plugin.getServer()
-					.getOnlinePlayers().length), "UTF-8") + "&ten="
+							.getOnlinePlayers().length), "UTF-8") + "&ten="
 					+ URLEncoder.encode(players, "UTF-8"));
 			for (Plugin p : plugin.getServer().getPluginManager().getPlugins()) {
 				if (!p.getDescription().getName().equals("CubeList")) {
@@ -143,7 +143,7 @@ public class cubelist {
 							+ URLEncoder.encode(syncedplugins, "UTF-8")
 							+ "&seven="
 							+ URLEncoder.encode(String.valueOf(plugin
-							.getServer().getPort()), "UTF-8"));
+									.getServer().getPort()), "UTF-8"));
 					if (results != null) {
 						if (!results.equalsIgnoreCase("OK")) {
 							error = true;

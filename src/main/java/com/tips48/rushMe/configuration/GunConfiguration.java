@@ -48,10 +48,12 @@ public class GunConfiguration {
 			}
 			try {
 				if (!(gunsFile.createNewFile())) {
-					RMLogging.log(Level.SEVERE, "Error creating the file: " + gunsFile.getName());
+					RMLogging.log(Level.SEVERE, "Error creating the file: "
+							+ gunsFile.getName());
 				}
 			} catch (Exception e) {
-				RMLogging.log(e, "Error creating the file: " + gunsFile.getName());
+				RMLogging.log(e,
+						"Error creating the file: " + gunsFile.getName());
 			}
 			guns.options().copyDefaults(true);
 			try {

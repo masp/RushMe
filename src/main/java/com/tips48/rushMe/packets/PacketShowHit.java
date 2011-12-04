@@ -35,7 +35,8 @@ public class PacketShowHit extends AddonPacket {
 
 	@Override
 	public void run(SpoutPlayer sp) {
-		RMLogging.debugLog(Level.INFO, "Running PacketShowHit for " + sp.getName());
+		RMLogging.debugLog(Level.INFO,
+				"Running PacketShowHit for " + sp.getName());
 		MainHUD hud = SpoutGUI.getHudOf(sp);
 		if (hud != null) {
 			hud.showHit();

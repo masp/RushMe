@@ -50,7 +50,8 @@ public class GameManager {
 	public static void addToGame(Arena arena, int player, Team prefered) {
 		GrenadeManager.createGrenades(player);
 		arena.addPlayer(player, prefered);
-		RMLogging.debugLog(Level.INFO, "Added " + player + " to " + arena.getName());
+		RMLogging.debugLog(Level.INFO,
+				"Added " + player + " to " + arena.getName());
 	}
 
 	public static void removeFromGame(Arena arena, Player player) {
@@ -60,7 +61,8 @@ public class GameManager {
 	public static void removeFromGame(Arena arena, int player) {
 		if (arena.hasPlayer(player)) {
 			arena.removePlayer(player);
-			RMLogging.debugLog(Level.INFO, "Removed " + player + " from " + arena.getName());
+			RMLogging.debugLog(Level.INFO, "Removed " + player + " from "
+					+ arena.getName());
 		}
 	}
 
@@ -111,24 +113,31 @@ public class GameManager {
 	}
 
 	public static Arena createArena(String name, GameMode gamemode,
-	                                int creator, World world) {
+			int creator, World world) {
 		Arena a = new Arena(gamemode, name, creator, world);
 		games.add(a);
 
-		RMLogging.debugLog(Level.INFO, "Created arena " + a.getName() + " with gamemode: " + gamemode.getName() + ";Creator: " + a.getCreator() + ";In world: " + world.getName());
+		RMLogging.debugLog(
+				Level.INFO,
+				"Created arena " + a.getName() + " with gamemode: "
+						+ gamemode.getName() + ";Creator: " + a.getCreator()
+						+ ";In world: " + world.getName());
 
 		return a;
 	}
 
 	public static GameMode createGameMode(String name, GameModeType type,
-	                                      Integer time, Boolean respawn, Integer respawnTime,
-	                                      Integer maxPlayers, List<Team> teams) {
+			Integer time, Boolean respawn, Integer respawnTime,
+			Integer maxPlayers, List<Team> teams) {
 		GameMode gm = new GameMode(name, type, time, respawn, respawnTime,
 				maxPlayers, teams);
 
 		gameModes.add(gm);
 
-		RMLogging.debugLog(Level.INFO, "Created gamemode " + gm.getName() + " with max players: " + gm.getMaxPlayers() + ";Time: " + time + ";Type: " + type + ";Respawn: " + respawn + ";RespawnTime: " + respawnTime);
+		RMLogging.debugLog(Level.INFO, "Created gamemode " + gm.getName()
+				+ " with max players: " + gm.getMaxPlayers() + ";Time: " + time
+				+ ";Type: " + type + ";Respawn: " + respawn + ";RespawnTime: "
+				+ respawnTime);
 
 		return gm;
 	}
@@ -200,11 +209,12 @@ public class GameManager {
 						Team team = arena.getPlayerTeam(onlinePlayer);
 						ChatColor color = ChatColor.WHITE;
 						if (team != null) {
-							color = t.equals(team) ? ChatColor.GREEN
-									: null;
+							color = t.equals(team) ? ChatColor.GREEN : null;
 						}
 						if (color == null) {
-							SpoutManager.getPlayer(p).setTitleFor(SpoutManager.getPlayer(onlinePlayer), "[hide]");
+							SpoutManager.getPlayer(p).setTitleFor(
+									SpoutManager.getPlayer(onlinePlayer),
+									"[hide]");
 							continue;
 						}
 						SpoutManager.getPlayer(p).setTitleFor(

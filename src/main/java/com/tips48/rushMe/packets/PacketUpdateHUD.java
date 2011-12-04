@@ -35,7 +35,8 @@ public class PacketUpdateHUD extends AddonPacket {
 
 	@Override
 	public void run(SpoutPlayer sp) {
-		RMLogging.debugLog(Level.INFO, "Running PacketUpdateHUD for " + sp.getName());
+		RMLogging.debugLog(Level.INFO,
+				"Running PacketUpdateHUD for " + sp.getName());
 		MainHUD hud = SpoutGUI.getHudOf(sp);
 		if (hud != null) {
 			hud.updateHUD();

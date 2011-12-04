@@ -65,17 +65,17 @@ public class MCOMRight extends GenericCustomBlock {
 	}
 
 	public boolean isIndirectlyProdivingPowerTo(World world, int x, int y,
-	                                            int z, BlockFace bf) {
+			int z, BlockFace bf) {
 		return true;
 	}
 
 	public boolean isProvidingPowerTo(World world, int x, int y, int z,
-	                                  BlockFace bf) {
+			BlockFace bf) {
 		return true;
 	}
 
 	public boolean isIndirectlyProvidingPowerTo(World world, int x, int y,
-	                                            int z, BlockFace bf) {
+			int z, BlockFace bf) {
 		return true;
 	}
 
@@ -86,7 +86,7 @@ public class MCOMRight extends GenericCustomBlock {
 	}
 
 	public boolean onBlockInteract(World world, int x, int y, int z,
-	                               SpoutPlayer sp) {
+			SpoutPlayer sp) {
 		return true;
 	}
 
@@ -94,19 +94,19 @@ public class MCOMRight extends GenericCustomBlock {
 	}
 
 	public void onBlockPlace(World world, int x, int y, int z,
-	                         LivingEntity placer) {
+			LivingEntity placer) {
 	}
 
 	public void onEntityMoveAt(World world, int x, int y, int z, Entity mover) {
 	}
 
 	public void onNeighborBlockChange(World world, int x, int y, int z,
-	                                  int unknown) {
+			int unknown) {
 		// TODO find out 4th arg
 	}
 
 	public void onBlockDestroyed(World arg0, int arg1, int arg2, int arg3,
-	                             LivingEntity arg4) {
+			LivingEntity arg4) {
 		// TODO Auto-generated method stub
 
 	}

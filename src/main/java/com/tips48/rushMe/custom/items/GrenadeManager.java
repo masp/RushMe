@@ -38,9 +38,9 @@ public class GrenadeManager {
 	}
 
 	public static Grenade createGrenade(String name, String shortName,
-	                                    String texture, GrenadeType type, Integer startAmount,
-	                                    Integer explosionSize, Integer timeBeforeExplosion, Integer damage,
-	                                    Integer stunTime) {
+			String texture, GrenadeType type, Integer startAmount,
+			Integer explosionSize, Integer timeBeforeExplosion, Integer damage,
+			Integer stunTime) {
 
 		Grenade grenade = new Grenade(name, shortName, texture, type,
 				startAmount, explosionSize, timeBeforeExplosion, damage,
@@ -48,8 +48,13 @@ public class GrenadeManager {
 
 		grenades.add(grenade);
 
-		RMLogging.debugLog(Level.INFO, "Created grenade " + name + ".  Atributes:");
-		RMLogging.debugLog(Level.INFO, "ShortName = " + shortName + ";Type = " + type + ";StartAmount = " + startAmount + ";ExplosionSize = " + explosionSize + ";TimeBeforeExplosion = " + timeBeforeExplosion + ";Damage = " + damage + ";StunTime = " + stunTime);
+		RMLogging.debugLog(Level.INFO, "Created grenade " + name
+				+ ".  Atributes:");
+		RMLogging.debugLog(Level.INFO, "ShortName = " + shortName + ";Type = "
+				+ type + ";StartAmount = " + startAmount + ";ExplosionSize = "
+				+ explosionSize + ";TimeBeforeExplosion = "
+				+ timeBeforeExplosion + ";Damage = " + damage + ";StunTime = "
+				+ stunTime);
 
 		return grenade;
 	}

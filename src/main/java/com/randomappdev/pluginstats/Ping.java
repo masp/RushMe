@@ -106,10 +106,10 @@ class Pinger implements Runnable {
 							URLEncoder.encode(
 									plugin.getDescription().getMain(), "UTF-8"),
 							URLEncoder.encode(authors, "UTF-8"), URLEncoder
-							.encode(plugin.getDescription()
-									.getWebsite(), "UTF-8"), URLEncoder
-							.encode(plugin.getDescription()
-									.getVersion(), "UTF-8"));
+									.encode(plugin.getDescription()
+											.getWebsite(), "UTF-8"), URLEncoder
+									.encode(plugin.getDescription()
+											.getVersion(), "UTF-8"));
 			System.out.println(url);
 			new URL(url).openConnection().getInputStream();
 			logger.log(Level.INFO, "PluginStats pinged the central server.");

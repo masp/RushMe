@@ -33,12 +33,14 @@ public class PacketQueuePoints extends AddonPacket {
 	@Override
 	public void read(SpoutInputStream stream) {
 		message = stream.readString("message");
-		RMLogging.debugLog(Level.INFO, "Read PacketQueuePoints with message: " + message);
+		RMLogging.debugLog(Level.INFO, "Read PacketQueuePoints with message: "
+				+ message);
 	}
 
 	@Override
 	public void run(SpoutPlayer sp) {
-		RMLogging.debugLog(Level.INFO, "Running PacketQueuePoints for " + sp.getName());
+		RMLogging.debugLog(Level.INFO,
+				"Running PacketQueuePoints for " + sp.getName());
 		MainHUD hud = SpoutGUI.getHudOf(sp);
 		if (hud != null) {
 			hud.queuePoints(message);
@@ -48,7 +50,8 @@ public class PacketQueuePoints extends AddonPacket {
 	@Override
 	public void write(SpoutOutputStream stream) {
 		stream.writeString(message);
-		RMLogging.debugLog(Level.INFO, "Wrote PacketQueuePoints with message: " + message);
+		RMLogging.debugLog(Level.INFO, "Wrote PacketQueuePoints with message: "
+				+ message);
 	}
 
 	public String getMessage() {

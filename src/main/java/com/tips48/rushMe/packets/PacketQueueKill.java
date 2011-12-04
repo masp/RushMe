@@ -32,12 +32,14 @@ public class PacketQueueKill extends AddonPacket {
 	@Override
 	public void read(SpoutInputStream stream) {
 		message = stream.readString("message");
-		RMLogging.debugLog(Level.INFO, "Read PacketQueueKill with message: " + message);
+		RMLogging.debugLog(Level.INFO, "Read PacketQueueKill with message: "
+				+ message);
 	}
 
 	@Override
 	public void run(SpoutPlayer sp) {
-		RMLogging.debugLog(Level.INFO, "Running PacketQueueKill for " + sp.getName());
+		RMLogging.debugLog(Level.INFO,
+				"Running PacketQueueKill for " + sp.getName());
 		MainHUD hud = SpoutGUI.getHudOf(sp);
 		if (hud != null) {
 			hud.queueKill(message);
@@ -47,7 +49,8 @@ public class PacketQueueKill extends AddonPacket {
 	@Override
 	public void write(SpoutOutputStream stream) {
 		stream.writeString(message);
-		RMLogging.debugLog(Level.INFO, "Wrote PacketQueueKill with message: " + message);
+		RMLogging.debugLog(Level.INFO, "Wrote PacketQueueKill with message: "
+				+ message);
 	}
 
 	public String getMessage() {

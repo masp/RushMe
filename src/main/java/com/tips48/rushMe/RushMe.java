@@ -22,30 +22,26 @@ import com.tips48.rushMe.commands.RushMeCommand;
 import com.tips48.rushMe.configuration.GameModeConfiguration;
 import com.tips48.rushMe.configuration.GunConfiguration;
 import com.tips48.rushMe.custom.GUI.SpoutGUI;
-import com.tips48.rushMe.custom.items.GrenadeManager;
-import com.tips48.rushMe.custom.items.GrenadeType;
-import com.tips48.rushMe.custom.items.GunManager;
-import com.tips48.rushMe.listeners.RMEntityListener;
-import com.tips48.rushMe.listeners.RMInputListener;
-import com.tips48.rushMe.listeners.RMPlayerListener;
+import com.tips48.rushMe.custom.items.*;
+import com.tips48.rushMe.listeners.*;
 import com.tips48.rushMe.packets.*;
 import com.tips48.rushMe.util.RMLogging;
 import com.tips48.rushMe.util.RMUtils;
+
 import me.kalmanolah.cubelist.classfile.cubelist;
+
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.getspout.spoutapi.io.AddonPacket;
 
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class RushMe extends JavaPlugin {
 
 	private final static String prefix = "[RushMe]";
 	private final static double version = 0.1;
 	private final static int subVersion = 0;
-	private final static Logger log = Logger.getLogger("Minecraft");
 
 	private RMInputListener inputListener;
 	private RMPlayerListener playerListener;
@@ -80,14 +76,19 @@ public class RushMe extends JavaPlugin {
 		GrenadeManager.createGrenade("TestGrenade1234", "Test", "Bleh",
 				GrenadeType.CONCUSSION, 3, 1, 2, 5, 5);
 
-		RMLogging.log(Level.INFO, "RushMe Version " + version + "_" + subVersion
-				+ " enabled");
-		RMLogging.log(Level.INFO,
-				"Guns loaded: " + RMUtils.readableSet(GunManager.getGunNames()));
-		RMLogging.log(Level.INFO,
-				"Grenades loaded: "
-						+ RMUtils.readableSet(GrenadeManager.getGrenadeNames()));
-		RMLogging.log(Level.INFO,
+		RMLogging.log(Level.INFO, "RushMe Version " + version + "_"
+				+ subVersion + " enabled");
+		RMLogging
+				.log(Level.INFO,
+						"Guns loaded: "
+								+ RMUtils.readableSet(GunManager.getGunNames()));
+		RMLogging
+				.log(Level.INFO,
+						"Grenades loaded: "
+								+ RMUtils.readableSet(GrenadeManager
+										.getGrenadeNames()));
+		RMLogging.log(
+				Level.INFO,
 				"GameModes loaded: "
 						+ RMUtils.readableSet(GameManager.getGameModeNames()));
 	}

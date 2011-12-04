@@ -43,7 +43,7 @@ public class PlayerData {
 	}
 
 	public static void registerDamage(Player hurt, Player damager, int damage,
-	                                  Gun gun) {
+			Gun gun) {
 		registerDamage(hurt.getEntityId(), damager.getEntityId(), damage, gun);
 	}
 
@@ -97,13 +97,13 @@ public class PlayerData {
 	}
 
 	public static void registerDamage(Player hurt, Player damager, int damage,
-	                                  Grenade grenade) {
+			Grenade grenade) {
 		registerDamage(hurt.getEntityId(), damager.getEntityId(), damage,
 				grenade);
 	}
 
 	public static void registerDamage(int hurt, int damager, int damage,
-	                                  Grenade grenade) {
+			Grenade grenade) {
 		Player hurtP = SpoutManager.getPlayerFromId(hurt);
 		Player damagerP = SpoutManager.getPlayerFromId(damager);
 

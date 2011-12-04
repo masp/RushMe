@@ -44,7 +44,7 @@ public class Team {
 	private final Integer maxSpawnsLeft;
 
 	public Team(String name, String prefix, int playerLimit, String skin,
-	            Integer maxSpawnsLeft) {
+			Integer maxSpawnsLeft) {
 		this.name = name;
 		this.playerLimit = playerLimit;
 		this.prefix = prefix;

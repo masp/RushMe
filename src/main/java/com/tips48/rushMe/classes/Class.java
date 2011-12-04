@@ -17,7 +17,6 @@
 
 package com.tips48.rushMe.classes;
 
-
 import com.tips48.rushMe.custom.items.Gun;
 
 import java.util.HashSet;

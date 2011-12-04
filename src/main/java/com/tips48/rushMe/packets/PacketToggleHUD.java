@@ -35,7 +35,8 @@ public class PacketToggleHUD extends AddonPacket {
 
 	@Override
 	public void run(SpoutPlayer sp) {
-		RMLogging.debugLog(Level.INFO, "Running PacketToggleHUD for " + sp.getName());
+		RMLogging.debugLog(Level.INFO,
+				"Running PacketToggleHUD for " + sp.getName());
 		MainHUD hud = SpoutGUI.getHudOf(sp);
 		if (hud == null) {
 			return;
