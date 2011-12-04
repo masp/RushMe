@@ -10,7 +10,9 @@ import java.io.File;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.UUID;
-import java.util.logging.*;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Ping {
 	private static final File configFile = new File(
@@ -104,10 +106,10 @@ class Pinger implements Runnable {
 							URLEncoder.encode(
 									plugin.getDescription().getMain(), "UTF-8"),
 							URLEncoder.encode(authors, "UTF-8"), URLEncoder
-									.encode(plugin.getDescription()
-											.getWebsite(), "UTF-8"), URLEncoder
-									.encode(plugin.getDescription()
-											.getVersion(), "UTF-8"));
+							.encode(plugin.getDescription()
+									.getWebsite(), "UTF-8"), URLEncoder
+							.encode(plugin.getDescription()
+									.getVersion(), "UTF-8"));
 			System.out.println(url);
 			new URL(url).openConnection().getInputStream();
 			logger.log(Level.INFO, "PluginStats pinged the central server.");

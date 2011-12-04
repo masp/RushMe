@@ -18,7 +18,6 @@
 package com.tips48.rushMe.custom.GUI;
 
 import com.tips48.rushMe.packets.*;
-
 import org.bukkit.entity.Player;
 import org.getspout.spoutapi.SpoutManager;
 import org.getspout.spoutapi.player.SpoutPlayer;

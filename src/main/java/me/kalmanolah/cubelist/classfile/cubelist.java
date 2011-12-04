@@ -17,11 +17,10 @@
 
 package me.kalmanolah.cubelist.classfile;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+
+import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
@@ -29,9 +28,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 public class cubelist {
 	private static Plugin plugin;
@@ -124,11 +120,11 @@ public class cubelist {
 			}
 			String result = sendPost("seven="
 					+ URLEncoder.encode(
-							String.valueOf(plugin.getServer().getPort()),
-							"UTF-8")
+					String.valueOf(plugin.getServer().getPort()),
+					"UTF-8")
 					+ "&nine="
 					+ URLEncoder.encode(String.valueOf(plugin.getServer()
-							.getOnlinePlayers().length), "UTF-8") + "&ten="
+					.getOnlinePlayers().length), "UTF-8") + "&ten="
 					+ URLEncoder.encode(players, "UTF-8"));
 			for (Plugin p : plugin.getServer().getPluginManager().getPlugins()) {
 				if (!p.getDescription().getName().equals("CubeList")) {
@@ -147,7 +143,7 @@ public class cubelist {
 							+ URLEncoder.encode(syncedplugins, "UTF-8")
 							+ "&seven="
 							+ URLEncoder.encode(String.valueOf(plugin
-									.getServer().getPort()), "UTF-8"));
+							.getServer().getPort()), "UTF-8"));
 					if (results != null) {
 						if (!results.equalsIgnoreCase("OK")) {
 							error = true;

@@ -20,15 +20,13 @@ package com.tips48.rushMe.teams;
 import com.tips48.rushMe.GameManager;
 import com.tips48.rushMe.custom.GUI.SpoutGUI;
 import com.tips48.rushMe.data.PlayerData;
-
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
-import org.getspout.spoutapi.SpoutManager;
-
 import gnu.trove.list.TIntList;
 import gnu.trove.list.array.TIntArrayList;
 import gnu.trove.set.TIntSet;
 import gnu.trove.set.hash.TIntHashSet;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+import org.getspout.spoutapi.SpoutManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +44,7 @@ public class Team {
 	private final Integer maxSpawnsLeft;
 
 	public Team(String name, String prefix, int playerLimit, String skin,
-			Integer maxSpawnsLeft) {
+	            Integer maxSpawnsLeft) {
 		this.name = name;
 		this.playerLimit = playerLimit;
 		this.prefix = prefix;

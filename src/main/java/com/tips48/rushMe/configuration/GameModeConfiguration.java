@@ -17,9 +17,10 @@
 
 package com.tips48.rushMe.configuration;
 
-import com.tips48.rushMe.*;
+import com.tips48.rushMe.GameManager;
+import com.tips48.rushMe.GameModeType;
+import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.teams.Team;
-
 import com.tips48.rushMe.util.RMLogging;
 import org.bukkit.configuration.file.YamlConfiguration;
 

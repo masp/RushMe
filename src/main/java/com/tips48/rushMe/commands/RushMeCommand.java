@@ -17,24 +17,26 @@
 
 package com.tips48.rushMe.commands;
 
-import com.tips48.rushMe.*;
+import com.tips48.rushMe.Arena;
+import com.tips48.rushMe.GameManager;
+import com.tips48.rushMe.GameMode;
 import com.tips48.rushMe.teams.Team;
 import com.tips48.rushMe.util.RMChat;
 import com.tips48.rushMe.util.RMUtils;
-
-import org.bukkit.ChatColor;
-import org.bukkit.command.*;
-import org.bukkit.entity.Player;
-
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class RushMeCommand implements CommandExecutor {
 
 	private static TIntObjectMap<Arena> defining = new TIntObjectHashMap<Arena>();
 
 	public boolean onCommand(CommandSender sender, Command cmd,
-			String commandLabel, String[] args) {
+	                         String commandLabel, String[] args) {
 		if (args.length == 0) {
 			RMChat.sendMainCommand(sender);
 		} else if (args.length == 1) {
@@ -231,7 +233,7 @@ public class RushMeCommand implements CommandExecutor {
 					player.sendMessage(ChatColor.RED
 							+ "Valid GameModes: "
 							+ RMUtils.readableSet(GameManager
-									.getGameModeNames()));
+							.getGameModeNames()));
 					return true;
 				}
 				Arena a = GameManager.createArena(args[1], g,

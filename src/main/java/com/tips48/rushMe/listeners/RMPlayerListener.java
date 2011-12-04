@@ -17,24 +17,30 @@
 
 package com.tips48.rushMe.listeners;
 
-import com.tips48.rushMe.*;
+import com.tips48.rushMe.Arena;
+import com.tips48.rushMe.GameManager;
+import com.tips48.rushMe.GameModeType;
+import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.commands.RushMeCommand;
 import com.tips48.rushMe.custom.GUI.SpoutGUI;
 import com.tips48.rushMe.custom.items.Gun;
 import com.tips48.rushMe.data.PlayerData;
 import com.tips48.rushMe.teams.Team;
 import com.tips48.rushMe.util.RMUtils;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.*;
 import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class RMPlayerListener extends PlayerListener {
 	@Override

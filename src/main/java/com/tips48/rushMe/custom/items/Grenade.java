@@ -23,9 +23,10 @@ import com.tips48.rushMe.custom.GUI.SpoutGUI;
 import com.tips48.rushMe.data.PlayerData;
 import com.tips48.rushMe.packets.PacketGrenadeUpdate;
 import com.tips48.rushMe.util.RMUtils;
-
 import org.bukkit.Location;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.getspout.spoutapi.SpoutManager;
 import org.getspout.spoutapi.material.item.GenericCustomItem;
 import org.getspout.spoutapi.player.SpoutPlayer;
@@ -46,8 +47,8 @@ public class Grenade extends GenericCustomItem {
 	private Integer stunTime;
 
 	protected Grenade(String name, String shortName, String texture,
-			GrenadeType type, Integer startAmount, Integer explosionSize,
-			Integer timeBeforeExplosion, Integer damage, Integer stunTime) {
+	                  GrenadeType type, Integer startAmount, Integer explosionSize,
+	                  Integer timeBeforeExplosion, Integer damage, Integer stunTime) {
 		super(RushMe.getInstance(), name, texture);
 
 		this.shortName = shortName;
@@ -110,58 +111,58 @@ public class Grenade extends GenericCustomItem {
 				.scheduleSyncDelayedTask(RushMe.getInstance(), new Runnable() {
 					public void run() {
 						switch (type) {
-						case FRAG:
-							RMUtils.createAstheticExplosion(g, droppedLocation);
-							for (Entity e : RMUtils.getNearbyEntities(
-									droppedLocation, explosionSize,
-									explosionSize, explosionSize)) {
-								if (e instanceof Player) {
-									PlayerData.registerDamage((Player) e,
-											player, damage, g);
-								} else {
-									if (e instanceof LivingEntity) {
-										((LivingEntity) e).damage(damage);
+							case FRAG:
+								RMUtils.createAstheticExplosion(g, droppedLocation);
+								for (Entity e : RMUtils.getNearbyEntities(
+										droppedLocation, explosionSize,
+										explosionSize, explosionSize)) {
+									if (e instanceof Player) {
+										PlayerData.registerDamage((Player) e,
+												player, damage, g);
+									} else {
+										if (e instanceof LivingEntity) {
+											((LivingEntity) e).damage(damage);
+										}
 									}
 								}
-							}
-							break;
-						case CONCUSSION:
-							for (Entity e : RMUtils.getNearbyEntities(
-									droppedLocation, explosionSize,
-									explosionSize, explosionSize)) {
-								if (!(e instanceof Player)) {
-									return;
+								break;
+							case CONCUSSION:
+								for (Entity e : RMUtils.getNearbyEntities(
+										droppedLocation, explosionSize,
+										explosionSize, explosionSize)) {
+									if (!(e instanceof Player)) {
+										return;
+									}
+									Player p = (Player) e;
+									MainHUD hud = SpoutGUI.getHudOf(p);
+									if (hud != null) {
+										int distance = (int) p.getLocation()
+												.distance(droppedLocation);
+										hud.doConcussion(255 / distance, stunTime);
+									}
 								}
-								Player p = (Player) e;
-								MainHUD hud = SpoutGUI.getHudOf(p);
-								if (hud != null) {
-									int distance = (int) p.getLocation()
-											.distance(droppedLocation);
-									hud.doConcussion(255 / distance, stunTime);
+								break;
+							case STUN:
+								for (Entity e : RMUtils.getNearbyEntities(
+										droppedLocation, explosionSize,
+										explosionSize, explosionSize)) {
+									if (e instanceof Player) {
+										final SpoutPlayer sp = SpoutManager
+												.getPlayer((Player) e);
+										sp.setJumpingMultiplier(.3);
+										sp.setWalkingMultiplier(.3);
+										sp.setSwimmingMultiplier(.3);
+										stun s = new stun(sp);
+										s.setTaskId(RushMe
+												.getInstance()
+												.getServer()
+												.getScheduler()
+												.scheduleSyncRepeatingTask(
+														RushMe.getInstance(), s,
+														60, 3));
+									}
 								}
-							}
-							break;
-						case STUN:
-							for (Entity e : RMUtils.getNearbyEntities(
-									droppedLocation, explosionSize,
-									explosionSize, explosionSize)) {
-								if (e instanceof Player) {
-									final SpoutPlayer sp = SpoutManager
-											.getPlayer((Player) e);
-									sp.setJumpingMultiplier(.3);
-									sp.setWalkingMultiplier(.3);
-									sp.setSwimmingMultiplier(.3);
-									stun s = new stun(sp);
-									s.setTaskId(RushMe
-											.getInstance()
-											.getServer()
-											.getScheduler()
-											.scheduleSyncRepeatingTask(
-													RushMe.getInstance(), s,
-													60, 3));
-								}
-							}
-							break;
+								break;
 						}
 
 						PacketGrenadeUpdate packet = new PacketGrenadeUpdate();

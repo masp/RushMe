@@ -19,7 +19,6 @@ package com.tips48.rushMe.configuration;
 
 import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.custom.items.GunManager;
-
 import com.tips48.rushMe.util.RMLogging;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.getspout.spoutapi.SpoutManager;

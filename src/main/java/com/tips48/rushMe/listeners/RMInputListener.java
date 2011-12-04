@@ -24,7 +24,6 @@ import com.tips48.rushMe.custom.items.Gun;
 import com.tips48.rushMe.data.PlayerData;
 import com.tips48.rushMe.teams.Team;
 import com.tips48.rushMe.util.RMUtils;
-
 import org.bukkit.entity.Player;
 import org.getspout.spoutapi.SpoutManager;
 import org.getspout.spoutapi.event.input.InputListener;

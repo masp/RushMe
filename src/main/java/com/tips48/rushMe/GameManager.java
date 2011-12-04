@@ -20,7 +20,6 @@ package com.tips48.rushMe;
 import com.tips48.rushMe.custom.items.GrenadeManager;
 import com.tips48.rushMe.data.PlayerData;
 import com.tips48.rushMe.teams.Team;
-
 import com.tips48.rushMe.util.RMLogging;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
@@ -29,7 +28,9 @@ import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.getspout.spoutapi.SpoutManager;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 
 public class GameManager {
@@ -110,7 +111,7 @@ public class GameManager {
 	}
 
 	public static Arena createArena(String name, GameMode gamemode,
-			int creator, World world) {
+	                                int creator, World world) {
 		Arena a = new Arena(gamemode, name, creator, world);
 		games.add(a);
 
@@ -120,14 +121,14 @@ public class GameManager {
 	}
 
 	public static GameMode createGameMode(String name, GameModeType type,
-			Integer time, Boolean respawn, Integer respawnTime,
-			Integer maxPlayers, List<Team> teams) {
+	                                      Integer time, Boolean respawn, Integer respawnTime,
+	                                      Integer maxPlayers, List<Team> teams) {
 		GameMode gm = new GameMode(name, type, time, respawn, respawnTime,
 				maxPlayers, teams);
 
 		gameModes.add(gm);
 
-		RMLogging.debugLog(Level.INFO,  "Created gamemode " + gm.getName() + " with max players: " + gm.getMaxPlayers() + ";Time: " + time + ";Type: " + type + ";Respawn: " + respawn + ";RespawnTime: " + respawnTime);
+		RMLogging.debugLog(Level.INFO, "Created gamemode " + gm.getName() + " with max players: " + gm.getMaxPlayers() + ";Time: " + time + ";Type: " + type + ";Respawn: " + respawn + ";RespawnTime: " + respawnTime);
 
 		return gm;
 	}

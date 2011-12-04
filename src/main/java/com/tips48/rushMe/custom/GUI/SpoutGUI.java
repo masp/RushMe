@@ -22,15 +22,13 @@ import com.tips48.rushMe.GameManager;
 import com.tips48.rushMe.custom.items.Grenade;
 import com.tips48.rushMe.custom.items.Gun;
 import com.tips48.rushMe.teams.Team;
-
+import gnu.trove.map.TIntObjectMap;
+import gnu.trove.map.hash.TIntObjectHashMap;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.getspout.spoutapi.SpoutManager;
-
-import gnu.trove.map.TIntObjectMap;
-import gnu.trove.map.hash.TIntObjectHashMap;
 
 public class SpoutGUI {
 

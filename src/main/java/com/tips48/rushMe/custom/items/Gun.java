@@ -21,7 +21,6 @@ import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.custom.GUI.SpoutGUI;
 import com.tips48.rushMe.packets.PacketGunUpdate;
 import com.tips48.rushMe.util.RMUtils;
-
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.getspout.spoutapi.inventory.SpoutItemStack;
@@ -53,11 +52,11 @@ public class Gun extends GenericCustomItem {
 	private final Integer bodyDamage;
 
 	protected Gun(String name, String texture, Integer reloadTime,
-			Boolean autoReload, Integer maxClipSize, Integer maxAmmo,
-			Double timeBetweenFire, Boolean bulletsExplode,
-			Float explosionSize, Double entityDamageDistance,
-			Integer headshotDamage, Integer bodyDamage, Double recoilBack,
-			Float recoilVertical, Float recoilHorizontal) {
+	              Boolean autoReload, Integer maxClipSize, Integer maxAmmo,
+	              Double timeBetweenFire, Boolean bulletsExplode,
+	              Float explosionSize, Double entityDamageDistance,
+	              Integer headshotDamage, Integer bodyDamage, Double recoilBack,
+	              Float recoilVertical, Float recoilHorizontal) {
 		super(RushMe.getInstance(), name, texture);
 
 		this.reloadTime = reloadTime;

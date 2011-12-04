@@ -18,16 +18,19 @@
 package com.tips48.rushMe.util;
 
 import com.tips48.rushMe.RushMe;
-import com.tips48.rushMe.custom.items.*;
-
+import com.tips48.rushMe.custom.items.Grenade;
+import com.tips48.rushMe.custom.items.Gun;
+import com.tips48.rushMe.custom.items.GunManager;
+import gnu.trove.set.TIntSet;
 import net.minecraft.server.MathHelper;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.craftbukkit.entity.CraftLivingEntity;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Minecart;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 import org.getspout.spoutapi.SpoutManager;
@@ -35,9 +38,10 @@ import org.getspout.spoutapi.inventory.SpoutItemStack;
 import org.getspout.spoutapi.material.CustomItem;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
-import gnu.trove.set.TIntSet;
-
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 public class RMUtils {
 
@@ -72,7 +76,7 @@ public class RMUtils {
 				.replace("]", "");
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings ({"rawtypes", "unchecked"})
 	public static Set<?> toSet(TIntSet ts) {
 		Set result = new HashSet();
 		for (Integer i : ts.toArray()) {
@@ -161,7 +165,7 @@ public class RMUtils {
 	}
 
 	public static List<Entity> getNearbyEntities(Location loc, double radiusX,
-			double radiusY, double radiusZ) {
+	                                             double radiusY, double radiusZ) {
 		Entity e = loc.getWorld().spawn(loc, Minecart.class);
 		List<Entity> entities = e.getNearbyEntities(radiusX, radiusY, radiusZ);
 		e.remove();
@@ -321,10 +325,8 @@ public class RMUtils {
 	}
 
 	/**
-	 * This code was contributed to RushMe by AJCStriker, from the
-	 * CounterCraftDev team. Original file can be found at
-	 * https://github.com/AJCStriker/Counter-
-	 * Craft/edit/master/src/net/countercraft/ccserver/maths/MathsHelper.java
+	 * This code was contributed to RushMe by AJCStriker, from the CounterCraftDev team. Original file can be found at
+	 * https://github.com/AJCStriker/Counter- Craft/edit/master/src/net/countercraft/ccserver/maths/MathsHelper.java
 	 */
 	public static Set<String> spot(Player spotter) {
 		Set<String> spottedList = new HashSet<String>();

@@ -23,15 +23,13 @@ import com.tips48.rushMe.custom.GUI.SpoutGUI;
 import com.tips48.rushMe.custom.items.Grenade;
 import com.tips48.rushMe.custom.items.Gun;
 import com.tips48.rushMe.packets.PacketPlayerDataUpdate;
-
-import org.bukkit.entity.Player;
-import org.getspout.spoutapi.SpoutManager;
-import org.getspout.spoutapi.player.SpoutPlayer;
-
 import gnu.trove.map.TIntIntMap;
 import gnu.trove.map.hash.TIntIntHashMap;
 import gnu.trove.set.TIntSet;
 import gnu.trove.set.hash.TIntHashSet;
+import org.bukkit.entity.Player;
+import org.getspout.spoutapi.SpoutManager;
+import org.getspout.spoutapi.player.SpoutPlayer;
 
 public class PlayerData {
 	private static final TIntIntMap scores = new TIntIntHashMap();
@@ -45,7 +43,7 @@ public class PlayerData {
 	}
 
 	public static void registerDamage(Player hurt, Player damager, int damage,
-			Gun gun) {
+	                                  Gun gun) {
 		registerDamage(hurt.getEntityId(), damager.getEntityId(), damage, gun);
 	}
 
@@ -99,13 +97,13 @@ public class PlayerData {
 	}
 
 	public static void registerDamage(Player hurt, Player damager, int damage,
-			Grenade grenade) {
+	                                  Grenade grenade) {
 		registerDamage(hurt.getEntityId(), damager.getEntityId(), damage,
 				grenade);
 	}
 
 	public static void registerDamage(int hurt, int damager, int damage,
-			Grenade grenade) {
+	                                  Grenade grenade) {
 		Player hurtP = SpoutManager.getPlayerFromId(hurt);
 		Player damagerP = SpoutManager.getPlayerFromId(damager);
 

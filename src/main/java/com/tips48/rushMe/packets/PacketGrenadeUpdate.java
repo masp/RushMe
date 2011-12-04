@@ -17,10 +17,13 @@
 
 package com.tips48.rushMe.packets;
 
-import com.tips48.rushMe.custom.items.*;
-
+import com.tips48.rushMe.custom.items.Grenade;
+import com.tips48.rushMe.custom.items.GrenadeManager;
+import com.tips48.rushMe.custom.items.GrenadeType;
 import com.tips48.rushMe.util.RMLogging;
-import org.getspout.spoutapi.io.*;
+import org.getspout.spoutapi.io.AddonPacket;
+import org.getspout.spoutapi.io.SpoutInputStream;
+import org.getspout.spoutapi.io.SpoutOutputStream;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
 import java.util.logging.Level;
@@ -55,7 +58,7 @@ public class PacketGrenadeUpdate extends AddonPacket {
 		damage = stream.readInt();
 		stunTime = stream.readInt();
 		RMLogging.debugLog(Level.INFO, "Read PacketGrenadeUpdate.  Atributes:");
-		RMLogging.debugLog(Level.INFO, "Name = " + name + ";ShortName = " + shortName + ";TypeInt = " + typeInt + ";Type = " + type + ";Amount = " + amount +";StartAmount = " + startAmount + ";ExplosionSize = " + explosionSize + ";TimeBeforeExplosion = " + timeBeforeExplosion + ";Damage = " + damage + ";StunTime = " + stunTime);
+		RMLogging.debugLog(Level.INFO, "Name = " + name + ";ShortName = " + shortName + ";TypeInt = " + typeInt + ";Type = " + type + ";Amount = " + amount + ";StartAmount = " + startAmount + ";ExplosionSize = " + explosionSize + ";TimeBeforeExplosion = " + timeBeforeExplosion + ";Damage = " + damage + ";StunTime = " + stunTime);
 	}
 
 	@Override
@@ -82,7 +85,7 @@ public class PacketGrenadeUpdate extends AddonPacket {
 		stream.writeInt(damage);
 		stream.writeInt(stunTime);
 		RMLogging.debugLog(Level.INFO, "Read PacketGrenadeUpdate.  Atributes:");
-		RMLogging.debugLog(Level.INFO, "Name = " + name + ";ShortName = " + shortName + ";TypeInt = " + typeInt + ";Type = " + type + ";Amount = " + amount +";StartAmount = " + startAmount + ";ExplosionSize = " + explosionSize + ";TimeBeforeExplosion = " + timeBeforeExplosion + ";Damage = " + damage + ";StunTime = " + stunTime);
+		RMLogging.debugLog(Level.INFO, "Name = " + name + ";ShortName = " + shortName + ";TypeInt = " + typeInt + ";Type = " + type + ";Amount = " + amount + ";StartAmount = " + startAmount + ";ExplosionSize = " + explosionSize + ";TimeBeforeExplosion = " + timeBeforeExplosion + ";Damage = " + damage + ";StunTime = " + stunTime);
 	}
 
 	public GrenadeType getType() {

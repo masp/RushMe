@@ -17,9 +17,9 @@
 
 package com.tips48.rushMe;
 
-import java.util.List;
-
 import com.tips48.rushMe.teams.Team;
+
+import java.util.List;
 
 public class GameMode {
 
@@ -32,8 +32,8 @@ public class GameMode {
 	private final List<Team> teams;
 
 	protected GameMode(String name, GameModeType type, Integer time,
-			Boolean respawn, Integer respawnTime, Integer maxPlayers,
-			List<Team> teams) {
+	                   Boolean respawn, Integer respawnTime, Integer maxPlayers,
+	                   List<Team> teams) {
 		this.name = name;
 		this.type = type;
 		this.time = time;
