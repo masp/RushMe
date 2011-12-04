@@ -19,8 +19,11 @@ package com.tips48.rushMe.packets;
 
 import com.tips48.rushMe.data.PlayerData;
 
+import com.tips48.rushMe.util.RMLogging;
 import org.getspout.spoutapi.io.*;
 import org.getspout.spoutapi.player.SpoutPlayer;
+
+import java.util.logging.Level;
 
 public class PacketPlayerDataUpdate extends AddonPacket {
 
@@ -37,10 +40,13 @@ public class PacketPlayerDataUpdate extends AddonPacket {
 		deaths = stream.readInt();
 		health = stream.readInt();
 		spotted = stream.readInt() == 0;
+		RMLogging.debugLog(Level.INFO, "Read PacketPlayerDataUpdate.  Atributes:");
+		RMLogging.debugLog(Level.INFO, "Score = " + score + ";Kills = " + kills + ";Deaths = " + deaths + ";Healths = " + health + ";Spotted = " + spotted);
 	}
 
 	@Override
 	public void run(SpoutPlayer sp) {
+		RMLogging.debugLog(Level.INFO, "Running PacketPlayerDataUpdate for " + sp.getName());
 		PlayerData.setScore(sp, score);
 		PlayerData.setKills(sp, kills);
 		PlayerData.setDeaths(sp, deaths);
@@ -55,6 +61,8 @@ public class PacketPlayerDataUpdate extends AddonPacket {
 		stream.writeInt(deaths);
 		stream.writeInt(health);
 		stream.writeInt(spotted ? 0 : 1);
+		RMLogging.debugLog(Level.INFO, "Wrote PacketPlayerDataUpdate.  Atributes:");
+		RMLogging.debugLog(Level.INFO, "Score = " + score + ";Kills = " + kills + ";Deaths = " + deaths + ";Healths = " + health + ";Spotted = " + spotted);
 	}
 
 	public int getScore() {

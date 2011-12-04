@@ -19,8 +19,11 @@ package com.tips48.rushMe.packets;
 import com.tips48.rushMe.custom.GUI.MainHUD;
 import com.tips48.rushMe.custom.GUI.SpoutGUI;
 
+import com.tips48.rushMe.util.RMLogging;
 import org.getspout.spoutapi.io.*;
 import org.getspout.spoutapi.player.SpoutPlayer;
+
+import java.util.logging.Level;
 
 public class PacketQueuePoints extends AddonPacket {
 
@@ -29,10 +32,12 @@ public class PacketQueuePoints extends AddonPacket {
 	@Override
 	public void read(SpoutInputStream stream) {
 		message = stream.readString("message");
+		RMLogging.debugLog(Level.INFO, "Read PacketQueuePoints with message: " + message);
 	}
 
 	@Override
 	public void run(SpoutPlayer sp) {
+		RMLogging.debugLog(Level.INFO, "Running PacketQueuePoints for " + sp.getName());
 		MainHUD hud = SpoutGUI.getHudOf(sp);
 		if (hud != null) {
 			hud.queuePoints(message);
@@ -42,6 +47,7 @@ public class PacketQueuePoints extends AddonPacket {
 	@Override
 	public void write(SpoutOutputStream stream) {
 		stream.writeString(message);
+		RMLogging.debugLog(Level.INFO, "Wrote PacketQueuePoints with message: " + message);
 	}
 
 	public String getMessage() {

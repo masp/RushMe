@@ -17,10 +17,12 @@
 
 package com.tips48.rushMe.custom.items;
 
+import com.tips48.rushMe.util.RMLogging;
 import org.getspout.spoutapi.material.CustomItem;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
 
 public class GunManager {
 	private static final Set<Gun> guns = new HashSet<Gun>();
@@ -42,6 +44,9 @@ public class GunManager {
 				recoilVertical, recoilHorizontal);
 
 		guns.add(gun);
+
+		RMLogging.debugLog(Level.INFO, "Created gun " + gun + ".  Atributes:");
+		RMLogging.debugLog(Level.INFO, "ReloadTime = " + reloadTime + ";MaxClipSize = " + maxClipSize + ";MaxAmmo = " + maxAmmo + ";TimeBetweenFire = " + timeBetweenFire + ";AutoReload = " + autoReload + ";BulletsExplode = " + bulletsExplode + ";ExplosionSize = " + explosionSize + ";EntityDamageDistance = " + entityDamageDistance + ";HeadshotDamage = " + headshotDamage + ";BodyDamage = " + bodyDamage);
 
 		return gun;
 	}

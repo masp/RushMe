@@ -20,8 +20,11 @@ package com.tips48.rushMe.packets;
 import com.tips48.rushMe.custom.GUI.MainHUD;
 import com.tips48.rushMe.custom.GUI.SpoutGUI;
 
+import com.tips48.rushMe.util.RMLogging;
 import org.getspout.spoutapi.io.*;
 import org.getspout.spoutapi.player.SpoutPlayer;
+
+import java.util.logging.Level;
 
 public class PacketShowHit extends AddonPacket {
 
@@ -31,6 +34,7 @@ public class PacketShowHit extends AddonPacket {
 
 	@Override
 	public void run(SpoutPlayer sp) {
+		RMLogging.debugLog(Level.INFO, "Running PacketShowHit for " + sp.getName());
 		MainHUD hud = SpoutGUI.getHudOf(sp);
 		if (hud != null) {
 			hud.showHit();

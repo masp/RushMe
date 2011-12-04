@@ -17,6 +17,7 @@
 
 package com.tips48.rushMe.custom.items;
 
+import com.tips48.rushMe.util.RMLogging;
 import org.bukkit.entity.Player;
 import org.getspout.spoutapi.material.CustomItem;
 
@@ -25,6 +26,7 @@ import gnu.trove.map.hash.TIntObjectHashMap;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
 
 public class GrenadeManager {
 
@@ -46,6 +48,9 @@ public class GrenadeManager {
 				stunTime);
 
 		grenades.add(grenade);
+
+		RMLogging.debugLog(Level.INFO, "Created grenade " + name + ".  Atributes:");
+		RMLogging.debugLog(Level.INFO, "ShortName = " + shortName + ";Type = " + type + ";StartAmount = " + startAmount + ";ExplosionSize = " + explosionSize + ";TimeBeforeExplosion = " + timeBeforeExplosion + ";Damage = " + damage + ";StunTime = " + stunTime);
 
 		return grenade;
 	}

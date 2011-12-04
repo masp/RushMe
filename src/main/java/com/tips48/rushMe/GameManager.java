@@ -21,6 +21,7 @@ import com.tips48.rushMe.custom.items.GrenadeManager;
 import com.tips48.rushMe.data.PlayerData;
 import com.tips48.rushMe.teams.Team;
 
+import com.tips48.rushMe.util.RMLogging;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -29,6 +30,7 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.getspout.spoutapi.SpoutManager;
 
 import java.util.*;
+import java.util.logging.Level;
 
 public class GameManager {
 
@@ -47,6 +49,7 @@ public class GameManager {
 	public static void addToGame(Arena arena, int player, Team prefered) {
 		GrenadeManager.createGrenades(player);
 		arena.addPlayer(player, prefered);
+		RMLogging.debugLog(Level.INFO, "Added " + player + " to " + arena.getName());
 	}
 
 	public static void removeFromGame(Arena arena, Player player) {
@@ -56,6 +59,7 @@ public class GameManager {
 	public static void removeFromGame(Arena arena, int player) {
 		if (arena.hasPlayer(player)) {
 			arena.removePlayer(player);
+			RMLogging.debugLog(Level.INFO, "Removed " + player + " from " + arena.getName());
 		}
 	}
 
@@ -109,6 +113,9 @@ public class GameManager {
 			int creator, World world) {
 		Arena a = new Arena(gamemode, name, creator, world);
 		games.add(a);
+
+		RMLogging.debugLog(Level.INFO, "Created arena " + a.getName() + " with gamemode: " + gamemode.getName() + ";Creator: " + a.getCreator() + ";In world: " + world.getName());
+
 		return a;
 	}
 
@@ -119,6 +126,8 @@ public class GameManager {
 				maxPlayers, teams);
 
 		gameModes.add(gm);
+
+		RMLogging.debugLog(Level.INFO,  "Created gamemode " + gm.getName() + " with max players: " + gm.getMaxPlayers() + ";Time: " + time + ";Type: " + type + ";Respawn: " + respawn + ";RespawnTime: " + respawnTime);
 
 		return gm;
 	}
@@ -176,6 +185,7 @@ public class GameManager {
 	}
 
 	public static void updateNames(Arena arena) {
+		RMLogging.debugLog(Level.INFO, "Updating names for " + arena.getName());
 		for (int i = 0; i <= arena.getTeams().size(); i++) {
 			Team t = arena.getTeams().get(i);
 			for (int player : t.getPlayers().toArray()) {

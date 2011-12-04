@@ -23,6 +23,8 @@ import com.tips48.rushMe.util.RMLogging;
 import org.getspout.spoutapi.io.*;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
+import java.util.logging.Level;
+
 public class PacketGrenadeUpdate extends AddonPacket {
 
 	private String name;
@@ -52,10 +54,13 @@ public class PacketGrenadeUpdate extends AddonPacket {
 		timeBeforeExplosion = stream.readInt();
 		damage = stream.readInt();
 		stunTime = stream.readInt();
+		RMLogging.debugLog(Level.INFO, "Read PacketGrenadeUpdate.  Atributes:");
+		RMLogging.debugLog(Level.INFO, "Name = " + name + ";ShortName = " + shortName + ";TypeInt = " + typeInt + ";Type = " + type + ";Amount = " + amount +";StartAmount = " + startAmount + ";ExplosionSize = " + explosionSize + ";TimeBeforeExplosion = " + timeBeforeExplosion + ";Damage = " + damage + ";StunTime = " + stunTime);
 	}
 
 	@Override
 	public void run(SpoutPlayer sp) {
+		RMLogging.debugLog(Level.INFO, "Running PacketGrenadeUpdate for " + sp.getName());
 		Grenade grenade = GrenadeManager.getGrenade(name);
 		if (grenade == null) {
 			grenade = GrenadeManager.createGrenade(name, null, shortName, type,

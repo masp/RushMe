@@ -20,8 +20,11 @@ package com.tips48.rushMe.packets;
 import com.tips48.rushMe.custom.items.Gun;
 import com.tips48.rushMe.custom.items.GunManager;
 
+import com.tips48.rushMe.util.RMLogging;
 import org.getspout.spoutapi.io.*;
 import org.getspout.spoutapi.player.SpoutPlayer;
+
+import java.util.logging.Level;
 
 public class PacketGunUpdate extends AddonPacket {
 
@@ -54,10 +57,13 @@ public class PacketGunUpdate extends AddonPacket {
 		entityDamageDistance = stream.readDouble();
 		headshotDamage = stream.readInt();
 		bodyDamage = stream.readInt();
+		RMLogging.debugLog(Level.INFO, "Read PacketGunUpdate.  Atributes:");
+		RMLogging.debugLog(Level.INFO, "Name = " + name + ";ReloadTime = " + reloadTime + ";MaxClipSize = " + maxClipSize + ";LoadedInClip = " + loadedInClip + ";Ammo = " + ammo +";MaxAmmo = " + maxAmmo + ";TimeBetweenFire = " + timeBetweenFire + ";AutoReload = " + autoReload + ";BulletsExplode = " + bulletsExplode + ";ExplosionSize = " + explosionSize + ";EntityDamageDistance = " + entityDamageDistance + ";HeadshotDamage = " + headshotDamage + ";BodyDamage = " + bodyDamage);
 	}
 
 	@Override
 	public void run(SpoutPlayer sp) {
+		RMLogging.debugLog(Level.INFO, "Running PacketGunUpdate for " + sp.getName());
 		Gun gun = GunManager.getGun(name);
 		if (gun == null) {
 			gun = GunManager.createGun(name, null, reloadTime, autoReload,
@@ -86,6 +92,8 @@ public class PacketGunUpdate extends AddonPacket {
 		stream.writeDouble(entityDamageDistance);
 		stream.writeInt(headshotDamage);
 		stream.writeInt(bodyDamage);
+		RMLogging.debugLog(Level.INFO, "Wrote PacketGunUpdate.  Atributes:");
+		RMLogging.debugLog(Level.INFO, "Name = " + name + ";ReloadTime = " + reloadTime + ";MaxClipSize = " + maxClipSize + ";LoadedInClip = " + loadedInClip + ";Ammo = " + ammo +";MaxAmmo = " + maxAmmo + ";TimeBetweenFire = " + timeBetweenFire + ";AutoReload = " + autoReload + ";BulletsExplode = " + bulletsExplode + ";ExplosionSize = " + explosionSize + ";EntityDamageDistance = " + entityDamageDistance + ";HeadshotDamage = " + headshotDamage + ";BodyDamage = " + bodyDamage);
 	}
 
 	public String getName() {
