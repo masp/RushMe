@@ -190,7 +190,11 @@ public class GameManager {
 						ChatColor color = ChatColor.WHITE;
 						if (team != null) {
 							color = t.equals(team) ? ChatColor.GREEN
-									: ChatColor.RED;
+									: null;
+						}
+						if (color == null) {
+							SpoutManager.getPlayer(p).setTitleFor(SpoutManager.getPlayer(onlinePlayer), "[hide]");
+							continue;
 						}
 						SpoutManager.getPlayer(p).setTitleFor(
 								SpoutManager.getPlayer(onlinePlayer),
