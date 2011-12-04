@@ -35,6 +35,7 @@ import org.bukkit.event.Event.Type;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.getspout.spoutapi.io.AddonPacket;
 
+import java.io.File;
 import java.util.logging.Level;
 
 public class RushMe extends JavaPlugin {
@@ -59,8 +60,11 @@ public class RushMe extends JavaPlugin {
 
 	public void onEnable() {
 
-		RMLogging.setFile("RushMeLog.log");
-		RMLogging.setDebugFile("RushMeDebug.log");
+		RMLogging.setFile(this.getDataFolder().getPath() + File.separator
+				+ "RushMeLog.log");
+		RMLogging.setDebugFile(this.getDataFolder().getPath() + File.separator
+				+ "RushMeDebug.log");
+		RMLogging.setDebug(true);
 
 		GunConfiguration.loadGuns();
 		GameModeConfiguration.loadGameModes();
