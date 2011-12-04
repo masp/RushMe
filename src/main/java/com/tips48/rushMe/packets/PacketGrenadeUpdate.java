@@ -81,6 +81,8 @@ public class PacketGrenadeUpdate extends AddonPacket {
 		stream.writeInt(timeBeforeExplosion);
 		stream.writeInt(damage);
 		stream.writeInt(stunTime);
+		RMLogging.debugLog(Level.INFO, "Read PacketGrenadeUpdate.  Atributes:");
+		RMLogging.debugLog(Level.INFO, "Name = " + name + ";ShortName = " + shortName + ";TypeInt = " + typeInt + ";Type = " + type + ";Amount = " + amount +";StartAmount = " + startAmount + ";ExplosionSize = " + explosionSize + ";TimeBeforeExplosion = " + timeBeforeExplosion + ";Damage = " + damage + ";StunTime = " + stunTime);
 	}
 
 	public GrenadeType getType() {
