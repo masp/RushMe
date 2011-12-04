@@ -25,6 +25,7 @@ import com.tips48.rushMe.custom.GUI.SpoutGUI;
 import com.tips48.rushMe.custom.items.*;
 import com.tips48.rushMe.listeners.*;
 import com.tips48.rushMe.packets.*;
+import com.tips48.rushMe.util.RMLogging;
 import com.tips48.rushMe.util.RMUtils;
 
 import me.kalmanolah.cubelist.classfile.cubelist;
@@ -34,6 +35,7 @@ import org.bukkit.event.Event.Type;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.getspout.spoutapi.io.AddonPacket;
 
+import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -60,6 +62,9 @@ public class RushMe extends JavaPlugin {
 
 	public void onEnable() {
 
+		RMLogging.setFile("RushMeLog.log");
+		RMLogging.setDebugFile("RushMeDebug.log");
+
 		GunConfiguration.loadGuns();
 		GameModeConfiguration.loadGameModes();
 
@@ -74,35 +79,25 @@ public class RushMe extends JavaPlugin {
 		GrenadeManager.createGrenade("TestGrenade1234", "Test", "Bleh",
 				GrenadeType.CONCUSSION, 3, 1, 2, 5, 5);
 
-		log(Level.INFO, true, "RushMe Version " + version + "_" + subVersion
+		RMLogging.log(Level.INFO, "RushMe Version " + version + "_" + subVersion
 				+ " enabled");
-		log(Level.INFO, true,
+		RMLogging.log(Level.INFO,
 				"Guns loaded: " + RMUtils.readableSet(GunManager.getGunNames()));
-		log(Level.INFO,
-				true,
+		RMLogging.log(Level.INFO,
 				"Grenades loaded: "
 						+ RMUtils.readableSet(GrenadeManager.getGrenadeNames()));
-		log(Level.INFO,
-				true,
+		RMLogging.log(Level.INFO,
 				"GameModes loaded: "
 						+ RMUtils.readableSet(GameManager.getGameModeNames()));
 	}
 
 	public void onDisable() {
 		GameManager.removeAll();
-		log(Level.INFO, true, "Disabled");
+		RMLogging.log(Level.INFO, "Disabled");
 	}
 
 	public static RushMe getInstance() {
 		return instance;
-	}
-
-	public static void log(Level lvl, boolean usePrefix, String message) {
-		if (usePrefix) {
-			log.log(lvl, prefix + " " + message);
-		} else {
-			log.log(lvl, message);
-		}
 	}
 
 	public static double getVersion() {
@@ -111,6 +106,10 @@ public class RushMe extends JavaPlugin {
 
 	public static int getSubVersion() {
 		return subVersion;
+	}
+
+	public static String getPrefix() {
+		return prefix;
 	}
 
 	private void registerEvents() {

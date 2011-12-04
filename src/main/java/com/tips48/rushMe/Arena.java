@@ -71,6 +71,7 @@ public class Arena {
 		started = false;
 
 		startingIn = -1;
+		doSecondScheduler = -1;
 	}
 
 	public void startCountdownTillStart(int s) {

@@ -19,6 +19,7 @@ package com.tips48.rushMe.packets;
 
 import com.tips48.rushMe.custom.items.*;
 
+import com.tips48.rushMe.util.RMLogging;
 import org.getspout.spoutapi.io.*;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
@@ -38,14 +39,12 @@ public class PacketGrenadeUpdate extends AddonPacket {
 	@Override
 	public void read(SpoutInputStream stream) {
 		name = stream.readString("name");
-		System.out.println("Reading grenade: " + name);
 		shortName = stream.readString("shortname");
 		typeInt = stream.readInt();
 		try {
 			type = GrenadeType.getByCode(typeInt);
 		} catch (Exception e) {
-			e.printStackTrace();
-			return;
+			RMLogging.log(e, "PacketGrenadeUpdate was sent wrongly!");
 		}
 		amount = stream.readInt();
 		startAmount = stream.readInt();
@@ -68,7 +67,6 @@ public class PacketGrenadeUpdate extends AddonPacket {
 
 	@Override
 	public void write(SpoutOutputStream stream) {
-		System.out.println("Writing grenade: " + name);
 		stream.writeString(name);
 		stream.writeString(shortName);
 		stream.writeInt(typeInt);

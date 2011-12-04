@@ -20,6 +20,7 @@ package com.tips48.rushMe.configuration;
 import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.custom.items.GunManager;
 
+import com.tips48.rushMe.util.RMLogging;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.getspout.spoutapi.SpoutManager;
 
@@ -42,27 +43,24 @@ public class GunConfiguration {
 		if (!(gunsFile.exists())) {
 			if (!(gunsFile.getParentFile().exists())) {
 				if (!(gunsFile.getParentFile().mkdirs())) {
-					RushMe.log(Level.SEVERE, true, "Error creating the folder "
+					RMLogging.log(Level.SEVERE, "Error creating the folder "
 							+ gunsFile.getParentFile().getName());
 				}
 			}
 			try {
 				if (!(gunsFile.createNewFile())) {
-					RushMe.log(Level.SEVERE, true, "Error creating the file "
-							+ gunsFile.getName());
+					RMLogging.log(Level.SEVERE, "Error creating the file: " + gunsFile.getName());
 				}
 			} catch (Exception e) {
-				RushMe.log(Level.SEVERE, true, "Error creating the file "
-						+ gunsFile.getName());
+				RMLogging.log(e, "Error creating the file: " + gunsFile.getName());
 			}
 			guns.options().copyDefaults(true);
 			try {
 				guns.save(gunsFile);
 			} catch (Exception e) {
-				RushMe.log(Level.SEVERE, true,
-						"Error saving to " + gunsFile.getName());
+				RMLogging.log(e, "Error saving " + gunsFile.getName());
 			}
-			RushMe.log(Level.INFO, true, "Created " + gunsFile.getName());
+			RMLogging.log(Level.INFO, "Created " + gunsFile.getName());
 		}
 		guns = YamlConfiguration.loadConfiguration(gunsFile);
 		for (String name : guns.getConfigurationSection("Guns").getKeys(false)) {

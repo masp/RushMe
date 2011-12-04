@@ -20,6 +20,7 @@ package com.tips48.rushMe.configuration;
 import com.tips48.rushMe.*;
 import com.tips48.rushMe.teams.Team;
 
+import com.tips48.rushMe.util.RMLogging;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
@@ -44,27 +45,23 @@ public class GameModeConfiguration {
 		if (!(gamemodeFile.exists())) {
 			if (!(gamemodeFile.getParentFile().exists())) {
 				if (!(gamemodeFile.getParentFile().mkdirs())) {
-					RushMe.log(Level.SEVERE, true, "Error creating the folder "
-							+ gamemodeFile.getParentFile().getName());
+					RMLogging.log(Level.SEVERE, "Error creating the folder " + gamemodeFile.getParentFile().getName());
 				}
 			}
 			try {
 				if (!(gamemodeFile.createNewFile())) {
-					RushMe.log(Level.SEVERE, true, "Error creating the file "
-							+ gamemodeFile.getName());
+					RMLogging.log(Level.SEVERE, "Error creating the file " + gamemodeFile.getName());
 				}
 			} catch (Exception e) {
-				RushMe.log(Level.SEVERE, true, "Error creating the file "
-						+ gamemodeFile.getName());
+				RMLogging.log(e, "Error creating the file " + gamemodeFile.getName());
 			}
 			gamemode.options().copyDefaults(true);
 			try {
 				gamemode.save(gamemodeFile);
 			} catch (Exception e) {
-				RushMe.log(Level.SEVERE, true, "Error saving to "
-						+ gamemodeFile.getName());
+				RMLogging.log(e, "Error saving " + gamemodeFile.getName());
 			}
-			RushMe.log(Level.INFO, true, "Created " + gamemodeFile.getName());
+			RMLogging.log(Level.INFO, "Created " + gamemodeFile.getName());
 		}
 		gamemode = YamlConfiguration.loadConfiguration(gamemodeFile);
 		for (String name : gamemode.getConfigurationSection("GameModes")
@@ -73,7 +70,7 @@ public class GameModeConfiguration {
 					+ ".gameModeType");
 			GameModeType t = GameModeType.valueOf(gmtString);
 			if (t == null) {
-				RushMe.log(Level.SEVERE, true, "Error loading GameMode " + name
+				RMLogging.log(Level.SEVERE, "Error loading GameMode " + name
 						+ ".  The GameModeType " + gmtString
 						+ " is not a valid GameModeType.");
 				continue;

@@ -42,7 +42,6 @@ public class PacketGunUpdate extends AddonPacket {
 	@Override
 	public void read(SpoutInputStream stream) {
 		name = stream.readString("name");
-		System.out.println("Reading gun: " + name);
 		reloadTime = stream.readInt();
 		maxClipSize = stream.readInt();
 		loadedInClip = stream.readInt();
@@ -74,7 +73,6 @@ public class PacketGunUpdate extends AddonPacket {
 
 	@Override
 	public void write(SpoutOutputStream stream) {
-		System.out.println("Writing: " + name);
 		stream.writeString(name);
 		stream.writeInt(reloadTime);
 		stream.writeInt(maxClipSize);
