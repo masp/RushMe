@@ -105,11 +105,11 @@ public class Arena {
 		return null;
 	}
 
-	public Team getPlayerTeam(Player player) {
-		return getPlayerTeam(player.getEntityId());
+	public Team getTeamOf(Player player) {
+		return getTeamOf(player.getEntityId());
 	}
 
-	public Team getPlayerTeam(int player) {
+	public Team getTeamOf(int player) {
 		for (Team t : getTeams()) {
 			if (t.containsPlayer(player)) {
 				return t;
@@ -153,7 +153,7 @@ public class Arena {
 			RMUtils.giveAllGuns(p);
 			savedGamemodes.addGameMode(p, p.getGameMode());
 			p.setGameMode(org.bukkit.GameMode.SURVIVAL);
-			p.setSkin(getPlayerTeam(p).getSkin());
+			p.setSkin(getTeamOf(p).getSkin());
 			MainHUD h = SpoutGUI.getHudOf(p);
 			if (h != null) {
 				h.init();

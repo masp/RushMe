@@ -120,13 +120,17 @@ public class Scoreboard {
 		enemyTeamBackground.setPriority(RenderPriority.High);
 		widgetsDrawn.add(enemyTeamBackground);
 
-		Arena a = GameManager.getPlayerArena(player);
-		Team playerTeam = a.getPlayerTeam(player);
+		Arena a = GameManager.getArenaOf(player);
+		Team playerTeam = a.getTeamOf(player);
 		Team enemyTeam = null;
 		for (Team team : a.getTeams()) {
 			if (team != playerTeam) {
 				enemyTeam = team;
 			}
+		}
+
+		if (enemyTeam == null) {
+			return;
 		}
 
 		Label teamName = new GenericLabel();

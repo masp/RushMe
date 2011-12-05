@@ -24,7 +24,7 @@ public class RMLogging {
 			try {
 				writer.close();
 			} catch (Exception e) {
-				log(e, "Failed to close the writer");
+				RMLogging.log(e, "Failed to close the writer");
 			}
 		}
 		if (name == null) {
@@ -35,7 +35,7 @@ public class RMLogging {
 		try {
 			fw = new FileWriter(name, true);
 		} catch (Exception e) {
-			log(e, "Failed to find the file " + name + ".");
+			RMLogging.log(e, "Failed to find the file " + name + ".");
 			return;
 		}
 		writer = new BufferedWriter(fw);
@@ -51,14 +51,14 @@ public class RMLogging {
 				writer.newLine();
 				writer.flush();
 			} catch (Exception e) {
-				log(e, "Could not write " + message + " to the log file!");
+				RMLogging.log(e, "Could not write " + message + " to the log file!");
 			}
 		}
 	}
 
 	public static synchronized void log(Exception e, String reason) {
-		log(Level.SEVERE, reason);
-		log(Level.SEVERE, e.getMessage());
+		RMLogging.log(Level.SEVERE, reason);
+		RMLogging.log(Level.SEVERE, e.getMessage());
 	}
 
 	public static synchronized boolean isDebug() {

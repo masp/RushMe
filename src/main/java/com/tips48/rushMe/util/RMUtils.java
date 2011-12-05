@@ -48,7 +48,7 @@ public class RMUtils {
 	public static String readableArray(Object[] objects) {
 		StringBuilder sb = new StringBuilder();
 		for (Object o : objects) {
-			sb.append(", " + o.toString());
+			sb.append(", ").append(o.toString());
 		}
 		return sb.toString().replaceFirst(", ", "").replace("[", "")
 				.replace("]", "");
@@ -57,7 +57,7 @@ public class RMUtils {
 	public static String readableList(List<?> objects) {
 		StringBuilder sb = new StringBuilder();
 		for (Object o : objects) {
-			sb.append(", " + o.toString());
+			sb.append(", ").append(o.toString());
 		}
 		return sb.toString().replaceFirst(", ", "").replace("[", "")
 				.replace("]", "");
@@ -66,7 +66,7 @@ public class RMUtils {
 	public static String readableSet(Set<?> objects) {
 		StringBuilder sb = new StringBuilder();
 		for (Object o : objects) {
-			sb.append(", " + o.toString());
+			sb.append(", ").append(o.toString());
 		}
 		return sb.toString().replaceFirst(", ", "").replace("[", "")
 				.replace("]", "");
@@ -108,7 +108,7 @@ public class RMUtils {
 		return minuteResult + ":" + i2Result;
 	}
 
-	public static boolean holdingGun(Player player) {
+	public static boolean isHoldingGun(Player player) {
 		return isGun(player.getItemInHand());
 	}
 
@@ -151,8 +151,8 @@ public class RMUtils {
 		player.getInventory().setArmorContents(armor);
 	}
 
-	public static Gun getGun(Player player) {
-		if (!(holdingGun(player))) {
+	public static Gun getGunOf(Player player) {
+		if (!(isHoldingGun(player))) {
 			return null;
 		}
 		CustomItem i = (CustomItem) new SpoutItemStack(player.getItemInHand())

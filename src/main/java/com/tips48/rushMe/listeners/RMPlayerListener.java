@@ -53,7 +53,7 @@ public class RMPlayerListener extends PlayerListener {
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		Player p = event.getPlayer();
 		if (GameManager.inGame(p)) {
-			GameManager.getPlayerArena(p).removePlayer(p);
+			GameManager.getArenaOf(p).removePlayer(p);
 		}
 	}
 
@@ -61,7 +61,7 @@ public class RMPlayerListener extends PlayerListener {
 	public void onPlayerKick(PlayerKickEvent event) {
 		Player p = event.getPlayer();
 		if (GameManager.inGame(p)) {
-			GameManager.getPlayerArena(p).removePlayer(p);
+			GameManager.getArenaOf(p).removePlayer(p);
 		}
 	}
 
@@ -142,7 +142,7 @@ public class RMPlayerListener extends PlayerListener {
 				event.setCancelled(true);
 				return;
 			}
-			if (RMUtils.holdingGun(p)) {
+			if (RMUtils.isHoldingGun(p)) {
 				event.setCancelled(true);
 				return;
 			}
@@ -153,8 +153,8 @@ public class RMPlayerListener extends PlayerListener {
 
 		if (action.equals(Action.LEFT_CLICK_AIR)
 				|| action.equals(Action.LEFT_CLICK_BLOCK)) {
-			if (RMUtils.holdingGun(p)) {
-				Gun g = RMUtils.getGun(p);
+			if (RMUtils.isHoldingGun(p)) {
+				Gun g = RMUtils.getGunOf(p);
 				if (g.canFire()) {
 					event.setCancelled(true);
 					return;
@@ -207,7 +207,7 @@ public class RMPlayerListener extends PlayerListener {
 		Player player = event.getPlayer();
 		Location from = event.getFrom();
 		if (GameManager.inGame(player)) {
-			Arena a = GameManager.getPlayerArena(player);
+			Arena a = GameManager.getArenaOf(player);
 			if (a != null) {
 				if (!(a.inArena(event.getTo().toVector()))) {
 					from.setX(from.getBlockX() + 0.5);
@@ -229,7 +229,7 @@ public class RMPlayerListener extends PlayerListener {
 		RushMe.getInstance().getServer().getScheduler()
 				.scheduleSyncDelayedTask(RushMe.getInstance(), new Runnable() {
 					public void run() {
-						if (RMUtils.holdingGun(player)) {
+						if (RMUtils.isHoldingGun(player)) {
 							SpoutGUI.getHudOf(player).updateHUD();
 						}
 					}
@@ -282,9 +282,9 @@ public class RMPlayerListener extends PlayerListener {
 						// Check teams
 						if (GameManager.inGame((Player) target)) {
 							Arena a = GameManager
-									.getPlayerArena((Player) target);
-							if (a.getPlayerTeam((Player) target).equals(
-									a.getPlayerTeam(player))) {
+									.getArenaOf((Player) target);
+							if (a.getTeamOf((Player) target).equals(
+									a.getTeamOf(player))) {
 								continue;
 							}
 						}
@@ -332,9 +332,9 @@ public class RMPlayerListener extends PlayerListener {
 					if (target instanceof Player) {
 						if (GameManager.inGame((Player) target)) {
 							Arena a = GameManager
-									.getPlayerArena((Player) target);
-							if (a.getPlayerTeam((Player) target).equals(
-									a.getPlayerTeam(player))) {
+									.getArenaOf((Player) target);
+							if (a.getTeamOf((Player) target).equals(
+									a.getTeamOf(player))) {
 								continue;
 							}
 						}

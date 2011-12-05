@@ -36,7 +36,7 @@ public enum GrenadeType {
 	}
 
 	public static GrenadeType getByCode(int code) {
-		return (GrenadeType) types.get(code);
+		return types.get(code);
 	}
 
 	static {

@@ -33,7 +33,7 @@ import org.bukkit.entity.Player;
 
 public class RushMeCommand implements CommandExecutor {
 
-	private static TIntObjectMap<Arena> defining = new TIntObjectHashMap<Arena>();
+	private static final TIntObjectMap<Arena> defining = new TIntObjectHashMap<Arena>();
 
 	public boolean onCommand(CommandSender sender, Command cmd,
 			String commandLabel, String[] args) {
@@ -59,10 +59,10 @@ public class RushMeCommand implements CommandExecutor {
 				if (GameManager.inGame(player)) {
 					player.sendMessage(ChatColor.RED
 							+ "You are already in the arena: "
-							+ GameManager.getPlayerArena(player).getName());
+							+ GameManager.getArenaOf(player).getName());
 					player.sendMessage(ChatColor.RED
 							+ "To leave use the command /RushMe leave "
-							+ GameManager.getPlayerArena(player).getName());
+							+ GameManager.getArenaOf(player).getName());
 					return true;
 				}
 				Arena a = GameManager.getArena(args[1]);
@@ -251,10 +251,10 @@ public class RushMeCommand implements CommandExecutor {
 					if (GameManager.inGame(player)) {
 						player.sendMessage(ChatColor.RED
 								+ "You are already in the arena: "
-								+ GameManager.getPlayerArena(player).getName());
+								+ GameManager.getArenaOf(player).getName());
 						player.sendMessage(ChatColor.RED
 								+ "To leave use the command /RushMe leave "
-								+ GameManager.getPlayerArena(player).getName());
+								+ GameManager.getArenaOf(player).getName());
 						return true;
 					}
 					Arena a = GameManager.getArena(args[1]);
