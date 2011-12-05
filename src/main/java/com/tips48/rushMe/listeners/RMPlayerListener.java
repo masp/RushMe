@@ -281,8 +281,7 @@ public class RMPlayerListener extends PlayerListener {
 					if (target instanceof Player) {
 						// Check teams
 						if (GameManager.inGame((Player) target)) {
-							Arena a = GameManager
-									.getArenaOf((Player) target);
+							Arena a = GameManager.getArenaOf((Player) target);
 							if (a.getTeamOf((Player) target).equals(
 									a.getTeamOf(player))) {
 								continue;
@@ -331,8 +330,7 @@ public class RMPlayerListener extends PlayerListener {
 						&& (((by - 1) <= ey) && (ey <= (by + 2.5)))) {
 					if (target instanceof Player) {
 						if (GameManager.inGame((Player) target)) {
-							Arena a = GameManager
-									.getArenaOf((Player) target);
+							Arena a = GameManager.getArenaOf((Player) target);
 							if (a.getTeamOf((Player) target).equals(
 									a.getTeamOf(player))) {
 								continue;

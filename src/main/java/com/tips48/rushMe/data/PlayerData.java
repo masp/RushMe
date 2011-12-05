@@ -60,7 +60,8 @@ public class PlayerData {
 
 		setHealth(hurt, damage);
 
-		if ((hurtP == null) || (damagerP == null) || (hurtHUD == null) || (damagerHUD == null)) {
+		if ((hurtP == null) || (damagerP == null) || (hurtHUD == null)
+				|| (damagerHUD == null)) {
 			return;
 		}
 
@@ -115,7 +116,8 @@ public class PlayerData {
 
 		setHealth(hurt, damage);
 
-		if ((hurtP == null) || (damagerP == null) || (hurtHUD == null) || (damagerHUD == null)) {
+		if ((hurtP == null) || (damagerP == null) || (hurtHUD == null)
+				|| (damagerHUD == null)) {
 			return;
 		}
 

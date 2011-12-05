@@ -18,17 +18,13 @@
 package me.kalmanolah.cubelist.classfile;
 
 import com.tips48.rushMe.util.RMLogging;
+
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import java.io.*;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.net.*;
+import java.util.*;
 import java.util.logging.Level;
 
 public class cubelist {
@@ -40,7 +36,8 @@ public class cubelist {
 		File thelockfile = new File("cubelist.lck");
 		if (thelockfile.exists()) {
 			if (!(thelockfile.delete())) {
-				RMLogging.log(Level.SEVERE, "Error deleting " + thelockfile.getName());
+				RMLogging.log(Level.SEVERE,
+						"Error deleting " + thelockfile.getName());
 			}
 		}
 		final File lockfile = thelockfile;
@@ -54,8 +51,10 @@ public class cubelist {
 							if (plugin.getServer().getPluginManager()
 									.getPlugin("CubeList") == null) {
 								try {
-									if (!(lockfile.createNewFile())){
-										RMLogging.log(Level.SEVERE, "Error creating the file " + lockfile.getName());
+									if (!(lockfile.createNewFile())) {
+										RMLogging.log(Level.SEVERE,
+												"Error creating the file "
+														+ lockfile.getName());
 									}
 								} catch (IOException e) {
 									e.printStackTrace();
@@ -66,7 +65,11 @@ public class cubelist {
 												new Runnable() {
 													public void run() {
 														if (!(lockfile.delete())) {
-															RMLogging.log(Level.SEVERE, "Error deleting the file " + lockfile.getName());
+															RMLogging
+																	.log(Level.SEVERE,
+																			"Error deleting the file "
+																					+ lockfile
+																							.getName());
 														}
 													}
 												}, 20 * 540);

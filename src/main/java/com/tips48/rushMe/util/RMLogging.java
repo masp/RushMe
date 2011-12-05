@@ -51,7 +51,8 @@ public class RMLogging {
 				writer.newLine();
 				writer.flush();
 			} catch (Exception e) {
-				RMLogging.log(e, "Could not write " + message + " to the log file!");
+				RMLogging.log(e, "Could not write " + message
+						+ " to the log file!");
 			}
 		}
 	}
