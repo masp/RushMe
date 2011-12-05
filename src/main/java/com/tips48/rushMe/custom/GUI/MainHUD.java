@@ -24,7 +24,7 @@ import org.getspout.spoutapi.player.SpoutPlayer;
 
 public class MainHUD {
 
-	private SpoutPlayer player;
+	private final SpoutPlayer player;
 	private boolean active;
 
 	public MainHUD(Player player) {

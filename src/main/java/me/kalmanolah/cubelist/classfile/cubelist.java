@@ -17,6 +17,7 @@
 
 package me.kalmanolah.cubelist.classfile;
 
+import com.tips48.rushMe.util.RMLogging;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
@@ -28,16 +29,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
 
 public class cubelist {
 	private static Plugin plugin;
-	private static String cubelistserverurl = "http://cubelist.me/sync/syncanon.php";
+	private static final String cubelistserverurl = "http://cubelist.me/sync/syncanon.php";
 
 	public cubelist(Plugin plug) {
 		plugin = plug;
 		File thelockfile = new File("cubelist.lck");
 		if (thelockfile.exists()) {
-			thelockfile.delete();
+			if (!(thelockfile.delete())) {
+				RMLogging.log(Level.SEVERE, "Error deleting " + thelockfile.getName());
+			}
 		}
 		final File lockfile = thelockfile;
 		plugin.getServer().getScheduler()
@@ -50,7 +54,9 @@ public class cubelist {
 							if (plugin.getServer().getPluginManager()
 									.getPlugin("CubeList") == null) {
 								try {
-									lockfile.createNewFile();
+									if (!(lockfile.createNewFile())){
+										RMLogging.log(Level.SEVERE, "Error creating the file " + lockfile.getName());
+									}
 								} catch (IOException e) {
 									e.printStackTrace();
 								}
@@ -59,7 +65,9 @@ public class cubelist {
 										.scheduleSyncDelayedTask(plugin,
 												new Runnable() {
 													public void run() {
-														lockfile.delete();
+														if (!(lockfile.delete())) {
+															RMLogging.log(Level.SEVERE, "Error deleting the file " + lockfile.getName());
+														}
 													}
 												}, 20 * 540);
 								syncData();
@@ -82,7 +90,7 @@ public class cubelist {
 			wr.flush();
 			BufferedReader rd = new BufferedReader(new InputStreamReader(
 					conn.getInputStream()));
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 			String line;
 			while ((line = rd.readLine()) != null) {
 				sb.append(line);
@@ -91,6 +99,7 @@ public class cubelist {
 			result = sb.toString();
 			wr.close();
 		} catch (Exception e) {
+			RMLogging.log(e, "Error sending post request!");
 		}
 		return result;
 	}
@@ -129,10 +138,8 @@ public class cubelist {
 			for (Plugin p : plugin.getServer().getPluginManager().getPlugins()) {
 				if (!p.getDescription().getName().equals("CubeList")) {
 					String authors = "";
-					Iterator<String> author = p.getDescription().getAuthors()
-							.iterator();
-					while (author.hasNext()) {
-						authors = authors + author.next() + ",";
+					for (String s : p.getDescription().getAuthors()) {
+						authors = authors + s + ",";
 					}
 					String syncedplugins = p.getDescription().getName()
 							+ "%BREAK%" + p.getDescription().getVersion()

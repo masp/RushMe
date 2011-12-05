@@ -35,8 +35,8 @@ import java.util.logging.Level;
 
 public class GameManager {
 
-	private static Set<Arena> games = new HashSet<Arena>();
-	private static Set<GameMode> gameModes = new HashSet<GameMode>();
+	private static final Set<Arena> games = new HashSet<Arena>();
+	private static final Set<GameMode> gameModes = new HashSet<GameMode>();
 	private static GameMode defaultGameMode = null;
 
 	private GameManager() {
@@ -81,11 +81,11 @@ public class GameManager {
 		return false;
 	}
 
-	public static Arena getPlayerArena(Player player) {
-		return getPlayerArena(player.getEntityId());
+	public static Arena getArenaOf(Player player) {
+		return getArenaOf(player.getEntityId());
 	}
 
-	public static Arena getPlayerArena(int player) {
+	public static Arena getArenaOf(int player) {
 		for (Arena a : games) {
 			if (a.hasPlayer(player)) {
 				return a;
@@ -206,7 +206,7 @@ public class GameManager {
 						if (onlinePlayer == p) {
 							continue;
 						}
-						Team team = arena.getPlayerTeam(onlinePlayer);
+						Team team = arena.getTeamOf(onlinePlayer);
 						ChatColor color = ChatColor.WHITE;
 						if (team != null) {
 							color = t.equals(team) ? ChatColor.GREEN : null;

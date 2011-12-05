@@ -39,13 +39,16 @@ public class SpoutGUI {
 	}
 
 	public static void showKill(Player killer, Player killed, Gun weapon) {
-		Arena a = GameManager.getPlayerArena(killer);
-		Team pTeam = a.getPlayerTeam(killer);
+		Arena a = GameManager.getArenaOf(killer);
+		Team pTeam = a.getTeamOf(killer);
 		Team other = null;
 		for (Team t : a.getTeams()) {
 			if (t != pTeam) {
 				other = t;
 			}
+		}
+		if (other == null) {
+			return;
 		}
 		for (int i : pTeam.getPlayers().toArray()) {
 			Player p = SpoutManager.getPlayerFromId(i);
@@ -72,14 +75,18 @@ public class SpoutGUI {
 	}
 
 	public static void showKill(Player killer, Player killed, Grenade weapon) {
-		Arena a = GameManager.getPlayerArena(killer);
-		Team pTeam = a.getPlayerTeam(killer);
+		Arena a = GameManager.getArenaOf(killer);
+		Team pTeam = a.getTeamOf(killer);
 		Team other = null;
 		for (Team t : a.getTeams()) {
 			if (t != pTeam) {
 				other = t;
 			}
 		}
+		if (other == null) {
+			return;
+		}
+		// TODO rewrite all of these so that they support more than 2 teams
 		for (int i : pTeam.getPlayers().toArray()) {
 			Player p = SpoutManager.getPlayerFromId(i);
 			if (p != null) {

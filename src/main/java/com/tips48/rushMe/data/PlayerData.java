@@ -51,13 +51,8 @@ public class PlayerData {
 		Player hurtP = SpoutManager.getPlayerFromId(hurt);
 		Player damagerP = SpoutManager.getPlayerFromId(damager);
 
-		if ((hurtP == null) || (damagerP == null)) {
-			setHealth(hurt, damage);
-			return;
-		}
-
-		MainHUD hurtHud = SpoutGUI.getHudOf(hurtP);
-		MainHUD damagerHud = SpoutGUI.getHudOf(damagerP);
+		MainHUD hurtHUD = SpoutGUI.getHudOf(hurtP);
+		MainHUD damagerHUD = SpoutGUI.getHudOf(damagerP);
 
 		if (!(GameManager.inGame(hurtP))) {
 			return;
@@ -65,19 +60,23 @@ public class PlayerData {
 
 		setHealth(hurt, damage);
 
-		if ((hurtHud != null) && hurtHud.isActive()) {
-			hurtHud.updateHUD();
+		if ((hurtP == null) || (damagerP == null) || (hurtHUD == null) || (damagerHUD == null)) {
+			return;
 		}
 
-		if ((damagerHud != null) && damagerHud.isActive()) {
-			damagerHud.updateHUD();
-			damagerHud.showHit();
+		if ((hurtHUD != null) && hurtHUD.isActive()) {
+			hurtHUD.updateHUD();
+		}
+
+		if ((damagerHUD != null) && damagerHUD.isActive()) {
+			damagerHUD.updateHUD();
+			damagerHUD.showHit();
 		}
 
 		if (getHealth(hurt) <= 0) {
 			addDeath(damager);
 			SpoutGUI.showKill(damagerP, hurtP, gun);
-			damagerHud.queuePoints("Enemy killed - 100");
+			damagerHUD.queuePoints("Enemy killed - 100");
 			setScore(damagerP, getScore(damagerP) + 100);
 		}
 		PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
@@ -107,13 +106,8 @@ public class PlayerData {
 		Player hurtP = SpoutManager.getPlayerFromId(hurt);
 		Player damagerP = SpoutManager.getPlayerFromId(damager);
 
-		if ((hurtP == null) || (damagerP == null)) {
-			setHealth(hurt, damage);
-			return;
-		}
-
-		MainHUD hurtHud = SpoutGUI.getHudOf(hurtP);
-		MainHUD damagerHud = SpoutGUI.getHudOf(damagerP);
+		MainHUD hurtHUD = SpoutGUI.getHudOf(hurtP);
+		MainHUD damagerHUD = SpoutGUI.getHudOf(damagerP);
 
 		if (!(GameManager.inGame(hurtP))) {
 			return;
@@ -121,19 +115,23 @@ public class PlayerData {
 
 		setHealth(hurt, damage);
 
-		if ((hurtHud != null) && hurtHud.isActive()) {
-			hurtHud.updateHUD();
+		if ((hurtP == null) || (damagerP == null) || (hurtHUD == null) || (damagerHUD == null)) {
+			return;
 		}
 
-		if ((damagerHud != null) && damagerHud.isActive()) {
-			damagerHud.updateHUD();
-			damagerHud.showHit();
+		if ((hurtHUD != null) && hurtHUD.isActive()) {
+			hurtHUD.updateHUD();
+		}
+
+		if ((damagerHUD != null) && damagerHUD.isActive()) {
+			damagerHUD.updateHUD();
+			damagerHUD.showHit();
 		}
 
 		if (getHealth(hurt) <= 0) {
 			addDeath(damager);
 			SpoutGUI.showKill(damagerP, hurtP, grenade);
-			damagerHud.queuePoints("Enemy killed - 100");
+			damagerHUD.queuePoints("Enemy killed - 100");
 			setScore(damagerP, getScore(damagerP) + 100);
 		}
 		PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();

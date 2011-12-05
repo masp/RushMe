@@ -33,18 +33,18 @@ import org.getspout.spoutapi.player.SpoutPlayer;
 
 public class Grenade extends GenericCustomItem {
 
-	private GrenadeType type;
-	private Integer startAmount;
+	private final GrenadeType type;
+	private final Integer startAmount;
 	private Integer amount;
 
 	private final String shortName;
 
-	private Integer explosionSize;
-	private Integer timeBeforeExplosion;
+	private final Integer explosionSize;
+	private final Integer timeBeforeExplosion;
 
-	private Integer damage;
+	private final Integer damage;
 
-	private Integer stunTime;
+	private final Integer stunTime;
 
 	protected Grenade(String name, String shortName, String texture,
 			GrenadeType type, Integer startAmount, Integer explosionSize,
@@ -178,7 +178,7 @@ public class Grenade extends GenericCustomItem {
 
 	private class stun implements Runnable {
 		private int taskId;
-		private SpoutPlayer sp;
+		private final SpoutPlayer sp;
 
 		public stun(SpoutPlayer sp) {
 			this.sp = sp;

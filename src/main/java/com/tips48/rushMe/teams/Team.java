@@ -211,11 +211,11 @@ public class Team {
 	}
 
 	public void doWon() {
-
+	 	// TODO
 	}
 
 	public void doLost() {
-
+		// TODO
 	}
 
 	public String getSkin() {

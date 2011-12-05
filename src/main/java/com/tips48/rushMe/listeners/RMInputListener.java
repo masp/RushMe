@@ -42,8 +42,8 @@ public class RMInputListener extends InputListener {
 		}
 		Keyboard key = event.getKey();
 		if (key.equals(Keyboard.KEY_R)) {
-			if (RMUtils.holdingGun(p)) {
-				Gun g = RMUtils.getGun(p);
+			if (RMUtils.isHoldingGun(p)) {
+				Gun g = RMUtils.getGunOf(p);
 				g.reload(p);
 
 				// TODO show reloading
@@ -64,12 +64,12 @@ public class RMInputListener extends InputListener {
 				}
 			}
 			Set<Player> playersNotOnTeam = new HashSet<Player>();
-			Team playerTeam = GameManager.getPlayerArena(p).getPlayerTeam(p);
+			Team playerTeam = GameManager.getArenaOf(p).getTeamOf(p);
 			for (Player ply : players) {
 				if (!(GameManager.inGame(ply))) {
 					continue;
 				}
-				if (GameManager.getPlayerArena(ply).getPlayerTeam(ply)
+				if (GameManager.getArenaOf(ply).getTeamOf(ply)
 						.equals(playerTeam)) {
 					playersNotOnTeam.add(ply);
 				}

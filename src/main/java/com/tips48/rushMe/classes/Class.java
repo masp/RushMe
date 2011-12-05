@@ -18,29 +18,31 @@
 package com.tips48.rushMe.classes;
 
 import com.tips48.rushMe.custom.items.Gun;
+import gnu.trove.set.TIntSet;
+import gnu.trove.set.hash.TIntHashSet;
+import org.bukkit.entity.Player;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public class Class {
-	private String name;
-	private Set<Gun> allowedGuns;
+	private final String name;
+	private final Set<Gun> allowedGuns;
 
-	public Class(String name, Set<Gun> allowedGuns) {
+	private final TIntSet players;
+
+	protected Class(String name, Set<Gun> allowedGuns) {
 		this.name = name;
 		if (allowedGuns != null) {
 			this.allowedGuns = allowedGuns;
 		} else {
 			this.allowedGuns = new HashSet<Gun>();
 		}
+		players = new TIntHashSet();
 	}
 
 	public String getName() {
 		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public Set<Gun> getAllowedGuns() {
@@ -59,5 +61,35 @@ public class Class {
 		if (allowedGuns.contains(gun)) {
 			allowedGuns.remove(gun);
 		}
+	}
+
+	public TIntSet getPlayers() {
+		return players;
+	}
+
+	public void addPlayer(Player player) {
+		addPlayer(player.getEntityId());
+	}
+
+	public void addPlayer(int player) {
+		players.add(player);
+	}
+
+	public void removePlayer(Player player) {
+		removePlayer(player.getEntityId());
+	}
+
+	public void removePlayer(int player) {
+		if (players.contains(player)) {
+			players.remove(player);
+		}
+	}
+
+	public boolean containsPlayer(Player player) {
+		return containsPlayer(player.getEntityId());
+	}
+
+	public boolean containsPlayer(int player) {
+		return players.contains(player);
 	}
 }
