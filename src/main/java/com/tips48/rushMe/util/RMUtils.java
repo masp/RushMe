@@ -338,10 +338,11 @@ public class RMUtils {
 	}
 
 	public static List<SpoutPlayer> getSpoutPlayers() {
-		List<SpoutPlayer> c = new ArrayList<SpoutPlayer>();
-		for (Player p : RushMe.getInstance().getServer().getOnlinePlayers()) {
-			c.add(SpoutManager.getPlayer(p));
+		Player[] players = RushMe.getInstance().getServer().getOnlinePlayers();
+		List<SpoutPlayer> result = new ArrayList<SpoutPlayer>(players.length);
+		for (Player player : players) {
+			result.add(SpoutManager.getPlayer(player));
 		}
-		return c;
+		return result;
 	}
 }
