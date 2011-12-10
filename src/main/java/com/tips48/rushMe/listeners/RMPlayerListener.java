@@ -25,28 +25,26 @@ import com.tips48.rushMe.custom.GUI.SpoutGUI;
 import com.tips48.rushMe.custom.items.Gun;
 import com.tips48.rushMe.data.PlayerData;
 import com.tips48.rushMe.gamemodes.GameModeType;
+import com.tips48.rushMe.packets.PacketInfo;
 import com.tips48.rushMe.teams.Team;
 import com.tips48.rushMe.util.RMUtils;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.*;
 import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
+import org.getspout.spoutapi.SpoutManager;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class RMPlayerListener extends PlayerListener {
 	@Override
 	public void onPlayerJoin(PlayerJoinEvent event) {
-		// Player player = event.getPlayer();
-
+		PacketInfo.onJoin(SpoutManager.getPlayer(event.getPlayer()));
 	}
 
 	@Override
@@ -155,7 +153,7 @@ public class RMPlayerListener extends PlayerListener {
 				|| action.equals(Action.LEFT_CLICK_BLOCK)) {
 			if (RMUtils.isHoldingGun(p)) {
 				Gun g = RMUtils.getGunOf(p);
-				if (g.canFire()) {
+				if (!g.canFire()) {
 					event.setCancelled(true);
 					return;
 				}
