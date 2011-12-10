@@ -17,14 +17,14 @@
 
 package com.tips48.rushMe.listeners;
 
-import com.tips48.rushMe.Arena;
 import com.tips48.rushMe.GameManager;
-import com.tips48.rushMe.GameModeType;
 import com.tips48.rushMe.RushMe;
+import com.tips48.rushMe.arenas.Arena;
 import com.tips48.rushMe.commands.RushMeCommand;
 import com.tips48.rushMe.custom.GUI.SpoutGUI;
 import com.tips48.rushMe.custom.items.Gun;
 import com.tips48.rushMe.data.PlayerData;
+import com.tips48.rushMe.gamemodes.GameModeType;
 import com.tips48.rushMe.teams.Team;
 import com.tips48.rushMe.util.RMUtils;
 import org.bukkit.ChatColor;

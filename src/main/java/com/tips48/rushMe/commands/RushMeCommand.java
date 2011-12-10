@@ -17,19 +17,19 @@
 
 package com.tips48.rushMe.commands;
 
-import com.tips48.rushMe.Arena;
 import com.tips48.rushMe.GameManager;
-import com.tips48.rushMe.GameMode;
+import com.tips48.rushMe.arenas.Arena;
+import com.tips48.rushMe.gamemodes.GameMode;
 import com.tips48.rushMe.teams.Team;
 import com.tips48.rushMe.util.RMChat;
 import com.tips48.rushMe.util.RMUtils;
+
+import org.bukkit.ChatColor;
+import org.bukkit.command.*;
+import org.bukkit.entity.Player;
+
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
-import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 public class RushMeCommand implements CommandExecutor {
 
@@ -111,7 +111,7 @@ public class RushMeCommand implements CommandExecutor {
 				}
 				Arena a = GameManager.createArena(args[1],
 						GameManager.getDefaultGameMode(), player.getEntityId(),
-						player.getWorld());
+						player.getWorld(), null);
 				RMChat.sendArenaInfo(player, a);
 				player.sendMessage(ChatColor.AQUA
 						+ "Type /RushMe define <name> to start defining the Arena");
@@ -237,7 +237,7 @@ public class RushMeCommand implements CommandExecutor {
 					return true;
 				}
 				Arena a = GameManager.createArena(args[1], g,
-						player.getEntityId(), player.getWorld());
+						player.getEntityId(), player.getWorld(), null);
 				RMChat.sendArenaInfo(player, a);
 				player.sendMessage(ChatColor.AQUA
 						+ "Type /RushMe define <name> to start defining the Arena");

@@ -17,18 +17,16 @@
 
 package com.tips48.rushMe.util;
 
-import com.tips48.rushMe.Arena;
 import com.tips48.rushMe.RushMe;
+import com.tips48.rushMe.arenas.Arena;
 import com.tips48.rushMe.teams.Team;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- *
- */
 public class RMChat {
 
 	private RMChat() {

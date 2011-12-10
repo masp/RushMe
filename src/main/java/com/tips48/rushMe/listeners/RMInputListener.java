@@ -18,17 +18,19 @@
 package com.tips48.rushMe.listeners;
 
 import com.tips48.rushMe.GameManager;
-import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.custom.GUI.Scoreboard;
 import com.tips48.rushMe.custom.items.Gun;
 import com.tips48.rushMe.data.PlayerData;
 import com.tips48.rushMe.teams.Team;
 import com.tips48.rushMe.util.RMUtils;
+
 import org.bukkit.entity.Player;
 import org.getspout.spoutapi.SpoutManager;
 import org.getspout.spoutapi.event.input.InputListener;
 import org.getspout.spoutapi.event.input.KeyPressedEvent;
 import org.getspout.spoutapi.keyboard.Keyboard;
+
+import gnu.trove.set.TIntSet;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -55,10 +57,10 @@ public class RMInputListener extends InputListener {
 				Scoreboard.draw(SpoutManager.getPlayer(p));
 			}
 		} else if (key.equals(Keyboard.KEY_Q)) {
-			Set<String> playersSpotted = RMUtils.spot(p);
+			TIntSet playersSpotted = RMUtils.spot(p);
 			Set<Player> players = new HashSet<Player>();
-			for (String s : playersSpotted) {
-				Player pl = RushMe.getInstance().getServer().getPlayer(s);
+			for (int id : playersSpotted.toArray()) {
+				Player pl = SpoutManager.getPlayerFromId(id);
 				if (pl != null) {
 					players.add(pl);
 				}

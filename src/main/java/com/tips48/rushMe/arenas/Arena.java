@@ -15,14 +15,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.tips48.rushMe;
+package com.tips48.rushMe.arenas;
 
+import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.custom.GUI.MainHUD;
 import com.tips48.rushMe.custom.GUI.SpoutGUI;
+import com.tips48.rushMe.gamemodes.GameMode;
+import com.tips48.rushMe.packets.PacketArenaUpdate;
 import com.tips48.rushMe.teams.Team;
 import com.tips48.rushMe.util.RMUtils;
-import gnu.trove.set.TIntSet;
-import gnu.trove.set.hash.TIntHashSet;
+
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -30,6 +32,9 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.util.Vector;
 import org.getspout.spoutapi.SpoutManager;
 import org.getspout.spoutapi.player.SpoutPlayer;
+
+import gnu.trove.set.TIntSet;
+import gnu.trove.set.hash.TIntHashSet;
 
 import java.util.*;
 
@@ -52,12 +57,15 @@ public class Arena {
 
 	private final List<Vector> flagLocations = new ArrayList<Vector>();
 	private final Map<Team, Vector> captureLocations = new HashMap<Team, Vector>();
-	private final List<Vector> objectLocations = new ArrayList<Vector>();
+	private final List<Vector> objectiveLocations = new ArrayList<Vector>();
 	private final List<Vector> activeObjectiveLocations = new ArrayList<Vector>();
+
+	private final UUID uuid;
 
 	private final World world;
 
-	protected Arena(GameMode gamemode, String name, int creator, World world) {
+	public Arena(GameMode gamemode, String name, int creator, World world,
+			UUID uuid) {
 		this.gamemode = gamemode;
 		this.name = name;
 		this.creator = creator;
@@ -70,6 +78,16 @@ public class Arena {
 
 		startingIn = -1;
 		doSecondScheduler = -1;
+		this.uuid = uuid;
+
+		for (Team team : this.teams) {
+			team.setOwnerUUID(this.uuid);
+		}
+
+		PacketArenaUpdate packet = new PacketArenaUpdate();
+		packet.processArena(this);
+		packet.send(RMUtils.getSpoutPlayers());
+
 	}
 
 	public void startCountdownTillStart(int s) {
@@ -98,7 +116,16 @@ public class Arena {
 
 	public Team getTeam(String name) {
 		for (Team t : getTeams()) {
-			if (t.getName().contains(name)) {
+			if (t.getName().equalsIgnoreCase(name)) {
+				return t;
+			}
+		}
+		return null;
+	}
+
+	public Team getTeam(UUID uuid) {
+		for (Team t : getTeams()) {
+			if (t.getUUID().equals(uuid)) {
 				return t;
 			}
 		}
@@ -116,6 +143,25 @@ public class Arena {
 			}
 		}
 		return null;
+	}
+
+	public void replaceTeam(Team team) {
+		for (Team t : teams) {
+			if (t.getUUID().equals(team.getUUID())) {
+				teams.remove(t);
+				teams.add(team);
+			}
+		}
+	}
+
+	public void addTeam(Team team) {
+		teams.add(team);
+	}
+
+	public void removeTeam(Team team) {
+		if (teams.contains(team)) {
+			teams.remove(team);
+		}
 	}
 
 	public GameMode getGameMode() {
@@ -139,6 +185,7 @@ public class Arena {
 		boolean team = false;
 		if (prefered != null) {
 			team = prefered.addPlayer(player);
+			team = true;
 		}
 		Random r = new Random();
 		while (!team) {
@@ -159,6 +206,9 @@ public class Arena {
 				h.init();
 			}
 		}
+		PacketArenaUpdate packet = new PacketArenaUpdate();
+		packet.processArena(this);
+		packet.send(RMUtils.getSpoutPlayers());
 	}
 
 	public void removePlayer(Player player) {
@@ -188,6 +238,9 @@ public class Arena {
 				}
 			}
 		}
+		PacketArenaUpdate packet = new PacketArenaUpdate();
+		packet.processArena(this);
+		packet.send(RMUtils.getSpoutPlayers());
 	}
 
 	public boolean hasPlayer(Player player) {
@@ -233,6 +286,9 @@ public class Arena {
 				gameWon = true;
 			}
 		}
+		PacketArenaUpdate packet = new PacketArenaUpdate();
+		packet.processArena(this);
+		packet.send(RMUtils.getSpoutPlayers());
 	}
 
 	public int getCreator() {
@@ -259,6 +315,9 @@ public class Arena {
 							}
 						}, 0, 20);
 		started = true;
+		PacketArenaUpdate packet = new PacketArenaUpdate();
+		packet.processArena(this);
+		packet.send(RMUtils.getSpoutPlayers());
 	}
 
 	public void stop() {
@@ -279,6 +338,9 @@ public class Arena {
 		}
 		startCountdownTillStart(60);
 		started = false;
+		PacketArenaUpdate packet = new PacketArenaUpdate();
+		packet.processArena(this);
+		packet.send(RMUtils.getSpoutPlayers());
 	}
 
 	public Vector getVector1() {
@@ -296,6 +358,9 @@ public class Arena {
 				organizeVectors();
 			}
 		}
+		PacketArenaUpdate packet = new PacketArenaUpdate();
+		packet.processArena(this);
+		packet.send(RMUtils.getSpoutPlayers());
 	}
 
 	private void organizeVectors() {
@@ -332,6 +397,9 @@ public class Arena {
 				organizeVectors();
 			}
 		}
+		PacketArenaUpdate packet = new PacketArenaUpdate();
+		packet.processArena(this);
+		packet.send(RMUtils.getSpoutPlayers());
 	}
 
 	public boolean inArena(Vector vec) {
@@ -351,24 +419,49 @@ public class Arena {
 	public void addFlag(Vector flag) {
 		flagLocations.add(flag);
 		flag.toLocation(world).getBlock().setType(Material.BEDROCK);
+		PacketArenaUpdate packet = new PacketArenaUpdate();
+		packet.processArena(this);
+		packet.send(RMUtils.getSpoutPlayers());
 	}
 
 	public List<Vector> getObjectives() {
-		return objectLocations;
+		return objectiveLocations;
 	}
 
 	public List<Vector> getActiveObjectives() {
 		return activeObjectiveLocations;
 	}
 
+	public void addActiveObjective(Vector activeObjective) {
+		activeObjectiveLocations.add(activeObjective);
+		PacketArenaUpdate packet = new PacketArenaUpdate();
+		packet.processArena(this);
+		packet.send(RMUtils.getSpoutPlayers());
+	}
+
+	public void removeActiveObjective(Vector activeObjective) {
+		if (activeObjectiveLocations.contains(activeObjective)) {
+			activeObjectiveLocations.remove(activeObjective);
+			PacketArenaUpdate packet = new PacketArenaUpdate();
+			packet.processArena(this);
+			packet.send(RMUtils.getSpoutPlayers());
+		}
+	}
+
 	public void addObjective(Vector objective) {
-		objectLocations.add(objective);
+		objectiveLocations.add(objective);
 		objective.toLocation(world).getBlock().setType(Material.BEDROCK);
+		PacketArenaUpdate packet = new PacketArenaUpdate();
+		packet.processArena(this);
+		packet.send(RMUtils.getSpoutPlayers());
 	}
 
 	public void addCapturePoint(Team team, Vector capturePoint) {
 		captureLocations.put(team, capturePoint);
 		capturePoint.toLocation(world).getBlock().setType(Material.BEDROCK);
+		PacketArenaUpdate packet = new PacketArenaUpdate();
+		packet.processArena(this);
+		packet.send(RMUtils.getSpoutPlayers());
 	}
 
 	public Map<Team, Vector> getCapturePoints() {
@@ -390,11 +483,36 @@ public class Arena {
 				v.toLocation(world).getBlock().setTypeId(0);
 			}
 		}
-		if (objectLocations != null) {
-			for (Vector v : objectLocations) {
+		if (objectiveLocations != null) {
+			for (Vector v : objectiveLocations) {
 				v.toLocation(world).getBlock().setTypeId(0);
 			}
 		}
+		PacketArenaUpdate packet = new PacketArenaUpdate();
+		packet.processArena(this);
+		packet.send(RMUtils.getSpoutPlayers());
+	}
+
+	public List<Team> getOtherTeams(Team team) {
+		List<Team> tempTeams = new ArrayList<Team>(teams.size());
+		for (Team t : this.teams) {
+			if (!(t.equals(team))) {
+				tempTeams.add(t);
+			}
+		}
+		return tempTeams;
+	}
+
+	public int numberOfTeams() {
+		return teams.size();
+	}
+
+	public World getWorld() {
+		return world;
+	}
+
+	public UUID getUUID() {
+		return uuid;
 	}
 
 	private static class savedInventories {

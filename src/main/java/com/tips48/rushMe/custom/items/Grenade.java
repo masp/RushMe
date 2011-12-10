@@ -23,13 +23,14 @@ import com.tips48.rushMe.custom.GUI.SpoutGUI;
 import com.tips48.rushMe.data.PlayerData;
 import com.tips48.rushMe.packets.PacketGrenadeUpdate;
 import com.tips48.rushMe.util.RMUtils;
+
 import org.bukkit.Location;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.getspout.spoutapi.SpoutManager;
 import org.getspout.spoutapi.material.item.GenericCustomItem;
 import org.getspout.spoutapi.player.SpoutPlayer;
+
+import java.util.UUID;
 
 public class Grenade extends GenericCustomItem {
 
@@ -46,9 +47,12 @@ public class Grenade extends GenericCustomItem {
 
 	private final Integer stunTime;
 
+	private final UUID uuid;
+
 	protected Grenade(String name, String shortName, String texture,
 			GrenadeType type, Integer startAmount, Integer explosionSize,
-			Integer timeBeforeExplosion, Integer damage, Integer stunTime) {
+			Integer timeBeforeExplosion, Integer damage, Integer stunTime,
+			UUID uuid) {
 		super(RushMe.getInstance(), name, texture);
 
 		this.shortName = shortName;
@@ -60,6 +64,8 @@ public class Grenade extends GenericCustomItem {
 		this.timeBeforeExplosion = timeBeforeExplosion;
 		this.damage = damage;
 		this.stunTime = stunTime;
+
+		this.uuid = uuid;
 
 		PacketGrenadeUpdate packet = new PacketGrenadeUpdate();
 		packet.processGrenade(this);
@@ -131,7 +137,7 @@ public class Grenade extends GenericCustomItem {
 									droppedLocation, explosionSize,
 									explosionSize, explosionSize)) {
 								if (!(e instanceof Player)) {
-									return;
+									continue;
 								}
 								Player p = (Player) e;
 								MainHUD hud = SpoutGUI.getHudOf(p);
@@ -146,21 +152,21 @@ public class Grenade extends GenericCustomItem {
 							for (Entity e : RMUtils.getNearbyEntities(
 									droppedLocation, explosionSize,
 									explosionSize, explosionSize)) {
-								if (e instanceof Player) {
-									final SpoutPlayer sp = SpoutManager
-											.getPlayer((Player) e);
-									sp.setJumpingMultiplier(.3);
-									sp.setWalkingMultiplier(.3);
-									sp.setSwimmingMultiplier(.3);
-									stun s = new stun(sp);
-									s.setTaskId(RushMe
-											.getInstance()
-											.getServer()
-											.getScheduler()
-											.scheduleSyncRepeatingTask(
-													RushMe.getInstance(), s,
-													60, 3));
+								if (!(e instanceof Player)) {
+									continue;
 								}
+								final SpoutPlayer sp = SpoutManager
+										.getPlayer((Player) e);
+								sp.setJumpingMultiplier(.3);
+								sp.setWalkingMultiplier(.3);
+								sp.setSwimmingMultiplier(.3);
+								stun s = new stun(sp);
+								s.setTaskId(RushMe
+										.getInstance()
+										.getServer()
+										.getScheduler()
+										.scheduleSyncRepeatingTask(
+												RushMe.getInstance(), s, 60, 3));
 							}
 							break;
 						}
@@ -174,6 +180,10 @@ public class Grenade extends GenericCustomItem {
 
 	public String getShortName() {
 		return shortName;
+	}
+
+	public UUID getUUID() {
+		return uuid;
 	}
 
 	private class stun implements Runnable {

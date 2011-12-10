@@ -36,6 +36,7 @@ import org.getspout.spoutapi.material.CustomItem;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
 import gnu.trove.set.TIntSet;
+import gnu.trove.set.hash.TIntHashSet;
 
 import java.util.*;
 
@@ -197,16 +198,12 @@ public class RMUtils {
 						d3 /= d6;
 						d4 /= d6;
 						d5 /= d6;
-						// RushMe - this.size -> F
-						// Rushme - this.world.random - new Random()
 						float f1 = f
 								* (0.7F + (new Random().nextFloat() * 0.6F));
 
-						// RushMe - Modify d0, d1, d2 to use Location
 						d0 = loc.getX();
 						d1 = loc.getY();
 						d2 = loc.getZ();
-						// RushMe
 
 						for (float f2 = 0.3F; f1 > 0.0F; f1 -= f2 * 0.75F) {
 							int l = MathHelper.floor(d0);
@@ -222,9 +219,6 @@ public class RMUtils {
 							}
 
 							if (f1 > 0.0F) {
-								// RushMe - Don't use ChunkPosition
-								// this.blocks.add(new ChunkPosition(l, i1,
-								// j1));
 								Block b = loc.getWorld().getBlockAt(l, i1, j1);
 								if (b.getType() != Material.AIR) {
 									blocks.add(b);
@@ -273,16 +267,12 @@ public class RMUtils {
 						d3 /= d6;
 						d4 /= d6;
 						d5 /= d6;
-						// RushMe - this.size -> F
-						// Rushme - this.world.random - new Random()
 						float f1 = f
 								* (0.7F + (new Random().nextFloat() * 0.6F));
 
-						// RushMe - Modify d0, d1, d2 to use Location
 						d0 = loc.getX();
 						d1 = loc.getY();
 						d2 = loc.getZ();
-						// RushMe
 
 						for (float f2 = 0.3F; f1 > 0.0F; f1 -= f2 * 0.75F) {
 							int l = MathHelper.floor(d0);
@@ -298,9 +288,6 @@ public class RMUtils {
 							}
 
 							if (f1 > 0.0F) {
-								// RushMe - Don't use ChunkPosition
-								// this.blocks.add(new ChunkPosition(l, i1,
-								// j1));
 								Block b = loc.getWorld().getBlockAt(l, i1, j1);
 								if (b.getType() != Material.AIR) {
 									blocks.add(b);
@@ -326,8 +313,8 @@ public class RMUtils {
 	 * https://github.com/AJCStriker/Counter-
 	 * Craft/edit/master/src/net/countercraft/ccserver/maths/MathsHelper.java
 	 */
-	public static Set<String> spot(Player spotter) {
-		Set<String> spottedList = new HashSet<String>();
+	public static TIntSet spot(Player spotter) {
+		TIntSet spottedList = new TIntHashSet();
 		for (Player player : RushMe.getInstance().getServer()
 				.getOnlinePlayers()) {
 			if (!player.equals(spotter)) {
@@ -342,9 +329,7 @@ public class RMUtils {
 				if (((CraftLivingEntity) player).getHandle().g(
 						((CraftEntity) spotter).getHandle())) {
 					if (answer.distance(player.getLocation().toVector()) < 1.37) {
-						System.out.println(spotter.getDisplayName()
-								+ " spotted " + player.getDisplayName());
-						spottedList.add(player.getName());
+						spottedList.add(player.getEntityId());
 					}
 				}
 			}
@@ -352,8 +337,8 @@ public class RMUtils {
 		return spottedList;
 	}
 
-	public static Set<SpoutPlayer> getSpoutPlayers() {
-		Set<SpoutPlayer> c = new HashSet<SpoutPlayer>();
+	public static List<SpoutPlayer> getSpoutPlayers() {
+		List<SpoutPlayer> c = new ArrayList<SpoutPlayer>();
 		for (Player p : RushMe.getInstance().getServer().getOnlinePlayers()) {
 			c.add(SpoutManager.getPlayer(p));
 		}

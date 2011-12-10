@@ -19,9 +19,8 @@ package com.tips48.rushMe.packets;
 import com.tips48.rushMe.custom.GUI.MainHUD;
 import com.tips48.rushMe.custom.GUI.SpoutGUI;
 import com.tips48.rushMe.util.RMLogging;
-import org.getspout.spoutapi.io.AddonPacket;
-import org.getspout.spoutapi.io.SpoutInputStream;
-import org.getspout.spoutapi.io.SpoutOutputStream;
+
+import org.getspout.spoutapi.io.*;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
 import java.util.logging.Level;
@@ -32,7 +31,7 @@ public class PacketQueuePoints extends AddonPacket {
 
 	@Override
 	public void read(SpoutInputStream stream) {
-		message = stream.readString("message");
+		message = stream.readString();
 		RMLogging.debugLog(Level.INFO, "Read PacketQueuePoints with message: "
 				+ message);
 	}

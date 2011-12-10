@@ -20,11 +20,11 @@ package com.tips48.rushMe.packets;
 import com.tips48.rushMe.custom.items.Gun;
 import com.tips48.rushMe.custom.items.GunManager;
 import com.tips48.rushMe.util.RMLogging;
-import org.getspout.spoutapi.io.AddonPacket;
-import org.getspout.spoutapi.io.SpoutInputStream;
-import org.getspout.spoutapi.io.SpoutOutputStream;
+
+import org.getspout.spoutapi.io.*;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
+import java.util.UUID;
 import java.util.logging.Level;
 
 public class PacketGunUpdate extends AddonPacket {
@@ -42,10 +42,11 @@ public class PacketGunUpdate extends AddonPacket {
 	private Double entityDamageDistance;
 	private Integer headshotDamage;
 	private Integer bodyDamage;
+	private UUID uuid;
 
 	@Override
 	public void read(SpoutInputStream stream) {
-		name = stream.readString("name");
+		name = stream.readString();
 		reloadTime = stream.readInt();
 		maxClipSize = stream.readInt();
 		loadedInClip = stream.readInt();
@@ -58,6 +59,7 @@ public class PacketGunUpdate extends AddonPacket {
 		entityDamageDistance = stream.readDouble();
 		headshotDamage = stream.readInt();
 		bodyDamage = stream.readInt();
+		uuid = UUID.fromString(stream.readString());
 		RMLogging.debugLog(Level.INFO, "Read PacketGunUpdate.  Atributes:");
 		RMLogging.debugLog(Level.INFO, "Name = " + name + ";ReloadTime = "
 				+ reloadTime + ";MaxClipSize = " + maxClipSize
@@ -67,7 +69,7 @@ public class PacketGunUpdate extends AddonPacket {
 				+ ";BulletsExplode = " + bulletsExplode + ";ExplosionSize = "
 				+ explosionSize + ";EntityDamageDistance = "
 				+ entityDamageDistance + ";HeadshotDamage = " + headshotDamage
-				+ ";BodyDamage = " + bodyDamage);
+				+ ";BodyDamage = " + bodyDamage + ";UUID = " + uuid.toString());
 	}
 
 	@Override
@@ -79,7 +81,7 @@ public class PacketGunUpdate extends AddonPacket {
 			gun = GunManager.createGun(name, null, reloadTime, autoReload,
 					maxClipSize, maxAmmo, timeBetweenFire, bulletsExplode,
 					explosionSize, entityDamageDistance, headshotDamage,
-					bodyDamage, null, null, null);
+					bodyDamage, null, null, null, uuid);
 		}
 		gun.setAmmo(ammo);
 		gun.setAutoReload(autoReload);
@@ -102,6 +104,7 @@ public class PacketGunUpdate extends AddonPacket {
 		stream.writeDouble(entityDamageDistance);
 		stream.writeInt(headshotDamage);
 		stream.writeInt(bodyDamage);
+		stream.writeString(uuid.toString());
 		RMLogging.debugLog(Level.INFO, "Wrote PacketGunUpdate.  Atributes:");
 		RMLogging.debugLog(Level.INFO, "Name = " + name + ";ReloadTime = "
 				+ reloadTime + ";MaxClipSize = " + maxClipSize
@@ -111,7 +114,7 @@ public class PacketGunUpdate extends AddonPacket {
 				+ ";BulletsExplode = " + bulletsExplode + ";ExplosionSize = "
 				+ explosionSize + ";EntityDamageDistance = "
 				+ entityDamageDistance + ";HeadshotDamage = " + headshotDamage
-				+ ";BodyDamage = " + bodyDamage);
+				+ ";BodyDamage = " + bodyDamage + ";UUID = " + uuid);
 	}
 
 	public String getName() {
@@ -218,6 +221,14 @@ public class PacketGunUpdate extends AddonPacket {
 		this.bodyDamage = bodyDamage;
 	}
 
+	public UUID getUUID() {
+		return uuid;
+	}
+
+	public void setUUID(UUID uuid) {
+		this.uuid = uuid;
+	}
+
 	public void processGun(Gun gun) {
 		setName(gun.getName());
 		setReloadTime(gun.getReloadTime());
@@ -232,6 +243,7 @@ public class PacketGunUpdate extends AddonPacket {
 		setEntityDamageDistance(gun.getEntityDamageDistance());
 		setHeadshotDamage(gun.getHeadshotDamage());
 		setBodyDamage(gun.getBodyDamage());
+		setUUID(gun.getUUID());
 	}
 
 }

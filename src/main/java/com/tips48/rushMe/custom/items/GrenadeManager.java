@@ -18,13 +18,14 @@
 package com.tips48.rushMe.custom.items;
 
 import com.tips48.rushMe.util.RMLogging;
-import gnu.trove.map.TIntObjectMap;
-import gnu.trove.map.hash.TIntObjectHashMap;
+
 import org.bukkit.entity.Player;
 import org.getspout.spoutapi.material.CustomItem;
 
-import java.util.HashSet;
-import java.util.Set;
+import gnu.trove.map.TIntObjectMap;
+import gnu.trove.map.hash.TIntObjectHashMap;
+
+import java.util.*;
 import java.util.logging.Level;
 
 public class GrenadeManager {
@@ -40,11 +41,11 @@ public class GrenadeManager {
 	public static Grenade createGrenade(String name, String shortName,
 			String texture, GrenadeType type, Integer startAmount,
 			Integer explosionSize, Integer timeBeforeExplosion, Integer damage,
-			Integer stunTime) {
+			Integer stunTime, UUID uuid) {
 
 		Grenade grenade = new Grenade(name, shortName, texture, type,
 				startAmount, explosionSize, timeBeforeExplosion, damage,
-				stunTime);
+				stunTime, uuid == null ? UUID.randomUUID() : uuid);
 
 		grenades.add(grenade);
 
@@ -75,6 +76,15 @@ public class GrenadeManager {
 	public static Grenade getGrenade(CustomItem item) {
 		for (Grenade g : getGrenades()) {
 			if (item.equals(g)) {
+				return g;
+			}
+		}
+		return null;
+	}
+
+	public static Grenade getGrenade(UUID uuid) {
+		for (Grenade g : getGrenades()) {
+			if (g.getUUID().equals(uuid)) {
 				return g;
 			}
 		}

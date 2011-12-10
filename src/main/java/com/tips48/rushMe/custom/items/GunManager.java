@@ -18,10 +18,10 @@
 package com.tips48.rushMe.custom.items;
 
 import com.tips48.rushMe.util.RMLogging;
+
 import org.getspout.spoutapi.material.CustomItem;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Level;
 
 public class GunManager {
@@ -36,12 +36,13 @@ public class GunManager {
 			Integer maxAmmo, Double timeBetweenFire, Boolean bulletsExplode,
 			Float explosionSize, Double entityDamageDistance,
 			Integer headshotDamage, Integer bodyDamage, Double recoilBack,
-			Float recoilVertical, Float recoilHorizontal) {
+			Float recoilVertical, Float recoilHorizontal, UUID uuid) {
 
 		Gun gun = new Gun(name, texture, reloadTime, autoReload, maxClipSize,
 				maxAmmo, timeBetweenFire, bulletsExplode, explosionSize,
 				entityDamageDistance, headshotDamage, bodyDamage, recoilBack,
-				recoilVertical, recoilHorizontal);
+				recoilVertical, recoilHorizontal,
+				uuid == null ? UUID.randomUUID() : uuid);
 
 		guns.add(gun);
 
@@ -74,6 +75,15 @@ public class GunManager {
 	public static Gun getGun(CustomItem item) {
 		for (Gun g : getGuns()) {
 			if (item.equals(g)) {
+				return g;
+			}
+		}
+		return null;
+	}
+
+	public static Gun getGun(UUID uuid) {
+		for (Gun g : getGuns()) {
+			if (g.getUUID().equals(uuid)) {
 				return g;
 			}
 		}

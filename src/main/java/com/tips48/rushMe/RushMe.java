@@ -78,7 +78,7 @@ public class RushMe extends JavaPlugin {
 		new cubelist(this);
 
 		GrenadeManager.createGrenade("TestGrenade1234", "Test", "Bleh",
-				GrenadeType.CONCUSSION, 3, 1, 2, 5, 5);
+				GrenadeType.CONCUSSION, 3, 1, 2, 5, 5, null);
 
 		RMLogging.log(Level.INFO, "RushMe Version " + version + "_"
 				+ subVersion + " enabled");
@@ -100,6 +100,7 @@ public class RushMe extends JavaPlugin {
 	public void onDisable() {
 		GameManager.removeAll();
 		RMLogging.log(Level.INFO, "Disabled");
+		RMLogging.shutdown();
 	}
 
 	public static RushMe getInstance() {
@@ -153,6 +154,9 @@ public class RushMe extends JavaPlugin {
 		AddonPacket.register(PacketQueuePoints.class, "QueuePoints");
 		AddonPacket.register(PacketShowHit.class, "ShowHit");
 		AddonPacket.register(PacketDoConcussion.class, "DoConcussion");
+		AddonPacket.register(PacketArenaUpdate.class, "ArenaUpdate");
+		AddonPacket.register(PacketGameModeCreate.class, "GameModeCreate");
+		AddonPacket.register(PacketTeamUpdate.class, "TeamUpdate");
 	}
 
 }

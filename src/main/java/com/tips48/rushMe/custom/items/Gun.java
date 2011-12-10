@@ -21,10 +21,13 @@ import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.custom.GUI.SpoutGUI;
 import com.tips48.rushMe.packets.PacketGunUpdate;
 import com.tips48.rushMe.util.RMUtils;
+
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.getspout.spoutapi.inventory.SpoutItemStack;
 import org.getspout.spoutapi.material.item.GenericCustomItem;
+
+import java.util.UUID;
 
 public class Gun extends GenericCustomItem {
 	// LAST FIRED
@@ -51,12 +54,14 @@ public class Gun extends GenericCustomItem {
 	private final Integer headshotDamage;
 	private final Integer bodyDamage;
 
+	private final UUID uuid;
+
 	protected Gun(String name, String texture, Integer reloadTime,
 			Boolean autoReload, Integer maxClipSize, Integer maxAmmo,
 			Double timeBetweenFire, Boolean bulletsExplode,
 			Float explosionSize, Double entityDamageDistance,
 			Integer headshotDamage, Integer bodyDamage, Double recoilBack,
-			Float recoilVertical, Float recoilHorizontal) {
+			Float recoilVertical, Float recoilHorizontal, UUID uuid) {
 		super(RushMe.getInstance(), name, texture);
 
 		this.reloadTime = reloadTime;
@@ -74,6 +79,8 @@ public class Gun extends GenericCustomItem {
 		this.recoilBack = recoilBack;
 		this.recoilVertical = recoilVertical;
 		this.recoilHorizontal = recoilHorizontal;
+
+		this.uuid = uuid;
 
 		PacketGunUpdate packet = new PacketGunUpdate();
 		packet.processGun(this);
@@ -154,12 +161,12 @@ public class Gun extends GenericCustomItem {
 	}
 
 	public boolean canFire() {
-		return !(reloading || loadedInClip == 0 || System.currentTimeMillis()
+		return !(reloading || loadedInClip <= 0 || System.currentTimeMillis()
 				- lastFired < timeBetweenFire * 100);
 	}
 
-	public void fire(final Player player) {
-		loadedInClip--;
+	public void fire(Player player) {
+		--loadedInClip;
 		SpoutGUI.getHudOf(player).updateHUD();
 		lastFired = System.currentTimeMillis();
 		if (!(player.isSneaking())) {
@@ -177,7 +184,7 @@ public class Gun extends GenericCustomItem {
 			loc.setYaw(loc.getYaw() + recoilHorizontal / 2);
 			player.teleport(loc);
 		}
-		if (loadedInClip == 0) {
+		if (loadedInClip <= 0) {
 			if (autoReload) {
 				reload(player);
 			}
@@ -193,7 +200,6 @@ public class Gun extends GenericCustomItem {
 		}
 		final Gun gun = this;
 		reloading = true;
-		// SpoutGUI.showReloading(player, this);
 		RushMe.getInstance().getServer().getScheduler()
 				.scheduleSyncDelayedTask(RushMe.getInstance(), new Runnable() {
 					public void run() {
@@ -230,6 +236,10 @@ public class Gun extends GenericCustomItem {
 
 	public double getEntityDamageDistance() {
 		return entityDamageDistance;
+	}
+
+	public UUID getUUID() {
+		return uuid;
 	}
 
 	@Override

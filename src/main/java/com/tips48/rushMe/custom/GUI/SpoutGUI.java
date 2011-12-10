@@ -17,18 +17,20 @@
 
 package com.tips48.rushMe.custom.GUI;
 
-import com.tips48.rushMe.Arena;
 import com.tips48.rushMe.GameManager;
+import com.tips48.rushMe.arenas.Arena;
 import com.tips48.rushMe.custom.items.Grenade;
 import com.tips48.rushMe.custom.items.Gun;
 import com.tips48.rushMe.teams.Team;
-import gnu.trove.map.TIntObjectMap;
-import gnu.trove.map.hash.TIntObjectHashMap;
+
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.getspout.spoutapi.SpoutManager;
+
+import gnu.trove.map.TIntObjectMap;
+import gnu.trove.map.hash.TIntObjectHashMap;
 
 public class SpoutGUI {
 
@@ -86,7 +88,6 @@ public class SpoutGUI {
 		if (other == null) {
 			return;
 		}
-		// TODO rewrite all of these so that they support more than 2 teams
 		for (int i : pTeam.getPlayers().toArray()) {
 			Player p = SpoutManager.getPlayerFromId(i);
 			if (p != null) {
@@ -134,3 +135,5 @@ public class SpoutGUI {
 		}
 	}
 }
+
+// TODO rewrite for more than 2 teams

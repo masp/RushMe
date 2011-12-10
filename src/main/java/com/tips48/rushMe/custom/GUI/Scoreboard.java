@@ -17,17 +17,19 @@
 
 package com.tips48.rushMe.custom.GUI;
 
-import com.tips48.rushMe.Arena;
 import com.tips48.rushMe.GameManager;
 import com.tips48.rushMe.RushMe;
+import com.tips48.rushMe.arenas.Arena;
 import com.tips48.rushMe.data.PlayerData;
 import com.tips48.rushMe.teams.Team;
-import gnu.trove.map.TIntObjectMap;
-import gnu.trove.map.hash.TIntObjectHashMap;
+
 import org.bukkit.entity.Player;
 import org.getspout.spoutapi.SpoutManager;
 import org.getspout.spoutapi.gui.*;
 import org.getspout.spoutapi.player.SpoutPlayer;
+
+import gnu.trove.map.TIntObjectMap;
+import gnu.trove.map.hash.TIntObjectHashMap;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -338,3 +340,5 @@ public class Scoreboard {
 	}
 
 }
+
+// TODO rewrite for more than 2 teams

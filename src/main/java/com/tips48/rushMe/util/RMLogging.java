@@ -8,9 +8,6 @@ import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- */
 public class RMLogging {
 
 	private static final Logger logger = Logger.getLogger("Minecraft");
@@ -18,6 +15,23 @@ public class RMLogging {
 
 	private static BufferedWriter debugWriter;
 	private static boolean debug;
+
+	public static synchronized void shutdown() {
+		try {
+			if (writer != null) {
+				writer.flush();
+				writer.close();
+				writer = null;
+			}
+			if (debugWriter != null) {
+				debugWriter.flush();
+				debugWriter.close();
+				debugWriter = null;
+			}
+		} catch (Exception e) {
+			log(e, "Error shutting down the logger");
+		}
+	}
 
 	public static synchronized void setFile(String name) {
 		if (writer != null) {
@@ -35,7 +49,7 @@ public class RMLogging {
 		try {
 			fw = new FileWriter(name, true);
 		} catch (Exception e) {
-			RMLogging.log(e, "Failed to find the file " + name + ".");
+			RMLogging.log(e, "Failed to find the file " + name);
 			return;
 		}
 		writer = new BufferedWriter(fw);
@@ -59,6 +73,7 @@ public class RMLogging {
 
 	public static synchronized void log(Exception e, String reason) {
 		RMLogging.log(Level.SEVERE, reason);
+		RMLogging.log(Level.SEVERE, "ERROR MESSAGE:");
 		RMLogging.log(Level.SEVERE, e.getMessage());
 	}
 

@@ -15,10 +15,23 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.tips48.rushMe;
+package com.tips48.rushMe.packets;
 
-public enum GameModeType {
+import org.getspout.spoutapi.io.*;
+import org.getspout.spoutapi.player.SpoutPlayer;
 
-	OBJECTIVE, DEATHMATCH, CAPTURE, FLAG
+public class PacketClassUpdate extends AddonPacket {
+
+	@Override
+	public void read(SpoutInputStream stream) {
+	}
+
+	@Override
+	public void run(SpoutPlayer sp) {
+	}
+
+	@Override
+	public void write(SpoutOutputStream stream) {
+	}
 
 }

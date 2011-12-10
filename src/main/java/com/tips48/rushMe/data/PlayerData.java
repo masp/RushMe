@@ -23,13 +23,15 @@ import com.tips48.rushMe.custom.GUI.SpoutGUI;
 import com.tips48.rushMe.custom.items.Grenade;
 import com.tips48.rushMe.custom.items.Gun;
 import com.tips48.rushMe.packets.PacketPlayerDataUpdate;
+
+import org.bukkit.entity.Player;
+import org.getspout.spoutapi.SpoutManager;
+import org.getspout.spoutapi.player.SpoutPlayer;
+
 import gnu.trove.map.TIntIntMap;
 import gnu.trove.map.hash.TIntIntHashMap;
 import gnu.trove.set.TIntSet;
 import gnu.trove.set.hash.TIntHashSet;
-import org.bukkit.entity.Player;
-import org.getspout.spoutapi.SpoutManager;
-import org.getspout.spoutapi.player.SpoutPlayer;
 
 public class PlayerData {
 	private static final TIntIntMap scores = new TIntIntHashMap();
@@ -81,6 +83,7 @@ public class PlayerData {
 			setScore(damagerP, getScore(damagerP) + 100);
 		}
 		PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
+		packet.setPlayer(hurt);
 		packet.setDeaths(PlayerData.getDeaths(hurtP));
 		packet.setKills(PlayerData.getKills(hurtP));
 		packet.setScore(PlayerData.getScore(hurtP));
@@ -88,6 +91,7 @@ public class PlayerData {
 		packet.send(SpoutManager.getPlayer(hurtP));
 
 		PacketPlayerDataUpdate packet2 = new PacketPlayerDataUpdate();
+		packet2.setPlayer(damager);
 		packet2.setDeaths(PlayerData.getDeaths(damagerP));
 		packet2.setKills(PlayerData.getKills(damagerP));
 		packet2.setScore(PlayerData.getScore(damagerP));
@@ -137,6 +141,7 @@ public class PlayerData {
 			setScore(damagerP, getScore(damagerP) + 100);
 		}
 		PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
+		packet.setPlayer(hurt);
 		packet.setDeaths(PlayerData.getDeaths(hurtP));
 		packet.setKills(PlayerData.getKills(hurtP));
 		packet.setScore(PlayerData.getScore(hurtP));
@@ -144,6 +149,7 @@ public class PlayerData {
 		packet.send(SpoutManager.getPlayer(hurtP));
 
 		PacketPlayerDataUpdate packet2 = new PacketPlayerDataUpdate();
+		packet2.setPlayer(damager);
 		packet2.setDeaths(PlayerData.getDeaths(damagerP));
 		packet2.setKills(PlayerData.getKills(damagerP));
 		packet2.setScore(PlayerData.getScore(damagerP));
@@ -174,6 +180,7 @@ public class PlayerData {
 		SpoutPlayer sp = SpoutManager.getPlayerFromId(player);
 		if (sp != null) {
 			PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
+			packet.setPlayer(player);
 			packet.setDeaths(PlayerData.getDeaths(player));
 			packet.setKills(PlayerData.getKills(player));
 			packet.setScore(PlayerData.getScore(player));
@@ -200,6 +207,7 @@ public class PlayerData {
 		SpoutPlayer sp = SpoutManager.getPlayerFromId(player);
 		if (sp != null) {
 			PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
+			packet.setPlayer(player);
 			packet.setDeaths(PlayerData.getDeaths(player));
 			packet.setKills(PlayerData.getKills(player));
 			packet.setScore(PlayerData.getScore(player));
@@ -225,6 +233,7 @@ public class PlayerData {
 		SpoutPlayer sp = SpoutManager.getPlayerFromId(player);
 		if (sp != null) {
 			PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
+			packet.setPlayer(player);
 			packet.setDeaths(PlayerData.getDeaths(player));
 			packet.setKills(PlayerData.getKills(player));
 			packet.setScore(PlayerData.getScore(player));
@@ -242,6 +251,7 @@ public class PlayerData {
 		SpoutPlayer sp = SpoutManager.getPlayerFromId(player);
 		if (sp != null) {
 			PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
+			packet.setPlayer(player);
 			packet.setDeaths(PlayerData.getDeaths(player));
 			packet.setKills(PlayerData.getKills(player));
 			packet.setScore(PlayerData.getScore(player));
@@ -259,6 +269,7 @@ public class PlayerData {
 		SpoutPlayer sp = SpoutManager.getPlayerFromId(player);
 		if (sp != null) {
 			PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
+			packet.setPlayer(player);
 			packet.setDeaths(PlayerData.getDeaths(player));
 			packet.setKills(PlayerData.getKills(player));
 			packet.setScore(PlayerData.getScore(player));
@@ -288,6 +299,7 @@ public class PlayerData {
 				hud.updateHUD();
 			}
 			PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
+			packet.setPlayer(player);
 			packet.setDeaths(PlayerData.getDeaths(player));
 			packet.setKills(PlayerData.getKills(player));
 			packet.setScore(PlayerData.getScore(player));
@@ -314,6 +326,7 @@ public class PlayerData {
 				hud.updateHUD();
 			}
 			PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
+			packet.setPlayer(player);
 			packet.setDeaths(PlayerData.getDeaths(player));
 			packet.setKills(PlayerData.getKills(player));
 			packet.setScore(PlayerData.getScore(player));
@@ -340,6 +353,7 @@ public class PlayerData {
 				hud.updateHUD();
 			}
 			PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
+			packet.setPlayer(player);
 			packet.setDeaths(PlayerData.getDeaths(player));
 			packet.setKills(PlayerData.getKills(player));
 			packet.setScore(PlayerData.getScore(player));
@@ -374,6 +388,7 @@ public class PlayerData {
 		SpoutPlayer sp = SpoutManager.getPlayerFromId(player);
 		if (sp != null) {
 			PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
+			packet.setPlayer(player);
 			packet.setDeaths(PlayerData.getDeaths(player));
 			packet.setKills(PlayerData.getKills(player));
 			packet.setScore(PlayerData.getScore(player));

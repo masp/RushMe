@@ -20,6 +20,7 @@ package com.tips48.rushMe.configuration;
 import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.custom.items.GunManager;
 import com.tips48.rushMe.util.RMLogging;
+
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.getspout.spoutapi.SpoutManager;
 
@@ -95,7 +96,8 @@ public class GunConfiguration {
 			GunManager.createGun(name, texture, reloadTime, autoReload,
 					maxClipSize, maxAmmo, timeBetweenFire, bulletsExplode,
 					explosionSize, entityExplosionRadius, headshotDamage,
-					bodyDamage, recoilBack, recoilVertical, recoilHorizontal);
+					bodyDamage, recoilBack, recoilVertical, recoilHorizontal,
+					null);
 		}
 	}
 }

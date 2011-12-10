@@ -20,16 +20,17 @@ package com.tips48.rushMe.teams;
 import com.tips48.rushMe.GameManager;
 import com.tips48.rushMe.custom.GUI.SpoutGUI;
 import com.tips48.rushMe.data.PlayerData;
-import gnu.trove.list.TIntList;
-import gnu.trove.list.array.TIntArrayList;
-import gnu.trove.set.TIntSet;
-import gnu.trove.set.hash.TIntHashSet;
+
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.getspout.spoutapi.SpoutManager;
 
-import java.util.ArrayList;
-import java.util.List;
+import gnu.trove.list.TIntList;
+import gnu.trove.list.array.TIntArrayList;
+import gnu.trove.set.TIntSet;
+import gnu.trove.set.hash.TIntHashSet;
+
+import java.util.*;
 
 public class Team {
 	private final TIntSet players;
@@ -43,8 +44,11 @@ public class Team {
 	private final String skin;
 	private final Integer maxSpawnsLeft;
 
+	private final UUID uuid;
+	private UUID ownerUUID;
+
 	public Team(String name, String prefix, int playerLimit, String skin,
-			Integer maxSpawnsLeft) {
+			Integer maxSpawnsLeft, UUID ownerUUID, UUID uuid) {
 		this.name = name;
 		this.playerLimit = playerLimit;
 		this.prefix = prefix;
@@ -53,6 +57,16 @@ public class Team {
 		spawnsLeft = maxSpawnsLeft;
 
 		players = new TIntHashSet();
+
+		if (ownerUUID != null) {
+			this.ownerUUID = ownerUUID;
+		}
+
+		if (uuid != null) {
+			this.uuid = uuid;
+		} else {
+			this.uuid = UUID.randomUUID();
+		}
 	}
 
 	public String getName() {
@@ -222,12 +236,24 @@ public class Team {
 		return skin;
 	}
 
+	public int getMaxSpawnsLeft() {
+		return maxSpawnsLeft;
+	}
+
+	public UUID getUUID() {
+		return uuid;
+	}
+
+	public UUID getOwnerUUID() {
+		return ownerUUID;
+	}
+
+	public void setOwnerUUID(UUID ownerUUID) {
+		this.ownerUUID = ownerUUID;
+	}
+
 	@Override
 	public String toString() {
 		return name;
-	}
-
-	public int getMaxSpawnsLeft() {
-		return maxSpawnsLeft;
 	}
 }

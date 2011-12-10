@@ -15,11 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.tips48.rushMe;
+package com.tips48.rushMe.gamemodes;
 
 import com.tips48.rushMe.teams.Team;
 
 import java.util.List;
+import java.util.UUID;
 
 public class GameMode {
 
@@ -31,9 +32,11 @@ public class GameMode {
 	private final Integer maxPlayers;
 	private final List<Team> teams;
 
-	protected GameMode(String name, GameModeType type, Integer time,
+	private final UUID uuid;
+
+	public GameMode(String name, GameModeType type, Integer time,
 			Boolean respawn, Integer respawnTime, Integer maxPlayers,
-			List<Team> teams) {
+			List<Team> teams, UUID uuid) {
 		this.name = name;
 		this.type = type;
 		this.time = time;
@@ -41,6 +44,12 @@ public class GameMode {
 		this.respawnTime = respawnTime;
 		this.maxPlayers = maxPlayers;
 		this.teams = teams;
+
+		this.uuid = uuid;
+
+		for (Team team : this.teams) {
+			team.setOwnerUUID(this.uuid);
+		}
 	}
 
 	public GameModeType getType() {
@@ -69,6 +78,29 @@ public class GameMode {
 
 	public List<Team> getTeams() {
 		return teams;
+	}
+
+	public void replaceTeam(Team team) {
+		for (Team t : teams) {
+			if (t.getUUID().equals(team.getUUID())) {
+				teams.remove(t);
+				teams.add(team);
+			}
+		}
+	}
+
+	public void addTeam(Team team) {
+		teams.add(team);
+	}
+
+	public void removeTeam(Team team) {
+		if (teams.contains(team)) {
+			teams.remove(team);
+		}
+	}
+
+	public UUID getUUID() {
+		return uuid;
 	}
 
 	@Override

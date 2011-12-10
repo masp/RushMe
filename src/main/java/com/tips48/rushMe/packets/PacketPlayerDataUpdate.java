@@ -19,15 +19,15 @@ package com.tips48.rushMe.packets;
 
 import com.tips48.rushMe.data.PlayerData;
 import com.tips48.rushMe.util.RMLogging;
-import org.getspout.spoutapi.io.AddonPacket;
-import org.getspout.spoutapi.io.SpoutInputStream;
-import org.getspout.spoutapi.io.SpoutOutputStream;
+
+import org.getspout.spoutapi.io.*;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
 import java.util.logging.Level;
 
 public class PacketPlayerDataUpdate extends AddonPacket {
 
+	private int player;
 	private int score;
 	private int kills;
 	private int deaths;
@@ -36,6 +36,7 @@ public class PacketPlayerDataUpdate extends AddonPacket {
 
 	@Override
 	public void read(SpoutInputStream stream) {
+		player = stream.readInt();
 		score = stream.readInt();
 		kills = stream.readInt();
 		deaths = stream.readInt();
@@ -52,15 +53,16 @@ public class PacketPlayerDataUpdate extends AddonPacket {
 	public void run(SpoutPlayer sp) {
 		RMLogging.debugLog(Level.INFO, "Running PacketPlayerDataUpdate for "
 				+ sp.getName());
-		PlayerData.setScore(sp, score);
-		PlayerData.setKills(sp, kills);
-		PlayerData.setDeaths(sp, deaths);
-		PlayerData.setHealth(sp, health);
-		PlayerData.setSpotted(sp, spotted);
+		PlayerData.setScore(player, score);
+		PlayerData.setKills(player, kills);
+		PlayerData.setDeaths(player, deaths);
+		PlayerData.setHealth(player, health);
+		PlayerData.setSpotted(player, spotted);
 	}
 
 	@Override
 	public void write(SpoutOutputStream stream) {
+		stream.writeInt(player);
 		stream.writeInt(score);
 		stream.writeInt(kills);
 		stream.writeInt(deaths);
@@ -71,6 +73,14 @@ public class PacketPlayerDataUpdate extends AddonPacket {
 		RMLogging.debugLog(Level.INFO, "Score = " + score + ";Kills = " + kills
 				+ ";Deaths = " + deaths + ";Healths = " + health
 				+ ";Spotted = " + spotted);
+	}
+
+	public int getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(int player) {
+		this.player = player;
 	}
 
 	public int getScore() {

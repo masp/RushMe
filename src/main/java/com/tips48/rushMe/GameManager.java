@@ -17,10 +17,14 @@
 
 package com.tips48.rushMe;
 
+import com.tips48.rushMe.arenas.Arena;
 import com.tips48.rushMe.custom.items.GrenadeManager;
 import com.tips48.rushMe.data.PlayerData;
+import com.tips48.rushMe.gamemodes.GameMode;
+import com.tips48.rushMe.gamemodes.GameModeType;
 import com.tips48.rushMe.teams.Team;
 import com.tips48.rushMe.util.RMLogging;
+
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -28,9 +32,7 @@ import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.getspout.spoutapi.SpoutManager;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Level;
 
 public class GameManager {
@@ -103,6 +105,15 @@ public class GameManager {
 		return null;
 	}
 
+	public static Arena getArena(UUID uuid) {
+		for (Arena a : games) {
+			if (a.getUUID().equals(uuid)) {
+				return a;
+			}
+		}
+		return null;
+	}
+
 	public static void removeArena(Arena a) {
 		a.stop();
 		for (int player : a.getPlayers().toArray()) {
@@ -113,8 +124,9 @@ public class GameManager {
 	}
 
 	public static Arena createArena(String name, GameMode gamemode,
-			int creator, World world) {
-		Arena a = new Arena(gamemode, name, creator, world);
+			int creator, World world, UUID uuid) {
+		Arena a = new Arena(gamemode, name, creator, world,
+				uuid == null ? UUID.randomUUID() : uuid);
 		games.add(a);
 
 		RMLogging.debugLog(
@@ -128,9 +140,9 @@ public class GameManager {
 
 	public static GameMode createGameMode(String name, GameModeType type,
 			Integer time, Boolean respawn, Integer respawnTime,
-			Integer maxPlayers, List<Team> teams) {
+			Integer maxPlayers, List<Team> teams, UUID uuid) {
 		GameMode gm = new GameMode(name, type, time, respawn, respawnTime,
-				maxPlayers, teams);
+				maxPlayers, teams, uuid == null ? UUID.randomUUID() : uuid);
 
 		gameModes.add(gm);
 
@@ -166,6 +178,10 @@ public class GameManager {
 	public static void setDefaultGameMode(GameMode g) {
 		if (defaultGameMode == null) {
 			defaultGameMode = g;
+		} else {
+			RMLogging
+					.log(Level.SEVERE,
+							"Something tried to change the default GameMode.  Make sure you don't have two default GameMode's or a rouge plugin.");
 		}
 	}
 
@@ -175,6 +191,15 @@ public class GameManager {
 			names.add(a.getName());
 		}
 		return names;
+	}
+
+	public static GameMode getGameMode(UUID uuid) {
+		for (GameMode gm : gameModes) {
+			if (gm.getUUID().equals(uuid)) {
+				return gm;
+			}
+		}
+		return null;
 	}
 
 	public static void removeAll() {
