@@ -22,6 +22,8 @@ import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.arenas.Arena;
 import com.tips48.rushMe.commands.RushMeCommand;
 import com.tips48.rushMe.custom.GUI.SpoutGUI;
+import com.tips48.rushMe.custom.events.PlayerFireGunEvent;
+import com.tips48.rushMe.custom.items.GrenadeManager;
 import com.tips48.rushMe.custom.items.Gun;
 import com.tips48.rushMe.data.PlayerData;
 import com.tips48.rushMe.gamemodes.GameModeType;
@@ -29,8 +31,7 @@ import com.tips48.rushMe.packets.PacketInfo;
 import com.tips48.rushMe.teams.Team;
 import com.tips48.rushMe.util.RMUtils;
 
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.block.Action;
@@ -69,10 +70,10 @@ public class RMPlayerListener extends PlayerListener {
 		Action action = event.getAction();
 		if ((action.equals(Action.RIGHT_CLICK_BLOCK) || action
 				.equals(Action.RIGHT_CLICK_AIR))) {
-			if (!(event.hasBlock())) {
-				return;
-			}
 			if (RushMeCommand.isDefining(p)) {
+				if (!(event.hasBlock())) {
+					return;
+				}
 				Arena a = RushMeCommand.getDefining(p);
 				GameModeType type = a.getGameMode().getType();
 				Vector vec = event.getClickedBlock().getLocation().toVector()
@@ -139,8 +140,9 @@ public class RMPlayerListener extends PlayerListener {
 				}
 				event.setCancelled(true);
 				return;
-			}
-			if (RMUtils.isHoldingGun(p)) {
+			} else if (GrenadeManager.getSelectedGrenade(p).canBeUsed()) {
+				GrenadeManager.getSelectedGrenade(p).fire(p);
+			} else if (RMUtils.isHoldingGun(p)) {
 				event.setCancelled(true);
 				return;
 			}
@@ -153,7 +155,13 @@ public class RMPlayerListener extends PlayerListener {
 				|| action.equals(Action.LEFT_CLICK_BLOCK)) {
 			if (RMUtils.isHoldingGun(p)) {
 				Gun g = RMUtils.getGunOf(p);
-				if (!g.canFire()) {
+				if (!(g.canFire())) {
+					event.setCancelled(true);
+					return;
+				}
+				PlayerFireGunEvent pfge = new PlayerFireGunEvent(p, g);
+				Bukkit.getPluginManager().callEvent(pfge);
+				if (pfge.isCancelled()) {
 					event.setCancelled(true);
 					return;
 				}

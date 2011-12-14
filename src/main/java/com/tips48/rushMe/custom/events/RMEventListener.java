@@ -15,28 +15,34 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.tips48.rushMe.packets;
+package com.tips48.rushMe.custom.events;
 
-import org.getspout.spoutapi.io.*;
-import org.getspout.spoutapi.player.SpoutPlayer;
+import org.bukkit.event.CustomEventListener;
+import org.bukkit.event.Event;
 
-public class PacketClassUpdate extends AddonPacket implements PriorityPacket {
+public class RMEventListener extends CustomEventListener {
 
 	@Override
-	public void read(SpoutInputStream stream) {
+	public void onCustomEvent(Event event) {
+		if (event instanceof PlayerDamageEvent) {
+			onPlayerDamage((PlayerDamageEvent) event);
+		} else if (event instanceof PlayerFireGunEvent) {
+			onPlayerFireGun((PlayerFireGunEvent) event);
+		} else if (event instanceof PlayerThrowGrenadeEvent) {
+			onPlayerThrowGrenade((PlayerThrowGrenadeEvent) event);
+		}
 	}
 
-	@Override
-	public void run(SpoutPlayer sp) {
+	public void onPlayerDamage(PlayerDamageEvent event) {
+
 	}
 
-	@Override
-	public void write(SpoutOutputStream stream) {
+	public void onPlayerFireGun(PlayerFireGunEvent event) {
+
 	}
 
-	@Override
-	public PacketPriority getPriority() {
-		return PacketPriority.LOWEST;
+	public void onPlayerThrowGrenade(PlayerThrowGrenadeEvent event) {
+
 	}
 
 }

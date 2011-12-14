@@ -66,7 +66,8 @@ public class GunConfiguration {
 		}
 		guns = YamlConfiguration.loadConfiguration(gunsFile);
 		for (String name : guns.getConfigurationSection("Guns").getKeys(false)) {
-			String texture = guns.getString("Guns." + name + ".image");
+			name = name.trim();
+			String texture = guns.getString("Guns." + name + ".image").trim();
 			Integer reloadTime = guns.getInt("Guns." + name + ".reloadTime");
 			Boolean autoReload = guns
 					.getBoolean("Guns." + name + ".autoReload");

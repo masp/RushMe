@@ -27,13 +27,14 @@ import org.getspout.spoutapi.io.*;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
 import gnu.trove.set.TIntSet;
+import gnu.trove.set.hash.TIntHashSet;
 
 import java.util.*;
 
-public class PacketArenaUpdate extends AddonPacket {
+public class PacketArenaUpdate extends AddonPacket implements PriorityPacket {
 
 	private String name;
-	private TIntSet players;
+	private TIntSet players = new TIntHashSet();
 	private boolean started;
 	private Vector vec1;
 	private Vector vec2;
@@ -53,8 +54,13 @@ public class PacketArenaUpdate extends AddonPacket {
 		uuid = UUID.fromString(stream.readString());
 		gamemodeUUID = UUID.fromString(stream.readString());
 		worldUUID = UUID.fromString(stream.readString());
-		vec1 = stream.readVector();
-		vec2 = stream.readVector();
+		int vectorsNotNull = stream.readInt();
+		if (vectorsNotNull >= 2) {
+			vec1 = stream.readVector();
+			vec2 = stream.readVector();
+		} else if (vectorsNotNull == 1) {
+			vec1 = stream.readVector();
+		}
 		started = stream.readInt() == 0;
 		int playersLength = stream.readInt();
 		for (int i = 0; i < playersLength; i++) {
@@ -88,8 +94,12 @@ public class PacketArenaUpdate extends AddonPacket {
 							.getInstance().getServer().getWorld(worldUUID),
 					uuid);
 		}
-		arena.setVector1(vec1);
-		arena.setVector2(vec2);
+		if (vec1 != null) {
+			arena.setVector1(vec1);
+		}
+		if (vec2 != null) {
+			arena.setVector2(vec2);
+		}
 		for (Vector flag : flagLocations) {
 			arena.addFlag(flag);
 		}
@@ -120,29 +130,57 @@ public class PacketArenaUpdate extends AddonPacket {
 		stream.writeString(uuid.toString());
 		stream.writeString(gamemodeUUID.toString());
 		stream.writeString(worldUUID.toString());
-		stream.writeVector(vec1);
-		stream.writeVector(vec2);
+		if (vec1 != null && vec2 != null) {
+			stream.writeInt(2);
+			stream.writeVector(vec1);
+			stream.writeVector(vec2);
+		} else if (vec1 != null) {
+			stream.writeInt(1);
+			stream.writeVector(vec1);
+		} else {
+			stream.writeInt(0);
+		}
 		stream.writeInt(started == true ? 0 : 1);
-		stream.writeInt(players.size());
-		for (int i : players.toArray()) {
-			stream.writeInt(i);
+		if (players != null) {
+			stream.writeInt(players.size());
+			for (int i : players.toArray()) {
+				stream.writeInt(i);
+			}
+		} else {
+			stream.writeInt(0);
 		}
-		stream.writeInt(flagLocations.size());
-		for (Vector v : flagLocations) {
-			stream.writeVector(v);
+		if (flagLocations != null) {
+			stream.writeInt(flagLocations.size());
+			for (Vector v : flagLocations) {
+				stream.writeVector(v);
+			}
+		} else {
+			stream.writeInt(0);
 		}
-		stream.writeInt(captureLocations.size());
-		for (UUID uuid : captureLocations.keySet()) {
-			stream.writeString(uuid.toString());
-			stream.writeVector(captureLocations.get(uuid));
+		if (captureLocations != null) {
+			stream.writeInt(captureLocations.size());
+			for (UUID uuid : captureLocations.keySet()) {
+				stream.writeString(uuid.toString());
+				stream.writeVector(captureLocations.get(uuid));
+			}
+		} else {
+			stream.writeInt(0);
 		}
-		stream.writeInt(objectiveLocations.size());
-		for (Vector v : objectiveLocations) {
-			stream.writeVector(v);
+		if (objectiveLocations != null) {
+			stream.writeInt(objectiveLocations.size());
+			for (Vector v : objectiveLocations) {
+				stream.writeVector(v);
+			}
+		} else {
+			stream.writeInt(0);
 		}
-		stream.writeInt(activeObjectiveLocations.size());
-		for (Vector v : activeObjectiveLocations) {
-			stream.writeVector(v);
+		if (activeObjectiveLocations != null) {
+			stream.writeInt(activeObjectiveLocations.size());
+			for (Vector v : activeObjectiveLocations) {
+				stream.writeVector(v);
+			}
+		} else {
+			stream.writeInt(0);
 		}
 	}
 
@@ -251,7 +289,7 @@ public class PacketArenaUpdate extends AddonPacket {
 		this.players = players;
 	}
 
-	public void processArena(Arena arena) {
+	public PacketArenaUpdate processArena(Arena arena) {
 		setName(arena.getName());
 		setStarted(arena.isStarted());
 		setVec1(arena.getVector1());
@@ -271,7 +309,12 @@ public class PacketArenaUpdate extends AddonPacket {
 					.put(team.getUUID(), captureLocations.get(team));
 		}
 		setPlayers(arena.getPlayers());
+		return this;
+	}
 
+	@Override
+	public PacketPriority getPriority() {
+		return PacketPriority.NORMAL;
 	}
 
 }

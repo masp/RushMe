@@ -22,7 +22,9 @@ import com.tips48.rushMe.util.RMLogging;
 import org.bukkit.entity.Player;
 import org.getspout.spoutapi.material.CustomItem;
 
+import gnu.trove.map.TIntIntMap;
 import gnu.trove.map.TIntObjectMap;
+import gnu.trove.map.hash.TIntIntHashMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 
 import java.util.*;
@@ -32,7 +34,8 @@ public class GrenadeManager {
 
 	private static final Set<Grenade> grenades = new HashSet<Grenade>();
 
-	private static final TIntObjectMap<Set<Grenade>> playerGrenades = new TIntObjectHashMap<Set<Grenade>>();
+	private static final TIntObjectMap<List<Grenade>> playerGrenades = new TIntObjectHashMap<List<Grenade>>();
+	private static final TIntIntMap selectedIndex = new TIntIntHashMap();
 
 	private GrenadeManager() {
 
@@ -91,6 +94,17 @@ public class GrenadeManager {
 		return null;
 	}
 
+	public static Grenade getSelectedGrenade(Player player) {
+		return getSelectedGrenade(player.getEntityId());
+	}
+
+	public static Grenade getSelectedGrenade(int player) {
+		if (!(playerGrenades.containsKey(player))) {
+			return null;
+		}
+		return playerGrenades.get(player).get(selectedIndex.get(player));
+	}
+
 	public static Set<String> getGrenadeNames() {
 		Set<String> names = new HashSet<String>();
 		for (Grenade g : getGrenades()) {
@@ -99,20 +113,28 @@ public class GrenadeManager {
 		return names;
 	}
 
-	public static Set<Grenade> getGrenades(Player player) {
+	public static List<Grenade> getGrenades(Player player) {
 		return getGrenades(player.getEntityId());
 	}
 
-	public static Set<Grenade> getGrenades(int player) {
+	public static List<Grenade> getGrenades(int player) {
 		return playerGrenades.get(player);
 	}
 
 	public static void createGrenades(int player) {
-		playerGrenades.put(player, grenades);
+		playerGrenades.put(player, toList());
 	}
 
 	public static void createGrenades(Player player) {
 		createGrenades(player.getEntityId());
+	}
+
+	private static List<Grenade> toList() {
+		List<Grenade> result = new ArrayList<Grenade>(grenades.size());
+		for (Grenade g : grenades) {
+			result.add(g);
+		}
+		return result;
 	}
 
 }

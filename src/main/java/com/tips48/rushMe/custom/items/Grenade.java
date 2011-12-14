@@ -22,11 +22,14 @@ import com.tips48.rushMe.custom.GUI.MainHUD;
 import com.tips48.rushMe.custom.GUI.SpoutGUI;
 import com.tips48.rushMe.data.PlayerData;
 import com.tips48.rushMe.packets.PacketGrenadeUpdate;
+import com.tips48.rushMe.packets.PacketInfo;
 import com.tips48.rushMe.util.RMUtils;
 
 import org.bukkit.Location;
 import org.bukkit.entity.*;
+import org.bukkit.inventory.ItemStack;
 import org.getspout.spoutapi.SpoutManager;
+import org.getspout.spoutapi.inventory.SpoutItemStack;
 import org.getspout.spoutapi.material.item.GenericCustomItem;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
@@ -70,6 +73,7 @@ public class Grenade extends GenericCustomItem {
 		PacketGrenadeUpdate packet = new PacketGrenadeUpdate();
 		packet.processGrenade(this);
 		packet.send(RMUtils.getSpoutPlayers());
+		PacketInfo.addPacket(packet, packet);
 	}
 
 	public GrenadeType getType() {
@@ -107,12 +111,24 @@ public class Grenade extends GenericCustomItem {
 		return stunTime;
 	}
 
-	public void fire(final Player player, Location loc) {
+	public ItemStack toItemStack(int amount) {
+		return new SpoutItemStack(this, amount);
+	}
+
+	private Location pathfind(Location loc) {
+		Location result = null;
+
+		return result;
+	}
+
+	public void fire(final Player player) {
 		if (amount <= 0) {
 			return;
 		}
-		final Location droppedLocation = null;
+		final Location droppedLocation = pathfind(player.getLocation());
 		final Grenade g = this;
+		droppedLocation.getWorld().dropItem(droppedLocation,
+				this.toItemStack(1));
 		RushMe.getInstance().getServer().getScheduler()
 				.scheduleSyncDelayedTask(RushMe.getInstance(), new Runnable() {
 					public void run() {
@@ -174,6 +190,7 @@ public class Grenade extends GenericCustomItem {
 						PacketGrenadeUpdate packet = new PacketGrenadeUpdate();
 						packet.processGrenade(g);
 						packet.send(RMUtils.getSpoutPlayers());
+						PacketInfo.addPacket(packet, packet);
 					}
 				}, timeBeforeExplosion);
 	}
@@ -208,6 +225,10 @@ public class Grenade extends GenericCustomItem {
 		public void setTaskId(int id) {
 			this.taskId = id;
 		}
+	}
+
+	public boolean canBeUsed() {
+		return amount > 0;
 	}
 
 }

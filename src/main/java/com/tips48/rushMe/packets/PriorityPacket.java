@@ -17,26 +17,8 @@
 
 package com.tips48.rushMe.packets;
 
-import org.getspout.spoutapi.io.*;
-import org.getspout.spoutapi.player.SpoutPlayer;
+public interface PriorityPacket {
 
-public class PacketClassUpdate extends AddonPacket implements PriorityPacket {
-
-	@Override
-	public void read(SpoutInputStream stream) {
-	}
-
-	@Override
-	public void run(SpoutPlayer sp) {
-	}
-
-	@Override
-	public void write(SpoutOutputStream stream) {
-	}
-
-	@Override
-	public PacketPriority getPriority() {
-		return PacketPriority.LOWEST;
-	}
+	public PacketPriority getPriority();
 
 }

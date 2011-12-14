@@ -17,7 +17,8 @@
 
 package com.tips48.rushMe.configuration;
 
-import com.tips48.rushMe.*;
+import com.tips48.rushMe.GameManager;
+import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.gamemodes.GameModeType;
 import com.tips48.rushMe.teams.Team;
 import com.tips48.rushMe.util.RMLogging;
@@ -70,8 +71,9 @@ public class GameModeConfiguration {
 		gamemode = YamlConfiguration.loadConfiguration(gamemodeFile);
 		for (String name : gamemode.getConfigurationSection("GameModes")
 				.getKeys(false)) {
-			String gmtString = gamemode.getString("GameModes." + name
-					+ ".gameModeType");
+			name = name.trim();
+			String gmtString = gamemode.getString(
+					"GameModes." + name + ".gameModeType").trim();
 			GameModeType t = GameModeType.valueOf(gmtString);
 			if (t == null) {
 				RMLogging.log(Level.SEVERE, "Error loading GameMode " + name
@@ -89,17 +91,19 @@ public class GameModeConfiguration {
 			List<Team> teams = new ArrayList<Team>();
 			for (String teamName : gamemode.getConfigurationSection(
 					"GameModes." + name + ".teams").getKeys(false)) {
-				String skin = gamemode.getString("GameModes." + name
-						+ ".teams." + teamName + ".skin");
-				String prefix = gamemode.getString("GameModes." + name
-						+ ".teams." + teamName + ".prefix");
+				teamName = teamName.trim();
+				String skin = gamemode.getString(
+						"GameModes." + name + ".teams." + teamName + ".skin")
+						.trim();
+				String prefix = gamemode.getString(
+						"GameModes." + name + ".teams." + teamName + ".prefix")
+						.trim();
 				Boolean infiniteSpawns = gamemode.getBoolean("GameModes."
 						+ name + ".teams." + teamName + ".infiniteSpawns");
 				Integer spawns = gamemode.getInt("GameModes." + name
 						+ ".teams." + teamName + ".spawns");
 				Team team = new Team(teamName, prefix, maxPlayers, skin,
-						spawns, null, null);
-				team.setInfiniteLives(infiniteSpawns);
+						spawns, infiniteSpawns, null, null);
 				teams.add(team);
 			}
 			if (gamemode.getBoolean("GameModes." + name + ".default")) {

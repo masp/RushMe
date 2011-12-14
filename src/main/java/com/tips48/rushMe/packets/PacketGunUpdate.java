@@ -27,7 +27,7 @@ import org.getspout.spoutapi.player.SpoutPlayer;
 import java.util.UUID;
 import java.util.logging.Level;
 
-public class PacketGunUpdate extends AddonPacket {
+public class PacketGunUpdate extends AddonPacket implements PriorityPacket {
 
 	private String name;
 	private int reloadTime;
@@ -229,7 +229,7 @@ public class PacketGunUpdate extends AddonPacket {
 		this.uuid = uuid;
 	}
 
-	public void processGun(Gun gun) {
+	public PacketGunUpdate processGun(Gun gun) {
 		setName(gun.getName());
 		setReloadTime(gun.getReloadTime());
 		setMaxClipSize(gun.getMaxClipSize());
@@ -244,6 +244,12 @@ public class PacketGunUpdate extends AddonPacket {
 		setHeadshotDamage(gun.getHeadshotDamage());
 		setBodyDamage(gun.getBodyDamage());
 		setUUID(gun.getUUID());
+		return this;
+	}
+
+	@Override
+	public PacketPriority getPriority() {
+		return PacketPriority.LOWEST;
 	}
 
 }

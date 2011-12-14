@@ -22,6 +22,7 @@ import com.tips48.rushMe.custom.GUI.MainHUD;
 import com.tips48.rushMe.custom.GUI.SpoutGUI;
 import com.tips48.rushMe.gamemodes.GameMode;
 import com.tips48.rushMe.packets.PacketArenaUpdate;
+import com.tips48.rushMe.packets.PacketInfo;
 import com.tips48.rushMe.teams.Team;
 import com.tips48.rushMe.util.RMUtils;
 
@@ -87,6 +88,7 @@ public class Arena {
 		PacketArenaUpdate packet = new PacketArenaUpdate();
 		packet.processArena(this);
 		packet.send(RMUtils.getSpoutPlayers());
+		PacketInfo.addPacket(packet, packet);
 
 	}
 
@@ -209,6 +211,7 @@ public class Arena {
 		PacketArenaUpdate packet = new PacketArenaUpdate();
 		packet.processArena(this);
 		packet.send(RMUtils.getSpoutPlayers());
+		PacketInfo.addPacket(packet, packet);
 	}
 
 	public void removePlayer(Player player) {
@@ -241,6 +244,7 @@ public class Arena {
 		PacketArenaUpdate packet = new PacketArenaUpdate();
 		packet.processArena(this);
 		packet.send(RMUtils.getSpoutPlayers());
+		PacketInfo.addPacket(packet, packet);
 	}
 
 	public boolean hasPlayer(Player player) {
@@ -280,7 +284,7 @@ public class Arena {
 				team.doWon();
 				return;
 			}
-			if ((team.getSpawnsLeft() == 0) && !team.getInfiniteLives()) {
+			if ((team.getSpawnsLeft() == 0) && !(team.getInfiniteSpawns())) {
 				stop();
 				team.doLost();
 				gameWon = true;
@@ -289,6 +293,7 @@ public class Arena {
 		PacketArenaUpdate packet = new PacketArenaUpdate();
 		packet.processArena(this);
 		packet.send(RMUtils.getSpoutPlayers());
+		PacketInfo.addPacket(packet, packet);
 	}
 
 	public int getCreator() {
@@ -318,6 +323,7 @@ public class Arena {
 		PacketArenaUpdate packet = new PacketArenaUpdate();
 		packet.processArena(this);
 		packet.send(RMUtils.getSpoutPlayers());
+		PacketInfo.addPacket(packet, packet);
 	}
 
 	public void stop() {
@@ -341,6 +347,7 @@ public class Arena {
 		PacketArenaUpdate packet = new PacketArenaUpdate();
 		packet.processArena(this);
 		packet.send(RMUtils.getSpoutPlayers());
+		PacketInfo.addPacket(packet, packet);
 	}
 
 	public Vector getVector1() {
@@ -361,6 +368,7 @@ public class Arena {
 		PacketArenaUpdate packet = new PacketArenaUpdate();
 		packet.processArena(this);
 		packet.send(RMUtils.getSpoutPlayers());
+		PacketInfo.addPacket(packet, packet);
 	}
 
 	private void organizeVectors() {
@@ -400,6 +408,7 @@ public class Arena {
 		PacketArenaUpdate packet = new PacketArenaUpdate();
 		packet.processArena(this);
 		packet.send(RMUtils.getSpoutPlayers());
+		PacketInfo.addPacket(packet, packet);
 	}
 
 	public boolean inArena(Vector vec) {
@@ -422,6 +431,7 @@ public class Arena {
 		PacketArenaUpdate packet = new PacketArenaUpdate();
 		packet.processArena(this);
 		packet.send(RMUtils.getSpoutPlayers());
+		PacketInfo.addPacket(packet, packet);
 	}
 
 	public List<Vector> getObjectives() {
@@ -437,6 +447,7 @@ public class Arena {
 		PacketArenaUpdate packet = new PacketArenaUpdate();
 		packet.processArena(this);
 		packet.send(RMUtils.getSpoutPlayers());
+		PacketInfo.addPacket(packet, packet);
 	}
 
 	public void removeActiveObjective(Vector activeObjective) {
@@ -445,6 +456,7 @@ public class Arena {
 			PacketArenaUpdate packet = new PacketArenaUpdate();
 			packet.processArena(this);
 			packet.send(RMUtils.getSpoutPlayers());
+			PacketInfo.addPacket(packet, packet);
 		}
 	}
 
@@ -454,6 +466,7 @@ public class Arena {
 		PacketArenaUpdate packet = new PacketArenaUpdate();
 		packet.processArena(this);
 		packet.send(RMUtils.getSpoutPlayers());
+		PacketInfo.addPacket(packet, packet);
 	}
 
 	public void addCapturePoint(Team team, Vector capturePoint) {
@@ -462,6 +475,7 @@ public class Arena {
 		PacketArenaUpdate packet = new PacketArenaUpdate();
 		packet.processArena(this);
 		packet.send(RMUtils.getSpoutPlayers());
+		PacketInfo.addPacket(packet, packet);
 	}
 
 	public Map<Team, Vector> getCapturePoints() {
@@ -491,6 +505,7 @@ public class Arena {
 		PacketArenaUpdate packet = new PacketArenaUpdate();
 		packet.processArena(this);
 		packet.send(RMUtils.getSpoutPlayers());
+		PacketInfo.addPacket(packet, packet);
 	}
 
 	public List<Team> getOtherTeams(Team team) {

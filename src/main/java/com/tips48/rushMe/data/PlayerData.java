@@ -20,10 +20,12 @@ package com.tips48.rushMe.data;
 import com.tips48.rushMe.GameManager;
 import com.tips48.rushMe.custom.GUI.MainHUD;
 import com.tips48.rushMe.custom.GUI.SpoutGUI;
+import com.tips48.rushMe.custom.events.PlayerDamageEvent;
 import com.tips48.rushMe.custom.items.Grenade;
 import com.tips48.rushMe.custom.items.Gun;
 import com.tips48.rushMe.packets.PacketPlayerDataUpdate;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.getspout.spoutapi.SpoutManager;
 import org.getspout.spoutapi.player.SpoutPlayer;
@@ -60,18 +62,27 @@ public class PlayerData {
 			return;
 		}
 
-		setHealth(hurt, damage);
-
 		if ((hurtP == null) || (damagerP == null) || (hurtHUD == null)
 				|| (damagerHUD == null)) {
+			setHealth(hurt, damage);
 			return;
 		}
 
-		if ((hurtHUD != null) && hurtHUD.isActive()) {
+		PlayerDamageEvent event = new PlayerDamageEvent(hurtP, damagerP,
+				damage, gun, null);
+		Bukkit.getPluginManager().callEvent(event);
+		if (event.isCancelled()) {
+			return;
+		}
+		damage = event.getDamage();
+
+		setHealth(hurt, damage);
+
+		if (hurtHUD.isActive()) {
 			hurtHUD.updateHUD();
 		}
 
-		if ((damagerHUD != null) && damagerHUD.isActive()) {
+		if (damagerHUD.isActive()) {
 			damagerHUD.updateHUD();
 			damagerHUD.showHit();
 		}
@@ -118,18 +129,27 @@ public class PlayerData {
 			return;
 		}
 
-		setHealth(hurt, damage);
-
 		if ((hurtP == null) || (damagerP == null) || (hurtHUD == null)
 				|| (damagerHUD == null)) {
+			setHealth(hurt, damage);
 			return;
 		}
 
-		if ((hurtHUD != null) && hurtHUD.isActive()) {
+		PlayerDamageEvent event = new PlayerDamageEvent(hurtP, damagerP,
+				damage, null, grenade);
+		Bukkit.getPluginManager().callEvent(event);
+		if (event.isCancelled()) {
+			return;
+		}
+		damage = event.getDamage();
+
+		setHealth(hurt, damage);
+
+		if (hurtHUD.isActive()) {
 			hurtHUD.updateHUD();
 		}
 
-		if ((damagerHUD != null) && damagerHUD.isActive()) {
+		if (damagerHUD.isActive()) {
 			damagerHUD.updateHUD();
 			damagerHUD.showHit();
 		}
@@ -403,6 +423,18 @@ public class PlayerData {
 
 	public static boolean isSpotted(int player) {
 		return spotted.contains(player);
+	}
+
+	public static void sendPacketsOnJoin(SpoutPlayer player) {
+		for (int i : health.keys()) {
+			PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
+			packet.setPlayer(i);
+			packet.setDeaths(PlayerData.getDeaths(i));
+			packet.setKills(PlayerData.getKills(i));
+			packet.setScore(PlayerData.getScore(i));
+			packet.setSpotted(PlayerData.isSpotted(i));
+			packet.send(player);
+		}
 	}
 
 }

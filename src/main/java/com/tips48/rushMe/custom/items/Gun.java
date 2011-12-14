@@ -20,6 +20,7 @@ package com.tips48.rushMe.custom.items;
 import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.custom.GUI.SpoutGUI;
 import com.tips48.rushMe.packets.PacketGunUpdate;
+import com.tips48.rushMe.packets.PacketInfo;
 import com.tips48.rushMe.util.RMUtils;
 
 import org.bukkit.Location;
@@ -85,6 +86,7 @@ public class Gun extends GenericCustomItem {
 		PacketGunUpdate packet = new PacketGunUpdate();
 		packet.processGun(this);
 		packet.send(RMUtils.getSpoutPlayers());
+		PacketInfo.addPacket(packet, packet);
 	}
 
 	public boolean getBulletsExplode() {
@@ -116,6 +118,7 @@ public class Gun extends GenericCustomItem {
 		PacketGunUpdate packet = new PacketGunUpdate();
 		packet.processGun(this);
 		packet.send(RMUtils.getSpoutPlayers());
+		PacketInfo.addPacket(packet, packet);
 	}
 
 	public int getMaxAmmo() {
@@ -135,6 +138,7 @@ public class Gun extends GenericCustomItem {
 		PacketGunUpdate packet = new PacketGunUpdate();
 		packet.processGun(this);
 		packet.send(RMUtils.getSpoutPlayers());
+		PacketInfo.addPacket(packet, packet);
 	}
 
 	public int getMaxClipSize() {
@@ -150,6 +154,7 @@ public class Gun extends GenericCustomItem {
 		PacketGunUpdate packet = new PacketGunUpdate();
 		packet.processGun(this);
 		packet.send(RMUtils.getSpoutPlayers());
+		PacketInfo.addPacket(packet, packet);
 	}
 
 	public int getReloadTime() {
@@ -192,6 +197,7 @@ public class Gun extends GenericCustomItem {
 		PacketGunUpdate packet = new PacketGunUpdate();
 		packet.processGun(this);
 		packet.send(RMUtils.getSpoutPlayers());
+		PacketInfo.addPacket(packet, packet);
 	}
 
 	public void reload(final Player player) {
@@ -219,6 +225,7 @@ public class Gun extends GenericCustomItem {
 						PacketGunUpdate packet = new PacketGunUpdate();
 						packet.processGun(gun);
 						packet.send(RMUtils.getSpoutPlayers());
+						PacketInfo.addPacket(packet, packet);
 					}
 				}, reloadTime);
 	}
@@ -232,6 +239,7 @@ public class Gun extends GenericCustomItem {
 		PacketGunUpdate packet = new PacketGunUpdate();
 		packet.processGun(this);
 		packet.send(RMUtils.getSpoutPlayers());
+		PacketInfo.addPacket(packet, packet);
 	}
 
 	public double getEntityDamageDistance() {

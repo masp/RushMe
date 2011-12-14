@@ -20,6 +20,9 @@ package com.tips48.rushMe.teams;
 import com.tips48.rushMe.GameManager;
 import com.tips48.rushMe.custom.GUI.SpoutGUI;
 import com.tips48.rushMe.data.PlayerData;
+import com.tips48.rushMe.packets.PacketInfo;
+import com.tips48.rushMe.packets.PacketTeamUpdate;
+import com.tips48.rushMe.util.RMUtils;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -32,13 +35,13 @@ import gnu.trove.set.hash.TIntHashSet;
 
 import java.util.*;
 
-public class Team {
+public class Team extends PacketInfo {
 	private final TIntSet players;
 	private int spawnsLeft;
 	private final String name;
 	private final int playerLimit;
 	private List<Location> spawns = new ArrayList<Location>();
-	private boolean infiniteLives;
+	private boolean infiniteSpawns;
 
 	private final String prefix;
 	private final String skin;
@@ -48,11 +51,13 @@ public class Team {
 	private UUID ownerUUID;
 
 	public Team(String name, String prefix, int playerLimit, String skin,
-			Integer maxSpawnsLeft, UUID ownerUUID, UUID uuid) {
+			Integer maxSpawnsLeft, boolean infiniteSpawns, UUID ownerUUID,
+			UUID uuid) {
 		this.name = name;
 		this.playerLimit = playerLimit;
 		this.prefix = prefix;
 		this.skin = skin;
+		this.infiniteSpawns = infiniteSpawns;
 		this.maxSpawnsLeft = maxSpawnsLeft;
 		spawnsLeft = maxSpawnsLeft;
 
@@ -89,6 +94,9 @@ public class Team {
 				SpoutGUI.getHudOf(p).updateHUD();
 			}
 		}
+		PacketTeamUpdate packet = new PacketTeamUpdate();
+		packet.processTeam(this);
+		packet.send(RMUtils.getSpoutPlayers());
 	}
 
 	public void subtractSpawnsLeft() {
@@ -99,19 +107,24 @@ public class Team {
 				SpoutGUI.getHudOf(p).updateHUD();
 			}
 		}
+		PacketTeamUpdate packet = new PacketTeamUpdate();
+		packet.processTeam(this);
+		packet.send(RMUtils.getSpoutPlayers());
+		PacketInfo.addPacket(packet, packet);
 	}
 
 	public void setSpawnsLeft(int spawnsLeft) {
 		this.spawnsLeft = spawnsLeft;
-		if (spawnsLeft <= 0) {
-
-		}
 		for (int player : players.toArray()) {
 			Player p = SpoutManager.getPlayerFromId(player);
 			if (p != null) {
 				SpoutGUI.getHudOf(p).updateHUD();
 			}
 		}
+		PacketTeamUpdate packet = new PacketTeamUpdate();
+		packet.processTeam(this);
+		packet.send(RMUtils.getSpoutPlayers());
+		PacketInfo.addPacket(packet, packet);
 	}
 
 	public TIntSet getPlayers() {
@@ -121,6 +134,10 @@ public class Team {
 	public boolean addPlayer(int player) {
 		if (playerLimit > players.size()) {
 			players.add(player);
+			PacketTeamUpdate packet = new PacketTeamUpdate();
+			packet.processTeam(this);
+			packet.send(RMUtils.getSpoutPlayers());
+			PacketInfo.addPacket(packet, packet);
 			return true;
 		}
 		return false;
@@ -129,6 +146,10 @@ public class Team {
 	public void removePlayer(int player) {
 		if (players.contains(player)) {
 			players.remove(player);
+			PacketTeamUpdate packet = new PacketTeamUpdate();
+			packet.processTeam(this);
+			packet.send(RMUtils.getSpoutPlayers());
+			PacketInfo.addPacket(packet, packet);
 		}
 	}
 
@@ -158,18 +179,30 @@ public class Team {
 
 	public void setSpawns(List<Location> spawns) {
 		this.spawns = spawns;
+		PacketTeamUpdate packet = new PacketTeamUpdate();
+		packet.processTeam(this);
+		packet.send(RMUtils.getSpoutPlayers());
+		PacketInfo.addPacket(packet, packet);
 	}
 
 	public void addSpawn(Location spawn) {
 		spawns.add(spawn);
+		PacketTeamUpdate packet = new PacketTeamUpdate();
+		packet.processTeam(this);
+		packet.send(RMUtils.getSpoutPlayers());
+		PacketInfo.addPacket(packet, packet);
 	}
 
-	public boolean getInfiniteLives() {
-		return infiniteLives;
+	public boolean getInfiniteSpawns() {
+		return infiniteSpawns;
 	}
 
-	public void setInfiniteLives(boolean infiniteLives) {
-		this.infiniteLives = infiniteLives;
+	public void setInfiniteSpawns(boolean infiniteSpawns) {
+		this.infiniteSpawns = infiniteSpawns;
+		PacketTeamUpdate packet = new PacketTeamUpdate();
+		packet.processTeam(this);
+		packet.send(RMUtils.getSpoutPlayers());
+		PacketInfo.addPacket(packet, packet);
 	}
 
 	public TIntList getByScore() {
@@ -250,6 +283,10 @@ public class Team {
 
 	public void setOwnerUUID(UUID ownerUUID) {
 		this.ownerUUID = ownerUUID;
+		PacketTeamUpdate packet = new PacketTeamUpdate();
+		packet.processTeam(this);
+		packet.send(RMUtils.getSpoutPlayers());
+		PacketInfo.addPacket(packet, packet);
 	}
 
 	@Override

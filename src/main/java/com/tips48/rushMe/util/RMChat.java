@@ -102,7 +102,7 @@ public class RMChat {
 		Set<String> teamInfo = new HashSet<String>();
 		for (Team t : a.getTeams()) {
 			String info;
-			if (t.getInfiniteLives()) {
+			if (t.getInfiniteSpawns()) {
 				info = t.getName() + " (Infinite)";
 			} else {
 				info = t.getName() + " (" + t.getSpawnsLeft() + "/"

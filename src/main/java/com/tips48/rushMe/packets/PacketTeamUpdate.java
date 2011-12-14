@@ -28,18 +28,19 @@ import org.getspout.spoutapi.io.*;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
 import gnu.trove.set.TIntSet;
+import gnu.trove.set.hash.TIntHashSet;
 
 import java.util.*;
 import java.util.logging.Level;
 
-public class PacketTeamUpdate extends AddonPacket {
+public class PacketTeamUpdate extends AddonPacket implements PriorityPacket {
 
-	private TIntSet players;
+	private TIntSet players = new TIntHashSet();
 	private int spawnsLeft;
 	private String name;
 	private int playerLimit;
 	private List<Location> spawns = new ArrayList<Location>();
-	private boolean infiniteLives;
+	private boolean infiniteSpawns;
 	private String prefix;
 	private String skin;
 	private Integer maxSpawnsLeft;
@@ -52,7 +53,7 @@ public class PacketTeamUpdate extends AddonPacket {
 		name = stream.readString();
 		prefix = stream.readString();
 		skin = stream.readString();
-		infiniteLives = stream.readInt() == 0;
+		infiniteSpawns = stream.readInt() == 0;
 		playerLimit = stream.readInt();
 		spawnsLeft = stream.readInt();
 		maxSpawnsLeft = stream.readInt();
@@ -71,14 +72,13 @@ public class PacketTeamUpdate extends AddonPacket {
 	@Override
 	public void run(SpoutPlayer sp) {
 		Team team = new Team(name, prefix, playerLimit, skin, maxSpawnsLeft,
-				ownerUUID, uuid);
+				infiniteSpawns, ownerUUID, uuid);
 		for (int i : players.toArray()) {
 			team.addPlayer(i);
 		}
 		for (Location l : spawns) {
 			team.addSpawn(l);
 		}
-		team.setInfiniteLives(infiniteLives);
 		team.setSpawnsLeft(spawnsLeft);
 
 		GameMode gm = GameManager.getGameMode(ownerUUID);
@@ -99,7 +99,7 @@ public class PacketTeamUpdate extends AddonPacket {
 		stream.writeString(name);
 		stream.writeString(prefix);
 		stream.writeString(skin);
-		stream.writeInt(infiniteLives == true ? 0 : 1);
+		stream.writeInt(infiniteSpawns == true ? 0 : 1);
 		stream.writeInt(playerLimit);
 		stream.writeInt(spawnsLeft);
 		stream.writeInt(maxSpawnsLeft);
@@ -139,12 +139,12 @@ public class PacketTeamUpdate extends AddonPacket {
 		this.skin = skin;
 	}
 
-	public boolean isInfiniteLives() {
-		return infiniteLives;
+	public boolean isInfiniteSpawns() {
+		return infiniteSpawns;
 	}
 
-	public void setInfiniteLives(boolean infiniteLives) {
-		this.infiniteLives = infiniteLives;
+	public void setInfiniteSpawns(boolean infiniteSpawns) {
+		this.infiniteSpawns = infiniteSpawns;
 	}
 
 	public int getPlayerLimit() {
@@ -203,18 +203,24 @@ public class PacketTeamUpdate extends AddonPacket {
 		this.uuid = uuid;
 	}
 
-	public void processTeam(Team team) {
+	public PacketTeamUpdate processTeam(Team team) {
 		setName(team.getName());
 		setPrefix(team.getPrefix());
 		setSkin(team.getSkin());
 		setSpawnsLeft(team.getSpawnsLeft());
 		setMaxSpawnsLeft(team.getMaxSpawnsLeft());
 		setSpawns(team.getSpawns());
-		setInfiniteLives(team.getInfiniteLives());
+		setInfiniteSpawns(team.getInfiniteSpawns());
 		setPlayerLimit(team.getPlayerLimit());
 		setPlayers(team.getPlayers());
 		setUUID(team.getUUID());
 		setOwnerUUID(team.getOwnerUUID());
+		return this;
+	}
+
+	@Override
+	public PacketPriority getPriority() {
+		return PacketPriority.HIGH;
 	}
 
 }

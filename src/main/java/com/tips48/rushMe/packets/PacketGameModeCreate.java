@@ -28,7 +28,7 @@ import org.getspout.spoutapi.player.SpoutPlayer;
 import java.util.UUID;
 import java.util.logging.Level;
 
-public class PacketGameModeCreate extends AddonPacket {
+public class PacketGameModeCreate extends AddonPacket implements PriorityPacket {
 
 	private String name;
 	private int time;
@@ -133,12 +133,18 @@ public class PacketGameModeCreate extends AddonPacket {
 		this.uuid = uuid;
 	}
 
-	public void processGameMode(GameMode gamemode) {
+	public PacketGameModeCreate processGameMode(GameMode gamemode) {
 		setName(gamemode.getName());
 		setTime(gamemode.getTime());
 		setType(gamemode.getType());
 		setRespawn(gamemode.shouldRespawn());
 		setMaxPlayers(gamemode.getMaxPlayers());
 		setUUID(gamemode.getUUID());
+		return this;
+	}
+
+	@Override
+	public PacketPriority getPriority() {
+		return PacketPriority.HIGHEST;
 	}
 }

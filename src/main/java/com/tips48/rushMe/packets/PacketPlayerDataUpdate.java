@@ -25,7 +25,8 @@ import org.getspout.spoutapi.player.SpoutPlayer;
 
 import java.util.logging.Level;
 
-public class PacketPlayerDataUpdate extends AddonPacket {
+public class PacketPlayerDataUpdate extends AddonPacket implements
+		PriorityPacket {
 
 	private int player;
 	private int score;
@@ -121,6 +122,11 @@ public class PacketPlayerDataUpdate extends AddonPacket {
 
 	public void setSpotted(boolean spotted) {
 		this.spotted = spotted;
+	}
+
+	@Override
+	public PacketPriority getPriority() {
+		return PacketPriority.LOWEST;
 	}
 
 }

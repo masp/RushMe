@@ -19,14 +19,13 @@ package com.tips48.rushMe.packets;
 import com.tips48.rushMe.custom.GUI.MainHUD;
 import com.tips48.rushMe.custom.GUI.SpoutGUI;
 import com.tips48.rushMe.util.RMLogging;
-import org.getspout.spoutapi.io.AddonPacket;
-import org.getspout.spoutapi.io.SpoutInputStream;
-import org.getspout.spoutapi.io.SpoutOutputStream;
+
+import org.getspout.spoutapi.io.*;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
 import java.util.logging.Level;
 
-public class PacketDoConcussion extends AddonPacket {
+public class PacketDoConcussion extends AddonPacket implements PriorityPacket {
 
 	private int startingAlpha;
 	private int time;
@@ -73,6 +72,11 @@ public class PacketDoConcussion extends AddonPacket {
 
 	public void setTime(int time) {
 		this.time = time;
+	}
+
+	@Override
+	public PacketPriority getPriority() {
+		return PacketPriority.LOWEST;
 	}
 
 }

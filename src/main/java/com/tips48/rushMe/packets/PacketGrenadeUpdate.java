@@ -26,7 +26,7 @@ import org.getspout.spoutapi.player.SpoutPlayer;
 import java.util.UUID;
 import java.util.logging.Level;
 
-public class PacketGrenadeUpdate extends AddonPacket {
+public class PacketGrenadeUpdate extends AddonPacket implements PriorityPacket {
 
 	private String name;
 	private String shortName;
@@ -183,7 +183,7 @@ public class PacketGrenadeUpdate extends AddonPacket {
 		this.uuid = uuid;
 	}
 
-	public void processGrenade(Grenade grenade) {
+	public PacketGrenadeUpdate processGrenade(Grenade grenade) {
 		setName(grenade.getName());
 		setShortName(grenade.getShortName());
 		setType(grenade.getType());
@@ -194,6 +194,12 @@ public class PacketGrenadeUpdate extends AddonPacket {
 		setDamage(grenade.getDamage());
 		setStunTime(grenade.getStunTime());
 		setUUID(grenade.getUUID());
+		return this;
+	}
+
+	@Override
+	public PacketPriority getPriority() {
+		return PacketPriority.LOWEST;
 	}
 
 }

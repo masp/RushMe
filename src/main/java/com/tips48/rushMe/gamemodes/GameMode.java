@@ -17,7 +17,10 @@
 
 package com.tips48.rushMe.gamemodes;
 
+import com.tips48.rushMe.packets.PacketGameModeCreate;
+import com.tips48.rushMe.packets.PacketInfo;
 import com.tips48.rushMe.teams.Team;
+import com.tips48.rushMe.util.RMUtils;
 
 import java.util.List;
 import java.util.UUID;
@@ -50,6 +53,11 @@ public class GameMode {
 		for (Team team : this.teams) {
 			team.setOwnerUUID(this.uuid);
 		}
+
+		PacketGameModeCreate packet = new PacketGameModeCreate();
+		packet.processGameMode(this);
+		packet.send(RMUtils.getSpoutPlayers());
+		PacketInfo.addPacket(packet, packet);
 	}
 
 	public GameModeType getType() {
@@ -87,15 +95,27 @@ public class GameMode {
 				teams.add(team);
 			}
 		}
+		PacketGameModeCreate packet = new PacketGameModeCreate();
+		packet.processGameMode(this);
+		packet.send(RMUtils.getSpoutPlayers());
+		PacketInfo.addPacket(packet, packet);
 	}
 
 	public void addTeam(Team team) {
 		teams.add(team);
+		PacketGameModeCreate packet = new PacketGameModeCreate();
+		packet.processGameMode(this);
+		packet.send(RMUtils.getSpoutPlayers());
+		PacketInfo.addPacket(packet, packet);
 	}
 
 	public void removeTeam(Team team) {
 		if (teams.contains(team)) {
 			teams.remove(team);
+			PacketGameModeCreate packet = new PacketGameModeCreate();
+			packet.processGameMode(this);
+			packet.send(RMUtils.getSpoutPlayers());
+			PacketInfo.addPacket(packet, packet);
 		}
 	}
 

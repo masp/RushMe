@@ -17,38 +17,26 @@
 
 package com.tips48.rushMe.packets;
 
-import com.tips48.rushMe.custom.GUI.MainHUD;
-import com.tips48.rushMe.custom.GUI.SpoutGUI;
-import com.tips48.rushMe.util.RMLogging;
+public enum PacketPriority {
 
-import org.getspout.spoutapi.io.*;
-import org.getspout.spoutapi.player.SpoutPlayer;
+	HIGHEST(0), HIGH(1), NORMAL(2), LOW(3), LOWEST(4);
 
-import java.util.logging.Level;
+	private final int id;
 
-public class PacketShowHit extends AddonPacket implements PriorityPacket {
-
-	@Override
-	public void read(SpoutInputStream stream) {
+	PacketPriority(int id) {
+		this.id = id;
 	}
 
-	@Override
-	public void run(SpoutPlayer sp) {
-		RMLogging.debugLog(Level.INFO,
-				"Running PacketShowHit for " + sp.getName());
-		MainHUD hud = SpoutGUI.getHudOf(sp);
-		if (hud != null) {
-			hud.showHit();
+	public int getId() {
+		return id;
+	}
+
+	public static PacketPriority getPriorityFromId(int id) {
+		for (PacketPriority rp : values()) {
+			if (rp.getId() == id) {
+				return rp;
+			}
 		}
+		return null;
 	}
-
-	@Override
-	public void write(SpoutOutputStream stream) {
-	}
-
-	@Override
-	public PacketPriority getPriority() {
-		return PacketPriority.LOWEST;
-	}
-
 }
