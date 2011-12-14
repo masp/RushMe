@@ -17,9 +17,29 @@
 
 package com.tips48.rushMe.configuration;
 
-public class GunCreator {
+import javax.swing.*;
 
+public class GunCreator {
+	private JTextField NameField;
+	private JLabel TextureLabel;
+	private JLabel NameLabel;
+	private JTextField TextureField;
+	private JLabel ReloadTimeLabel;
+	private JTextField ReloadTimeField;
+	private JCheckBox AutoReloadCheckbox;
+	private JCheckBox BulletsExplodeCheckbox;
+	private JTextField textField1;
+	private JTextField textField2;
+	private JTextField textField3;
+
+	private void createUIComponents() {
+		// TODO: place custom component creation code here
+	}
+
+	public GunCreator() {
+		createUIComponents();
+	}
 	public static void main(String[] args) {
-		// TODO gun creation GUI
+		new GunCreator();
 	}
 }
