@@ -35,191 +35,191 @@ import java.util.logging.Level;
 
 public class PacketTeamUpdate extends AddonPacket implements PriorityPacket {
 
-	private TIntSet players = new TIntHashSet();
-	private int spawnsLeft;
-	private String name;
-	private int playerLimit;
-	private List<Location> spawns = new ArrayList<Location>();
-	private boolean infiniteSpawns;
-	private String prefix;
-	private String skin;
-	private Integer maxSpawnsLeft;
+    private TIntSet players = new TIntHashSet();
+    private int spawnsLeft;
+    private String name;
+    private int playerLimit;
+    private List<Location> spawns = new ArrayList<Location>();
+    private boolean infiniteSpawns;
+    private String prefix;
+    private String skin;
+    private Integer maxSpawnsLeft;
 
-	private UUID uuid;
-	private UUID ownerUUID;
+    private UUID uuid;
+    private UUID ownerUUID;
 
-	@Override
-	public void read(SpoutInputStream stream) {
-		name = stream.readString();
-		prefix = stream.readString();
-		skin = stream.readString();
-		infiniteSpawns = stream.readInt() == 0;
-		playerLimit = stream.readInt();
-		spawnsLeft = stream.readInt();
-		maxSpawnsLeft = stream.readInt();
-		uuid = stream.readUUID();
-		ownerUUID = stream.readUUID();
-		int spawnsLength = stream.readInt();
-		for (int i = 0; i < spawnsLength; i++) {
-			spawns.add(stream.readLocation());
-		}
-		int playersLength = stream.readInt();
-		for (int i = 0; i < playersLength; i++) {
-			players.add(stream.readInt());
-		}
+    @Override
+    public void read(SpoutInputStream stream) {
+	name = stream.readString();
+	prefix = stream.readString();
+	skin = stream.readString();
+	infiniteSpawns = stream.readInt() == 0;
+	playerLimit = stream.readInt();
+	spawnsLeft = stream.readInt();
+	maxSpawnsLeft = stream.readInt();
+	uuid = stream.readUUID();
+	ownerUUID = stream.readUUID();
+	int spawnsLength = stream.readInt();
+	for (int i = 0; i < spawnsLength; i++) {
+	    spawns.add(stream.readLocation());
 	}
-
-	@Override
-	public void run(SpoutPlayer sp) {
-		Team team = new Team(name, prefix, playerLimit, skin, maxSpawnsLeft,
-				infiniteSpawns, ownerUUID, uuid);
-		for (int i : players.toArray()) {
-			team.addPlayer(i);
-		}
-		for (Location l : spawns) {
-			team.addSpawn(l);
-		}
-		team.setSpawnsLeft(spawnsLeft);
-
-		GameMode gm = GameManager.getGameMode(ownerUUID);
-		if (gm != null) {
-			gm.replaceTeam(team);
-			return;
-		}
-		Arena a = GameManager.getArena(ownerUUID);
-		if (a != null) {
-			a.replaceTeam(team);
-			return;
-		}
-		RMLogging.log(Level.SEVERE, "PacketTeamUpdate sent wrongly!");
+	int playersLength = stream.readInt();
+	for (int i = 0; i < playersLength; i++) {
+	    players.add(stream.readInt());
 	}
+    }
 
-	@Override
-	public void write(SpoutOutputStream stream) {
-		stream.writeString(name);
-		stream.writeString(prefix);
-		stream.writeString(skin);
-		stream.writeInt(infiniteSpawns == true ? 0 : 1);
-		stream.writeInt(playerLimit);
-		stream.writeInt(spawnsLeft);
-		stream.writeInt(maxSpawnsLeft);
-		stream.writeUUID(uuid);
-		stream.writeUUID(ownerUUID);
-		stream.writeInt(spawns.size());
-		for (Location loc : spawns) {
-			stream.writeLocation(loc);
-		}
-		stream.writeInt(players.size());
-		for (int i : players.toArray()) {
-			stream.writeInt(i);
-		}
+    @Override
+    public void run(SpoutPlayer sp) {
+	Team team = new Team(name, prefix, playerLimit, skin, maxSpawnsLeft,
+		infiniteSpawns, ownerUUID, uuid);
+	for (int i : players.toArray()) {
+	    team.addPlayer(i);
 	}
+	for (Location l : spawns) {
+	    team.addSpawn(l);
+	}
+	team.setSpawnsLeft(spawnsLeft);
 
-	public String getName() {
-		return name;
+	GameMode gm = GameManager.getGameMode(ownerUUID);
+	if (gm != null) {
+	    gm.replaceTeam(team);
+	    return;
 	}
+	Arena a = GameManager.getArena(ownerUUID);
+	if (a != null) {
+	    a.replaceTeam(team);
+	    return;
+	}
+	RMLogging.log(Level.SEVERE, "PacketTeamUpdate sent wrongly!");
+    }
 
-	public void setName(String name) {
-		this.name = name;
+    @Override
+    public void write(SpoutOutputStream stream) {
+	stream.writeString(name);
+	stream.writeString(prefix);
+	stream.writeString(skin);
+	stream.writeInt(infiniteSpawns == true ? 0 : 1);
+	stream.writeInt(playerLimit);
+	stream.writeInt(spawnsLeft);
+	stream.writeInt(maxSpawnsLeft);
+	stream.writeUUID(uuid);
+	stream.writeUUID(ownerUUID);
+	stream.writeInt(spawns.size());
+	for (Location loc : spawns) {
+	    stream.writeLocation(loc);
 	}
+	stream.writeInt(players.size());
+	for (int i : players.toArray()) {
+	    stream.writeInt(i);
+	}
+    }
 
-	public String getPrefix() {
-		return prefix;
-	}
+    public String getName() {
+	return name;
+    }
 
-	public void setPrefix(String prefix) {
-		this.prefix = prefix;
-	}
+    public void setName(String name) {
+	this.name = name;
+    }
 
-	public String getSkin() {
-		return skin;
-	}
+    public String getPrefix() {
+	return prefix;
+    }
 
-	public void setSkin(String skin) {
-		this.skin = skin;
-	}
+    public void setPrefix(String prefix) {
+	this.prefix = prefix;
+    }
 
-	public boolean isInfiniteSpawns() {
-		return infiniteSpawns;
-	}
+    public String getSkin() {
+	return skin;
+    }
 
-	public void setInfiniteSpawns(boolean infiniteSpawns) {
-		this.infiniteSpawns = infiniteSpawns;
-	}
+    public void setSkin(String skin) {
+	this.skin = skin;
+    }
 
-	public int getPlayerLimit() {
-		return playerLimit;
-	}
+    public boolean isInfiniteSpawns() {
+	return infiniteSpawns;
+    }
 
-	public void setPlayerLimit(int playerLimit) {
-		this.playerLimit = playerLimit;
-	}
+    public void setInfiniteSpawns(boolean infiniteSpawns) {
+	this.infiniteSpawns = infiniteSpawns;
+    }
 
-	public int getSpawnsLeft() {
-		return spawnsLeft;
-	}
+    public int getPlayerLimit() {
+	return playerLimit;
+    }
 
-	public void setSpawnsLeft(int spawnsLeft) {
-		this.spawnsLeft = spawnsLeft;
-	}
+    public void setPlayerLimit(int playerLimit) {
+	this.playerLimit = playerLimit;
+    }
 
-	public Integer getMaxSpawnsLeft() {
-		return maxSpawnsLeft;
-	}
+    public int getSpawnsLeft() {
+	return spawnsLeft;
+    }
 
-	public void setMaxSpawnsLeft(Integer maxSpawnsLeft) {
-		this.maxSpawnsLeft = maxSpawnsLeft;
-	}
+    public void setSpawnsLeft(int spawnsLeft) {
+	this.spawnsLeft = spawnsLeft;
+    }
 
-	public List<Location> getSpawns() {
-		return spawns;
-	}
+    public Integer getMaxSpawnsLeft() {
+	return maxSpawnsLeft;
+    }
 
-	public void setSpawns(List<Location> spawns) {
-		this.spawns = spawns;
-	}
+    public void setMaxSpawnsLeft(Integer maxSpawnsLeft) {
+	this.maxSpawnsLeft = maxSpawnsLeft;
+    }
 
-	public TIntSet getPlayers() {
-		return players;
-	}
+    public List<Location> getSpawns() {
+	return spawns;
+    }
 
-	public void setPlayers(TIntSet players) {
-		this.players = players;
-	}
+    public void setSpawns(List<Location> spawns) {
+	this.spawns = spawns;
+    }
 
-	public UUID getOwnerUUID() {
-		return ownerUUID;
-	}
+    public TIntSet getPlayers() {
+	return players;
+    }
 
-	public void setOwnerUUID(UUID ownerUUID) {
-		this.ownerUUID = ownerUUID;
-	}
+    public void setPlayers(TIntSet players) {
+	this.players = players;
+    }
 
-	public UUID getUUID() {
-		return uuid;
-	}
+    public UUID getOwnerUUID() {
+	return ownerUUID;
+    }
 
-	public void setUUID(UUID uuid) {
-		this.uuid = uuid;
-	}
+    public void setOwnerUUID(UUID ownerUUID) {
+	this.ownerUUID = ownerUUID;
+    }
 
-	public PacketTeamUpdate processTeam(Team team) {
-		setName(team.getName());
-		setPrefix(team.getPrefix());
-		setSkin(team.getSkin());
-		setSpawnsLeft(team.getSpawnsLeft());
-		setMaxSpawnsLeft(team.getMaxSpawnsLeft());
-		setSpawns(team.getSpawns());
-		setInfiniteSpawns(team.getInfiniteSpawns());
-		setPlayerLimit(team.getPlayerLimit());
-		setPlayers(team.getPlayers());
-		setUUID(team.getUUID());
-		setOwnerUUID(team.getOwnerUUID());
-		return this;
-	}
+    public UUID getUUID() {
+	return uuid;
+    }
 
-	public PacketPriority getPriority() {
-		return PacketPriority.HIGH;
-	}
+    public void setUUID(UUID uuid) {
+	this.uuid = uuid;
+    }
+
+    public PacketTeamUpdate processTeam(Team team) {
+	setName(team.getName());
+	setPrefix(team.getPrefix());
+	setSkin(team.getSkin());
+	setSpawnsLeft(team.getSpawnsLeft());
+	setMaxSpawnsLeft(team.getMaxSpawnsLeft());
+	setSpawns(team.getSpawns());
+	setInfiniteSpawns(team.getInfiniteSpawns());
+	setPlayerLimit(team.getPlayerLimit());
+	setPlayers(team.getPlayers());
+	setUUID(team.getUUID());
+	setOwnerUUID(team.getOwnerUUID());
+	return this;
+    }
+
+    public PacketPriority getPriority() {
+	return PacketPriority.HIGH;
+    }
 
 }

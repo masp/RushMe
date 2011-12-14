@@ -25,34 +25,34 @@ import org.bukkit.event.Event;
 
 public class PlayerThrowGrenadeEvent extends Event implements Cancellable {
 
-	private static final long serialVersionUID = -753883085563151172L;
-	private Player player;
-	private Grenade grenade;
-	private boolean cancel;
+    private static final long serialVersionUID = -753883085563151172L;
+    private Player player;
+    private Grenade grenade;
+    private boolean cancel;
 
-	public PlayerThrowGrenadeEvent(Player player, Grenade grenade) {
-		super("PlayerThrowGrenadeEvent");
-		this.player = player;
-		this.grenade = grenade;
-		this.cancel = false;
-	}
+    public PlayerThrowGrenadeEvent(Player player, Grenade grenade) {
+	super("PlayerThrowGrenadeEvent");
+	this.player = player;
+	this.grenade = grenade;
+	this.cancel = false;
+    }
 
-	public Player getPlayer() {
-		return player;
-	}
+    public Player getPlayer() {
+	return player;
+    }
 
-	public Grenade getGrenade() {
-		return grenade;
-	}
+    public Grenade getGrenade() {
+	return grenade;
+    }
 
-	@Override
-	public boolean isCancelled() {
-		return cancel;
-	}
+    @Override
+    public boolean isCancelled() {
+	return cancel;
+    }
 
-	@Override
-	public void setCancelled(boolean cancelled) {
-		this.cancel = cancelled;
-	}
+    @Override
+    public void setCancelled(boolean cancelled) {
+	this.cancel = cancelled;
+    }
 
 }

@@ -26,70 +26,70 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Class {
-	private final String name;
-	private final Set<Gun> allowedGuns;
+    private final String name;
+    private final Set<Gun> allowedGuns;
 
-	private final TIntSet players;
+    private final TIntSet players;
 
-	protected Class(String name, Set<Gun> allowedGuns) {
-		this.name = name;
-		if (allowedGuns != null) {
-			this.allowedGuns = allowedGuns;
-		} else {
-			this.allowedGuns = new HashSet<Gun>();
-		}
-		players = new TIntHashSet();
+    protected Class(String name, Set<Gun> allowedGuns) {
+	this.name = name;
+	if (allowedGuns != null) {
+	    this.allowedGuns = allowedGuns;
+	} else {
+	    this.allowedGuns = new HashSet<Gun>();
 	}
+	players = new TIntHashSet();
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+	return name;
+    }
 
-	public Set<Gun> getAllowedGuns() {
-		return allowedGuns;
-	}
+    public Set<Gun> getAllowedGuns() {
+	return allowedGuns;
+    }
 
-	public boolean isAllowed(Gun gun) {
-		return allowedGuns.contains(gun);
-	}
+    public boolean isAllowed(Gun gun) {
+	return allowedGuns.contains(gun);
+    }
 
-	public void addGun(Gun gun) {
-		allowedGuns.add(gun);
-	}
+    public void addGun(Gun gun) {
+	allowedGuns.add(gun);
+    }
 
-	public void removeGun(Gun gun) {
-		if (allowedGuns.contains(gun)) {
-			allowedGuns.remove(gun);
-		}
+    public void removeGun(Gun gun) {
+	if (allowedGuns.contains(gun)) {
+	    allowedGuns.remove(gun);
 	}
+    }
 
-	public TIntSet getPlayers() {
-		return players;
-	}
+    public TIntSet getPlayers() {
+	return players;
+    }
 
-	public void addPlayer(Player player) {
-		addPlayer(player.getEntityId());
-	}
+    public void addPlayer(Player player) {
+	addPlayer(player.getEntityId());
+    }
 
-	public void addPlayer(int player) {
-		players.add(player);
-	}
+    public void addPlayer(int player) {
+	players.add(player);
+    }
 
-	public void removePlayer(Player player) {
-		removePlayer(player.getEntityId());
-	}
+    public void removePlayer(Player player) {
+	removePlayer(player.getEntityId());
+    }
 
-	public void removePlayer(int player) {
-		if (players.contains(player)) {
-			players.remove(player);
-		}
+    public void removePlayer(int player) {
+	if (players.contains(player)) {
+	    players.remove(player);
 	}
+    }
 
-	public boolean containsPlayer(Player player) {
-		return containsPlayer(player.getEntityId());
-	}
+    public boolean containsPlayer(Player player) {
+	return containsPlayer(player.getEntityId());
+    }
 
-	public boolean containsPlayer(int player) {
-		return players.contains(player);
-	}
+    public boolean containsPlayer(int player) {
+	return players.contains(player);
+    }
 }

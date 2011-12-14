@@ -22,16 +22,16 @@ import org.getspout.spoutapi.player.SpoutPlayer;
 
 public class PacketClassUpdate extends AddonPacket {
 
-	@Override
-	public void read(SpoutInputStream stream) {
-	}
+    @Override
+    public void read(SpoutInputStream stream) {
+    }
 
-	@Override
-	public void run(SpoutPlayer sp) {
-	}
+    @Override
+    public void run(SpoutPlayer sp) {
+    }
 
-	@Override
-	public void write(SpoutOutputStream stream) {
-	}
+    @Override
+    public void write(SpoutOutputStream stream) {
+    }
 
 }

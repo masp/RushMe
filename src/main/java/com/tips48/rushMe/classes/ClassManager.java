@@ -25,36 +25,36 @@ import java.util.Set;
 
 public class ClassManager {
 
-	private static final Set<Class> classes = new HashSet<Class>();
+    private static final Set<Class> classes = new HashSet<Class>();
 
-	public static Class createClass(String name, Set<Gun> allowedGuns) {
-		Class c = new Class(name, allowedGuns);
+    public static Class createClass(String name, Set<Gun> allowedGuns) {
+	Class c = new Class(name, allowedGuns);
 
-		classes.add(c);
+	classes.add(c);
 
+	return c;
+    }
+
+    public static Class getClass(String name) {
+	for (Class c : classes) {
+	    if (c.getName().equals(name)) {
 		return c;
+	    }
 	}
+	return null;
+    }
 
-	public static Class getClass(String name) {
-		for (Class c : classes) {
-			if (c.getName().equals(name)) {
-				return c;
-			}
-		}
-		return null;
-	}
+    public static Class getClassOf(Player player) {
+	return getClassOf(player.getEntityId());
+    }
 
-	public static Class getClassOf(Player player) {
-		return getClassOf(player.getEntityId());
+    public static Class getClassOf(int player) {
+	for (Class c : classes) {
+	    if (c.containsPlayer(player)) {
+		return c;
+	    }
 	}
-
-	public static Class getClassOf(int player) {
-		for (Class c : classes) {
-			if (c.containsPlayer(player)) {
-				return c;
-			}
-		}
-		return null;
-	}
+	return null;
+    }
 
 }

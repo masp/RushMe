@@ -34,106 +34,106 @@ import gnu.trove.map.hash.TIntObjectHashMap;
 
 public class SpoutGUI {
 
-	private static final TIntObjectMap<MainHUD> huds = new TIntObjectHashMap<MainHUD>();
+    private static final TIntObjectMap<MainHUD> huds = new TIntObjectHashMap<MainHUD>();
 
-	private SpoutGUI() {
+    private SpoutGUI() {
 
+    }
+
+    public static void showKill(Player killer, Player killed, Gun weapon) {
+	Arena a = GameManager.getArenaOf(killer);
+	Team pTeam = a.getTeamOf(killer);
+	Team other = null;
+	for (Team t : a.getTeams()) {
+	    if (t != pTeam) {
+		other = t;
+	    }
 	}
-
-	public static void showKill(Player killer, Player killed, Gun weapon) {
-		Arena a = GameManager.getArenaOf(killer);
-		Team pTeam = a.getTeamOf(killer);
-		Team other = null;
-		for (Team t : a.getTeams()) {
-			if (t != pTeam) {
-				other = t;
-			}
-		}
-		if (other == null) {
-			return;
-		}
-		for (int i : pTeam.getPlayers().toArray()) {
-			Player p = SpoutManager.getPlayerFromId(i);
-			if (p != null) {
-				MainHUD hud = getHudOf(p);
-				if (hud != null) {
-					hud.queueKill(ChatColor.GREEN + killer.getDisplayName()
-							+ ChatColor.WHITE + "[" + weapon.getName() + "]"
-							+ ChatColor.RED + killed.getDisplayName());
-				}
-			}
-		}
-		for (int i : other.getPlayers().toArray()) {
-			Player p = SpoutManager.getPlayerFromId(i);
-			if (p != null) {
-				MainHUD hud = getHudOf(p);
-				if (hud != null) {
-					hud.queueKill(ChatColor.RED + killer.getDisplayName()
-							+ ChatColor.WHITE + "[" + weapon.getName() + "]"
-							+ ChatColor.GREEN + killed.getDisplayName());
-				}
-			}
-		}
+	if (other == null) {
+	    return;
 	}
-
-	public static void showKill(Player killer, Player killed, Grenade weapon) {
-		Arena a = GameManager.getArenaOf(killer);
-		Team pTeam = a.getTeamOf(killer);
-		Team other = null;
-		for (Team t : a.getTeams()) {
-			if (t != pTeam) {
-				other = t;
-			}
+	for (int i : pTeam.getPlayers().toArray()) {
+	    Player p = SpoutManager.getPlayerFromId(i);
+	    if (p != null) {
+		MainHUD hud = getHudOf(p);
+		if (hud != null) {
+		    hud.queueKill(ChatColor.GREEN + killer.getDisplayName()
+			    + ChatColor.WHITE + "[" + weapon.getName() + "]"
+			    + ChatColor.RED + killed.getDisplayName());
 		}
-		if (other == null) {
-			return;
-		}
-		for (int i : pTeam.getPlayers().toArray()) {
-			Player p = SpoutManager.getPlayerFromId(i);
-			if (p != null) {
-				MainHUD hud = getHudOf(p);
-				if (hud != null) {
-					hud.queueKill(ChatColor.GREEN + killer.getDisplayName()
-							+ ChatColor.WHITE + "[" + weapon.getName() + "]"
-							+ ChatColor.RED + killed.getDisplayName());
-				}
-			}
-		}
-		for (int i : other.getPlayers().toArray()) {
-			Player p = SpoutManager.getPlayerFromId(i);
-			if (p != null) {
-				MainHUD hud = getHudOf(p);
-				if (hud != null) {
-					hud.queueKill(ChatColor.RED + killer.getDisplayName()
-							+ ChatColor.WHITE + "[" + weapon.getName() + "]"
-							+ ChatColor.GREEN + killed.getDisplayName());
-				}
-			}
-		}
+	    }
 	}
-
-	public static MainHUD getHudOf(Player player) {
-		return getHudOf(player.getEntityId());
-	}
-
-	public static MainHUD getHudOf(int player) {
-		if (huds.containsKey(player)) {
-			return huds.get(player);
+	for (int i : other.getPlayers().toArray()) {
+	    Player p = SpoutManager.getPlayerFromId(i);
+	    if (p != null) {
+		MainHUD hud = getHudOf(p);
+		if (hud != null) {
+		    hud.queueKill(ChatColor.RED + killer.getDisplayName()
+			    + ChatColor.WHITE + "[" + weapon.getName() + "]"
+			    + ChatColor.GREEN + killed.getDisplayName());
 		}
-		return null;
+	    }
 	}
+    }
 
-	public static PListener getPListener() {
-		return new PListener();
+    public static void showKill(Player killer, Player killed, Grenade weapon) {
+	Arena a = GameManager.getArenaOf(killer);
+	Team pTeam = a.getTeamOf(killer);
+	Team other = null;
+	for (Team t : a.getTeams()) {
+	    if (t != pTeam) {
+		other = t;
+	    }
 	}
-
-	private static class PListener extends PlayerListener {
-		@Override
-		public void onPlayerJoin(PlayerJoinEvent event) {
-			MainHUD hud = new MainHUD(event.getPlayer());
-			huds.put(event.getPlayer().getEntityId(), hud);
+	if (other == null) {
+	    return;
+	}
+	for (int i : pTeam.getPlayers().toArray()) {
+	    Player p = SpoutManager.getPlayerFromId(i);
+	    if (p != null) {
+		MainHUD hud = getHudOf(p);
+		if (hud != null) {
+		    hud.queueKill(ChatColor.GREEN + killer.getDisplayName()
+			    + ChatColor.WHITE + "[" + weapon.getName() + "]"
+			    + ChatColor.RED + killed.getDisplayName());
 		}
+	    }
 	}
+	for (int i : other.getPlayers().toArray()) {
+	    Player p = SpoutManager.getPlayerFromId(i);
+	    if (p != null) {
+		MainHUD hud = getHudOf(p);
+		if (hud != null) {
+		    hud.queueKill(ChatColor.RED + killer.getDisplayName()
+			    + ChatColor.WHITE + "[" + weapon.getName() + "]"
+			    + ChatColor.GREEN + killed.getDisplayName());
+		}
+	    }
+	}
+    }
+
+    public static MainHUD getHudOf(Player player) {
+	return getHudOf(player.getEntityId());
+    }
+
+    public static MainHUD getHudOf(int player) {
+	if (huds.containsKey(player)) {
+	    return huds.get(player);
+	}
+	return null;
+    }
+
+    public static PListener getPListener() {
+	return new PListener();
+    }
+
+    private static class PListener extends PlayerListener {
+	@Override
+	public void onPlayerJoin(PlayerJoinEvent event) {
+	    MainHUD hud = new MainHUD(event.getPlayer());
+	    huds.put(event.getPlayer().getEntityId(), hud);
+	}
+    }
 }
 
 // TODO rewrite for more than 2 teams

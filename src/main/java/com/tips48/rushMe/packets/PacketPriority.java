@@ -19,24 +19,24 @@ package com.tips48.rushMe.packets;
 
 public enum PacketPriority {
 
-	HIGHEST(0), HIGH(1), NORMAL(2), LOW(3), LOWEST(4);
+    HIGHEST(0), HIGH(1), NORMAL(2), LOW(3), LOWEST(4);
 
-	private final int id;
+    private final int id;
 
-	PacketPriority(int id) {
-		this.id = id;
+    PacketPriority(int id) {
+	this.id = id;
+    }
+
+    public int getId() {
+	return id;
+    }
+
+    public static PacketPriority getPriorityFromId(int id) {
+	for (PacketPriority rp : values()) {
+	    if (rp.getId() == id) {
+		return rp;
+	    }
 	}
-
-	public int getId() {
-		return id;
-	}
-
-	public static PacketPriority getPriorityFromId(int id) {
-		for (PacketPriority rp : values()) {
-			if (rp.getId() == id) {
-				return rp;
-			}
-		}
-		return null;
-	}
+	return null;
+    }
 }

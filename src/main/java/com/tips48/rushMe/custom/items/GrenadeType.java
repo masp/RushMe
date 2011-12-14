@@ -22,28 +22,28 @@ import gnu.trove.map.hash.TIntObjectHashMap;
 
 public enum GrenadeType {
 
-	FRAG(0), STUN(1), CONCUSSION(2);
+    FRAG(0), STUN(1), CONCUSSION(2);
 
-	private final int code;
-	private static final TIntObjectMap<GrenadeType> types;
+    private final int code;
+    private static final TIntObjectMap<GrenadeType> types;
 
-	private GrenadeType(int code) {
-		this.code = code;
-	}
+    private GrenadeType(int code) {
+	this.code = code;
+    }
 
-	public int getCode() {
-		return this.code;
-	}
+    public int getCode() {
+	return this.code;
+    }
 
-	public static GrenadeType getByCode(int code) {
-		return types.get(code);
-	}
+    public static GrenadeType getByCode(int code) {
+	return types.get(code);
+    }
 
-	static {
-		types = new TIntObjectHashMap<GrenadeType>();
+    static {
+	types = new TIntObjectHashMap<GrenadeType>();
 
-		for (GrenadeType gt : values())
-			types.put(gt.getCode(), gt);
-	}
+	for (GrenadeType gt : values())
+	    types.put(gt.getCode(), gt);
+    }
 
 }

@@ -29,89 +29,89 @@ import java.util.Set;
 
 public class RMChat {
 
-	private RMChat() {
+    private RMChat() {
 
-	}
+    }
 
-	public static void sendHelp(CommandSender sender) {
-		sender.sendMessage(ChatColor.RED + "Commands:");
-		sender.sendMessage(ChatColor.RED + "<> = required, [] = optional");
-		sender.sendMessage(ChatColor.AQUA + "/RushMe - General Information");
-		sender.sendMessage(ChatColor.AQUA
-				+ "/RushMe list - Lists all the created Arena's");
-		sender.sendMessage(ChatColor.AQUA
-				+ "/RushMe create <Name> [GameMode] - Creates the specified Arena");
-		sender.sendMessage(ChatColor.AQUA
-				+ "/RushMe delete <Name> - Deletes the specified Arena");
-		sender.sendMessage(ChatColor.AQUA
-				+ "/RushMe info <Name> - Displays info about the specified Arena");
-		sender.sendMessage(ChatColor.AQUA
-				+ "/RushMe start <Name> - Starts the specified Arena");
-		sender.sendMessage(ChatColor.AQUA
-				+ "/RushMe stop <Name> - Stops the specified Arena");
-		sender.sendMessage(ChatColor.AQUA
-				+ "/RushMe join <Name> - Joins the specified Arena");
-		sender.sendMessage(ChatColor.AQUA
-				+ "/RushMe leave <Name> - Leaves the specified Arena");
-		sender.sendMessage(ChatColor.AQUA
-				+ "/RushMe define <Name> - Starts defining an Arena");
-		sender.sendMessage(ChatColor.AQUA
-				+ "/RushMe done <Name> - Indicates that you are done defining the Arena");
-		sender.sendMessage(ChatColor.AQUA + "/RushMe help - Shows this dialog");
-	}
+    public static void sendHelp(CommandSender sender) {
+	sender.sendMessage(ChatColor.RED + "Commands:");
+	sender.sendMessage(ChatColor.RED + "<> = required, [] = optional");
+	sender.sendMessage(ChatColor.AQUA + "/RushMe - General Information");
+	sender.sendMessage(ChatColor.AQUA
+		+ "/RushMe list - Lists all the created Arena's");
+	sender.sendMessage(ChatColor.AQUA
+		+ "/RushMe create <Name> [GameMode] - Creates the specified Arena");
+	sender.sendMessage(ChatColor.AQUA
+		+ "/RushMe delete <Name> - Deletes the specified Arena");
+	sender.sendMessage(ChatColor.AQUA
+		+ "/RushMe info <Name> - Displays info about the specified Arena");
+	sender.sendMessage(ChatColor.AQUA
+		+ "/RushMe start <Name> - Starts the specified Arena");
+	sender.sendMessage(ChatColor.AQUA
+		+ "/RushMe stop <Name> - Stops the specified Arena");
+	sender.sendMessage(ChatColor.AQUA
+		+ "/RushMe join <Name> - Joins the specified Arena");
+	sender.sendMessage(ChatColor.AQUA
+		+ "/RushMe leave <Name> - Leaves the specified Arena");
+	sender.sendMessage(ChatColor.AQUA
+		+ "/RushMe define <Name> - Starts defining an Arena");
+	sender.sendMessage(ChatColor.AQUA
+		+ "/RushMe done <Name> - Indicates that you are done defining the Arena");
+	sender.sendMessage(ChatColor.AQUA + "/RushMe help - Shows this dialog");
+    }
 
-	public static void sendWrongArguments(CommandSender sender) {
-		sender.sendMessage(ChatColor.RED + "Wrong argument(s)");
-		sender.sendMessage(ChatColor.RED
-				+ "Type /RushMe help for valid commands");
-	}
+    public static void sendWrongArguments(CommandSender sender) {
+	sender.sendMessage(ChatColor.RED + "Wrong argument(s)");
+	sender.sendMessage(ChatColor.RED
+		+ "Type /RushMe help for valid commands");
+    }
 
-	public static void sendMainCommand(CommandSender sender) {
-		sender.sendMessage(ChatColor.AQUA + "RushMe version "
-				+ RushMe.getVersion() + "_" + RushMe.getSubVersion()
-				+ " by tips48");
-		sender.sendMessage(ChatColor.AQUA
-				+ "Type /RushMe help for more information");
-	}
+    public static void sendMainCommand(CommandSender sender) {
+	sender.sendMessage(ChatColor.AQUA + "RushMe version "
+		+ RushMe.getVersion() + "_" + RushMe.getSubVersion()
+		+ " by tips48");
+	sender.sendMessage(ChatColor.AQUA
+		+ "Type /RushMe help for more information");
+    }
 
-	public static void sendTooManyArguments(CommandSender sender) {
-		sender.sendMessage(ChatColor.RED + "Too many argument(s)");
-		sender.sendMessage(ChatColor.RED
-				+ "Type /RushMe help for valid commands");
-	}
+    public static void sendTooManyArguments(CommandSender sender) {
+	sender.sendMessage(ChatColor.RED + "Too many argument(s)");
+	sender.sendMessage(ChatColor.RED
+		+ "Type /RushMe help for valid commands");
+    }
 
-	public static void sendPlayerOnly(CommandSender sender) {
-		sender.sendMessage(ChatColor.RED + "This is a Player only command");
-	}
+    public static void sendPlayerOnly(CommandSender sender) {
+	sender.sendMessage(ChatColor.RED + "This is a Player only command");
+    }
 
-	public static void sendNoPermission(CommandSender sender) {
-		sender.sendMessage(ChatColor.RED
-				+ "You don't have permission to use this command");
-	}
+    public static void sendNoPermission(CommandSender sender) {
+	sender.sendMessage(ChatColor.RED
+		+ "You don't have permission to use this command");
+    }
 
-	public static void sendArenaInfo(CommandSender sender, Arena a) {
-		sender.sendMessage(ChatColor.RED + "Info for Arena: " + a.getName());
-		sender.sendMessage(ChatColor.AQUA + "Gamemode: "
-				+ (a.getGameMode().getName()));
-		sender.sendMessage(ChatColor.AQUA + "Time before start: "
-				+ a.getTimeBeforeStart());
-		sender.sendMessage(ChatColor.AQUA + "Time left: "
-				+ RMUtils.parseIntForMinute(a.getTimeLeft()));
-		sender.sendMessage(ChatColor.AQUA + "Players: "
-				+ RMUtils.readableSet(RMUtils.toSet(a.getPlayers())));
-		Set<String> teamInfo = new HashSet<String>();
-		for (Team t : a.getTeams()) {
-			String info;
-			if (t.getInfiniteSpawns()) {
-				info = t.getName() + " (Infinite)";
-			} else {
-				info = t.getName() + " (" + t.getSpawnsLeft() + "/"
-						+ t.getMaxSpawnsLeft() + ")";
-			}
-			teamInfo.add(info);
-		}
-		sender.sendMessage(ChatColor.AQUA + "Teams: "
-				+ RMUtils.readableSet(teamInfo));
+    public static void sendArenaInfo(CommandSender sender, Arena a) {
+	sender.sendMessage(ChatColor.RED + "Info for Arena: " + a.getName());
+	sender.sendMessage(ChatColor.AQUA + "Gamemode: "
+		+ (a.getGameMode().getName()));
+	sender.sendMessage(ChatColor.AQUA + "Time before start: "
+		+ a.getTimeBeforeStart());
+	sender.sendMessage(ChatColor.AQUA + "Time left: "
+		+ RMUtils.parseIntForMinute(a.getTimeLeft()));
+	sender.sendMessage(ChatColor.AQUA + "Players: "
+		+ RMUtils.readableSet(RMUtils.toSet(a.getPlayers())));
+	Set<String> teamInfo = new HashSet<String>();
+	for (Team t : a.getTeams()) {
+	    String info;
+	    if (t.getInfiniteSpawns()) {
+		info = t.getName() + " (Infinite)";
+	    } else {
+		info = t.getName() + " (" + t.getSpawnsLeft() + "/"
+			+ t.getMaxSpawnsLeft() + ")";
+	    }
+	    teamInfo.add(info);
 	}
+	sender.sendMessage(ChatColor.AQUA + "Teams: "
+		+ RMUtils.readableSet(teamInfo));
+    }
 
 }

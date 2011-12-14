@@ -22,28 +22,28 @@ import gnu.trove.map.hash.TIntObjectHashMap;
 
 public enum GameModeType {
 
-	OBJECTIVE(0), DEATHMATCH(1), CAPTURE(2), FLAG(3);
+    OBJECTIVE(0), DEATHMATCH(1), CAPTURE(2), FLAG(3);
 
-	private final int code;
-	private static final TIntObjectMap<GameModeType> types;
+    private final int code;
+    private static final TIntObjectMap<GameModeType> types;
 
-	private GameModeType(int code) {
-		this.code = code;
-	}
+    private GameModeType(int code) {
+	this.code = code;
+    }
 
-	public int getCode() {
-		return this.code;
-	}
+    public int getCode() {
+	return this.code;
+    }
 
-	public static GameModeType getByCode(int code) {
-		return types.get(code);
-	}
+    public static GameModeType getByCode(int code) {
+	return types.get(code);
+    }
 
-	static {
-		types = new TIntObjectHashMap<GameModeType>();
+    static {
+	types = new TIntObjectHashMap<GameModeType>();
 
-		for (GameModeType gt : values())
-			types.put(gt.getCode(), gt);
-	}
+	for (GameModeType gt : values())
+	    types.put(gt.getCode(), gt);
+    }
 
 }

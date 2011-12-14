@@ -19,6 +19,6 @@ package com.tips48.rushMe.packets;
 
 public interface PriorityPacket {
 
-	public PacketPriority getPriority();
+    public PacketPriority getPriority();
 
 }

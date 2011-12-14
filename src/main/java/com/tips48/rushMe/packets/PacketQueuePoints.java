@@ -27,38 +27,38 @@ import java.util.logging.Level;
 
 public class PacketQueuePoints extends AddonPacket {
 
-	private String message;
+    private String message;
 
-	@Override
-	public void read(SpoutInputStream stream) {
-		message = stream.readString();
-		RMLogging.debugLog(Level.INFO, "Read PacketQueuePoints with message: "
-				+ message);
-	}
+    @Override
+    public void read(SpoutInputStream stream) {
+	message = stream.readString();
+	RMLogging.debugLog(Level.INFO, "Read PacketQueuePoints with message: "
+		+ message);
+    }
 
-	@Override
-	public void run(SpoutPlayer sp) {
-		RMLogging.debugLog(Level.INFO,
-				"Running PacketQueuePoints for " + sp.getName());
-		MainHUD hud = SpoutGUI.getHudOf(sp);
-		if (hud != null) {
-			hud.queuePoints(message);
-		}
+    @Override
+    public void run(SpoutPlayer sp) {
+	RMLogging.debugLog(Level.INFO,
+		"Running PacketQueuePoints for " + sp.getName());
+	MainHUD hud = SpoutGUI.getHudOf(sp);
+	if (hud != null) {
+	    hud.queuePoints(message);
 	}
+    }
 
-	@Override
-	public void write(SpoutOutputStream stream) {
-		stream.writeString(message);
-		RMLogging.debugLog(Level.INFO, "Wrote PacketQueuePoints with message: "
-				+ message);
-	}
+    @Override
+    public void write(SpoutOutputStream stream) {
+	stream.writeString(message);
+	RMLogging.debugLog(Level.INFO, "Wrote PacketQueuePoints with message: "
+		+ message);
+    }
 
-	public String getMessage() {
-		return message;
-	}
+    public String getMessage() {
+	return message;
+    }
 
-	public void setMessage(String message) {
-		this.message = message;
-	}
+    public void setMessage(String message) {
+	this.message = message;
+    }
 
 }

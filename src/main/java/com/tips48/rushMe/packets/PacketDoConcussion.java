@@ -27,51 +27,51 @@ import java.util.logging.Level;
 
 public class PacketDoConcussion extends AddonPacket {
 
-	private int startingAlpha;
-	private int time;
+    private int startingAlpha;
+    private int time;
 
-	@Override
-	public void read(SpoutInputStream stream) {
-		startingAlpha = stream.readInt();
-		time = stream.readInt();
-		RMLogging.debugLog(Level.INFO,
-				"Read PacketDoConcussion with startingAlpha = " + startingAlpha
-						+ " and time = " + time);
-	}
+    @Override
+    public void read(SpoutInputStream stream) {
+	startingAlpha = stream.readInt();
+	time = stream.readInt();
+	RMLogging.debugLog(Level.INFO,
+		"Read PacketDoConcussion with startingAlpha = " + startingAlpha
+			+ " and time = " + time);
+    }
 
-	@Override
-	public void run(SpoutPlayer sp) {
-		RMLogging.debugLog(Level.INFO,
-				"Running PacketDoConcussion for " + sp.getName());
-		MainHUD hud = SpoutGUI.getHudOf(sp);
-		if (hud != null) {
-			hud.doConcussion(startingAlpha, time);
-		}
+    @Override
+    public void run(SpoutPlayer sp) {
+	RMLogging.debugLog(Level.INFO,
+		"Running PacketDoConcussion for " + sp.getName());
+	MainHUD hud = SpoutGUI.getHudOf(sp);
+	if (hud != null) {
+	    hud.doConcussion(startingAlpha, time);
 	}
+    }
 
-	@Override
-	public void write(SpoutOutputStream stream) {
-		stream.writeInt(startingAlpha);
-		stream.writeInt(time);
-		RMLogging.debugLog(Level.INFO,
-				"Wrote PacketDoConcussion with startingAlpha = "
-						+ startingAlpha + " and time = " + time);
-	}
+    @Override
+    public void write(SpoutOutputStream stream) {
+	stream.writeInt(startingAlpha);
+	stream.writeInt(time);
+	RMLogging.debugLog(Level.INFO,
+		"Wrote PacketDoConcussion with startingAlpha = "
+			+ startingAlpha + " and time = " + time);
+    }
 
-	public int getStartingAlpha() {
-		return startingAlpha;
-	}
+    public int getStartingAlpha() {
+	return startingAlpha;
+    }
 
-	public void setStartingAlpha(int startingAlpha) {
-		this.startingAlpha = startingAlpha;
-	}
+    public void setStartingAlpha(int startingAlpha) {
+	this.startingAlpha = startingAlpha;
+    }
 
-	public int getTime() {
-		return time;
-	}
+    public int getTime() {
+	return time;
+    }
 
-	public void setTime(int time) {
-		this.time = time;
-	}
+    public void setTime(int time) {
+	this.time = time;
+    }
 
 }

@@ -26,35 +26,35 @@ import java.util.*;
 
 public class PacketInfo {
 
-	private static Map<PriorityPacket, AddonPacket> toSend = new HashMap<PriorityPacket, AddonPacket>();
+    private static Map<PriorityPacket, AddonPacket> toSend = new HashMap<PriorityPacket, AddonPacket>();
 
-	public synchronized static void addPacket(PriorityPacket packet,
-			AddonPacket ap) {
-		Class<?> clazz = packet.getClass();
-		Iterator<PriorityPacket> it = toSend.keySet().iterator();
-		while (it.hasNext()) {
-			PriorityPacket pp = it.next();
-			if (pp.getClass().getName().equals(clazz.getName())) {
-				it.remove();
-			}
-		}
-		toSend.put(packet, ap);
+    public synchronized static void addPacket(PriorityPacket packet,
+	    AddonPacket ap) {
+	Class<?> clazz = packet.getClass();
+	Iterator<PriorityPacket> it = toSend.keySet().iterator();
+	while (it.hasNext()) {
+	    PriorityPacket pp = it.next();
+	    if (pp.getClass().getName().equals(clazz.getName())) {
+		it.remove();
+	    }
 	}
+	toSend.put(packet, ap);
+    }
 
-	public synchronized static void remove(PriorityPacket packet) {
-		if (toSend.containsKey(packet)) {
-			toSend.remove(packet);
-		}
+    public synchronized static void remove(PriorityPacket packet) {
+	if (toSend.containsKey(packet)) {
+	    toSend.remove(packet);
 	}
+    }
 
-	public synchronized static void onJoin(SpoutPlayer player) {
-		for (PacketPriority priority : PacketPriority.values()) {
-			for (PriorityPacket packet : toSend.keySet()) {
-				if (packet.getPriority().equals(priority)) {
-					toSend.get(packet).send(player);
-				}
-			}
+    public synchronized static void onJoin(SpoutPlayer player) {
+	for (PacketPriority priority : PacketPriority.values()) {
+	    for (PriorityPacket packet : toSend.keySet()) {
+		if (packet.getPriority().equals(priority)) {
+		    toSend.get(packet).send(player);
 		}
-		PlayerData.sendPacketsOnJoin(player);
+	    }
 	}
+	PlayerData.sendPacketsOnJoin(player);
+    }
 }

@@ -41,566 +41,566 @@ import java.util.*;
 
 public class Arena {
 
-	private final List<Team> teams;
-	private final GameMode gamemode;
-	private int timeLeft;
-	private final String name;
-	private final TIntSet players;
-	private boolean started;
-	private int startingIn;
-	private Vector vec1;
-	private Vector vec2;
+    private final List<Team> teams;
+    private final GameMode gamemode;
+    private int timeLeft;
+    private final String name;
+    private final TIntSet players;
+    private boolean started;
+    private int startingIn;
+    private Vector vec1;
+    private Vector vec2;
 
-	private int doSecondScheduler;
-	private int startingScheduler;
+    private int doSecondScheduler;
+    private int startingScheduler;
 
-	private final int creator;
+    private final int creator;
 
-	private final List<Vector> flagLocations = new ArrayList<Vector>();
-	private final Map<Team, Vector> captureLocations = new HashMap<Team, Vector>();
-	private final List<Vector> objectiveLocations = new ArrayList<Vector>();
-	private final List<Vector> activeObjectiveLocations = new ArrayList<Vector>();
+    private final List<Vector> flagLocations = new ArrayList<Vector>();
+    private final Map<Team, Vector> captureLocations = new HashMap<Team, Vector>();
+    private final List<Vector> objectiveLocations = new ArrayList<Vector>();
+    private final List<Vector> activeObjectiveLocations = new ArrayList<Vector>();
 
-	private final UUID uuid;
+    private final UUID uuid;
 
-	private final World world;
+    private final World world;
 
-	public Arena(GameMode gamemode, String name, int creator, World world,
-			UUID uuid) {
-		this.gamemode = gamemode;
-		this.name = name;
-		this.creator = creator;
-		this.world = world;
+    public Arena(GameMode gamemode, String name, int creator, World world,
+	    UUID uuid) {
+	this.gamemode = gamemode;
+	this.name = name;
+	this.creator = creator;
+	this.world = world;
 
-		teams = gamemode.getTeams();
+	teams = gamemode.getTeams();
 
-		players = new TIntHashSet();
-		started = false;
+	players = new TIntHashSet();
+	started = false;
 
-		startingIn = -1;
-		doSecondScheduler = -1;
-		this.uuid = uuid;
+	startingIn = -1;
+	doSecondScheduler = -1;
+	this.uuid = uuid;
 
-		for (Team team : this.teams) {
-			team.setOwnerUUID(this.uuid);
-		}
-
-		PacketArenaUpdate packet = new PacketArenaUpdate();
-		packet.processArena(this);
-		packet.send(RMUtils.getSpoutPlayers());
-		PacketInfo.addPacket(packet, packet);
-
+	for (Team team : this.teams) {
+	    team.setOwnerUUID(this.uuid);
 	}
 
-	public void startCountdownTillStart(int s) {
-		startingIn = s;
-		startingScheduler = RushMe
-				.getInstance()
-				.getServer()
-				.getScheduler()
-				.scheduleSyncRepeatingTask(RushMe.getInstance(),
-						new Runnable() {
-							public void run() {
-								startingIn--;
-								if (startingIn <= 0) {
-									start();
-									RushMe.getInstance().getServer()
-											.getScheduler()
-											.cancelTask(startingScheduler);
-								}
-							}
-						}, 0, 20);
-	}
+	PacketArenaUpdate packet = new PacketArenaUpdate();
+	packet.processArena(this);
+	packet.send(RMUtils.getSpoutPlayers());
+	PacketInfo.addPacket(packet, packet);
 
-	public List<Team> getTeams() {
-		return teams;
-	}
+    }
 
-	public Team getTeam(String name) {
-		for (Team t : getTeams()) {
-			if (t.getName().equalsIgnoreCase(name)) {
-				return t;
-			}
-		}
-		return null;
-	}
+    public void startCountdownTillStart(int s) {
+	startingIn = s;
+	startingScheduler = RushMe
+		.getInstance()
+		.getServer()
+		.getScheduler()
+		.scheduleSyncRepeatingTask(RushMe.getInstance(),
+			new Runnable() {
+			    public void run() {
+				startingIn--;
+				if (startingIn <= 0) {
+				    start();
+				    RushMe.getInstance().getServer()
+					    .getScheduler()
+					    .cancelTask(startingScheduler);
+				}
+			    }
+			}, 0, 20);
+    }
 
-	public Team getTeam(UUID uuid) {
-		for (Team t : getTeams()) {
-			if (t.getUUID().equals(uuid)) {
-				return t;
-			}
-		}
-		return null;
-	}
+    public List<Team> getTeams() {
+	return teams;
+    }
 
-	public Team getTeamOf(Player player) {
-		return getTeamOf(player.getEntityId());
+    public Team getTeam(String name) {
+	for (Team t : getTeams()) {
+	    if (t.getName().equalsIgnoreCase(name)) {
+		return t;
+	    }
 	}
+	return null;
+    }
 
-	public Team getTeamOf(int player) {
-		for (Team t : getTeams()) {
-			if (t.containsPlayer(player)) {
-				return t;
-			}
-		}
-		return null;
+    public Team getTeam(UUID uuid) {
+	for (Team t : getTeams()) {
+	    if (t.getUUID().equals(uuid)) {
+		return t;
+	    }
 	}
+	return null;
+    }
 
-	public void replaceTeam(Team team) {
-		for (Team t : teams) {
-			if (t.getUUID().equals(team.getUUID())) {
-				teams.remove(t);
-				teams.add(team);
-			}
-		}
+    public Team getTeamOf(Player player) {
+	return getTeamOf(player.getEntityId());
+    }
+
+    public Team getTeamOf(int player) {
+	for (Team t : getTeams()) {
+	    if (t.containsPlayer(player)) {
+		return t;
+	    }
 	}
+	return null;
+    }
 
-	public void addTeam(Team team) {
+    public void replaceTeam(Team team) {
+	for (Team t : teams) {
+	    if (t.getUUID().equals(team.getUUID())) {
+		teams.remove(t);
 		teams.add(team);
+	    }
+	}
+    }
+
+    public void addTeam(Team team) {
+	teams.add(team);
+    }
+
+    public void removeTeam(Team team) {
+	if (teams.contains(team)) {
+	    teams.remove(team);
+	}
+    }
+
+    public GameMode getGameMode() {
+	return gamemode;
+    }
+
+    public int getTimeLeft() {
+	return timeLeft;
+    }
+
+    public String getName() {
+	return name;
+    }
+
+    public void addPlayer(Player player, Team prefered) {
+	addPlayer(player.getEntityId(), prefered);
+    }
+
+    public void addPlayer(int player, Team prefered) {
+	players.add(player);
+	boolean team = false;
+	if (prefered != null) {
+	    team = prefered.addPlayer(player);
+	    team = true;
+	}
+	Random r = new Random();
+	while (!team) {
+	    Team t = teams.get(r.nextInt(teams.size() - 1));
+	    team = t.addPlayer(player);
 	}
 
-	public void removeTeam(Team team) {
-		if (teams.contains(team)) {
-			teams.remove(team);
+	SpoutPlayer p = SpoutManager.getPlayerFromId(player);
+	if (p != null) {
+	    savedInventories.addInventory(p, p.getInventory());
+	    p.getInventory().clear();
+	    RMUtils.giveAllGuns(p);
+	    savedGamemodes.addGameMode(p, p.getGameMode());
+	    p.setGameMode(org.bukkit.GameMode.SURVIVAL);
+	    p.setSkin(getTeamOf(p).getSkin());
+	    MainHUD h = SpoutGUI.getHudOf(p);
+	    if (h != null) {
+		h.init();
+	    }
+	}
+	PacketArenaUpdate packet = new PacketArenaUpdate();
+	packet.processArena(this);
+	packet.send(RMUtils.getSpoutPlayers());
+	PacketInfo.addPacket(packet, packet);
+    }
+
+    public void removePlayer(Player player) {
+	removePlayer(player.getEntityId());
+    }
+
+    public void removePlayer(int player) {
+	if (players.contains(player)) {
+	    players.remove(player);
+	    SpoutPlayer p = SpoutManager.getPlayerFromId(player);
+	    if (p != null) {
+		p.resetSkin();
+		RMUtils.clearInventoryOfGuns(p);
+		if (savedInventories.hasInventory(p)) {
+		    PlayerInventory pi = savedInventories.getInventory(p);
+		    p.getInventory().setContents(pi.getContents());
+		    p.getInventory().setArmorContents(pi.getArmorContents());
+		    savedInventories.removeInventory(p);
 		}
-	}
-
-	public GameMode getGameMode() {
-		return gamemode;
-	}
-
-	public int getTimeLeft() {
-		return timeLeft;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void addPlayer(Player player, Team prefered) {
-		addPlayer(player.getEntityId(), prefered);
-	}
-
-	public void addPlayer(int player, Team prefered) {
-		players.add(player);
-		boolean team = false;
-		if (prefered != null) {
-			team = prefered.addPlayer(player);
-			team = true;
+		if (savedGamemodes.hasGameMode(p)) {
+		    p.setGameMode(savedGamemodes.getGameMode(p));
+		    savedGamemodes.removeGameMode(p);
 		}
-		Random r = new Random();
-		while (!team) {
-			Team t = teams.get(r.nextInt(teams.size() - 1));
-			team = t.addPlayer(player);
+		MainHUD h = SpoutGUI.getHudOf(p);
+		if (h != null) {
+		    h.shutdown();
 		}
+	    }
+	}
+	PacketArenaUpdate packet = new PacketArenaUpdate();
+	packet.processArena(this);
+	packet.send(RMUtils.getSpoutPlayers());
+	PacketInfo.addPacket(packet, packet);
+    }
 
-		SpoutPlayer p = SpoutManager.getPlayerFromId(player);
-		if (p != null) {
-			savedInventories.addInventory(p, p.getInventory());
-			p.getInventory().clear();
-			RMUtils.giveAllGuns(p);
-			savedGamemodes.addGameMode(p, p.getGameMode());
-			p.setGameMode(org.bukkit.GameMode.SURVIVAL);
-			p.setSkin(getTeamOf(p).getSkin());
-			MainHUD h = SpoutGUI.getHudOf(p);
-			if (h != null) {
-				h.init();
-			}
+    public boolean hasPlayer(Player player) {
+	return hasPlayer(player.getEntityId());
+    }
+
+    public boolean hasPlayer(int player) {
+	return players.contains(player);
+    }
+
+    public TIntSet getPlayers() {
+	return players;
+    }
+
+    public boolean isStarted() {
+	return started;
+    }
+
+    public String getTimeBeforeStart() {
+	if (started) {
+	    return "Already started";
+	}
+	if (startingIn == -1) {
+	    return "Not starting";
+	}
+	return RMUtils.parseIntForMinute(startingIn);
+    }
+
+    private void doSecond() {
+	timeLeft--;
+	if (timeLeft == 0) {
+	    stop();
+	}
+	boolean gameWon = false;
+	for (Team team : teams) {
+	    if (gameWon) {
+		team.doWon();
+		return;
+	    }
+	    if ((team.getSpawnsLeft() == 0) && !(team.getInfiniteSpawns())) {
+		stop();
+		team.doLost();
+		gameWon = true;
+	    }
+	}
+	PacketArenaUpdate packet = new PacketArenaUpdate();
+	packet.processArena(this);
+	packet.send(RMUtils.getSpoutPlayers());
+	PacketInfo.addPacket(packet, packet);
+    }
+
+    public int getCreator() {
+	return creator;
+    }
+
+    public void start() {
+	if (started) {
+	    return;
+	}
+	RushMe.getInstance().getServer().getScheduler()
+		.cancelTask(startingScheduler);
+	startingScheduler = 0;
+	startingIn = 0;
+	timeLeft = gamemode.getTime();
+	doSecondScheduler = RushMe
+		.getInstance()
+		.getServer()
+		.getScheduler()
+		.scheduleSyncRepeatingTask(RushMe.getInstance(),
+			new Runnable() {
+			    public void run() {
+				doSecond();
+			    }
+			}, 0, 20);
+	started = true;
+	PacketArenaUpdate packet = new PacketArenaUpdate();
+	packet.processArena(this);
+	packet.send(RMUtils.getSpoutPlayers());
+	PacketInfo.addPacket(packet, packet);
+    }
+
+    public void stop() {
+	if (!started) {
+	    return;
+	}
+	RushMe.getInstance().getServer().getScheduler()
+		.cancelTask(doSecondScheduler);
+	doSecondScheduler = 0;
+	for (int s : getPlayers().toArray()) {
+	    Player p = SpoutManager.getPlayerFromId(s);
+	    if (p != null) {
+		MainHUD hud = SpoutGUI.getHudOf(p);
+		if (hud != null) {
+		    hud.shutdown();
 		}
-		PacketArenaUpdate packet = new PacketArenaUpdate();
-		packet.processArena(this);
-		packet.send(RMUtils.getSpoutPlayers());
-		PacketInfo.addPacket(packet, packet);
+	    }
+	}
+	startCountdownTillStart(60);
+	started = false;
+	PacketArenaUpdate packet = new PacketArenaUpdate();
+	packet.processArena(this);
+	packet.send(RMUtils.getSpoutPlayers());
+	PacketInfo.addPacket(packet, packet);
+    }
+
+    public Vector getVector1() {
+	return vec1;
+    }
+
+    public Vector getVector2() {
+	return vec2;
+    }
+
+    public void setVector1(Vector loc) {
+	if (vec1 == null) {
+	    vec1 = loc;
+	    if (vec2 != null) {
+		organizeVectors();
+	    }
+	}
+	PacketArenaUpdate packet = new PacketArenaUpdate();
+	packet.processArena(this);
+	packet.send(RMUtils.getSpoutPlayers());
+	PacketInfo.addPacket(packet, packet);
+    }
+
+    private void organizeVectors() {
+	int minX = vec1.getBlockX();
+	int minZ = vec1.getBlockZ();
+	int maxX = minX;
+	int maxZ = minZ;
+
+	int x = vec2.getBlockX();
+	int z = vec2.getBlockZ();
+
+	if (x < minX) {
+	    minX = x;
+	}
+	if (z < minZ) {
+	    minZ = z;
 	}
 
-	public void removePlayer(Player player) {
-		removePlayer(player.getEntityId());
+	if (x > maxX) {
+	    maxX = x;
+	}
+	if (z > maxZ) {
+	    maxZ = z;
 	}
 
-	public void removePlayer(int player) {
-		if (players.contains(player)) {
-			players.remove(player);
-			SpoutPlayer p = SpoutManager.getPlayerFromId(player);
-			if (p != null) {
-				p.resetSkin();
-				RMUtils.clearInventoryOfGuns(p);
-				if (savedInventories.hasInventory(p)) {
-					PlayerInventory pi = savedInventories.getInventory(p);
-					p.getInventory().setContents(pi.getContents());
-					p.getInventory().setArmorContents(pi.getArmorContents());
-					savedInventories.removeInventory(p);
-				}
-				if (savedGamemodes.hasGameMode(p)) {
-					p.setGameMode(savedGamemodes.getGameMode(p));
-					savedGamemodes.removeGameMode(p);
-				}
-				MainHUD h = SpoutGUI.getHudOf(p);
-				if (h != null) {
-					h.shutdown();
-				}
-			}
-		}
-		PacketArenaUpdate packet = new PacketArenaUpdate();
-		packet.processArena(this);
-		packet.send(RMUtils.getSpoutPlayers());
-		PacketInfo.addPacket(packet, packet);
+	vec1 = new Vector(minX, vec1.getY(), minZ);
+	vec2 = new Vector(maxX, vec2.getY(), maxZ);
+    }
+
+    public void setVector2(Vector loc) {
+	if (vec2 == null) {
+	    vec2 = loc;
+	    if (vec1 != null) {
+		organizeVectors();
+	    }
+	}
+	PacketArenaUpdate packet = new PacketArenaUpdate();
+	packet.processArena(this);
+	packet.send(RMUtils.getSpoutPlayers());
+	PacketInfo.addPacket(packet, packet);
+    }
+
+    public boolean inArena(Vector vec) {
+	if (!getCompleted()) {
+	    return true;
+	}
+	final double x = vec.getX();
+	final double z = vec.getZ();
+	return (x >= vec1.getBlockX()) && (x < (vec2.getBlockX() + 1))
+		&& (z >= vec1.getBlockZ()) && (z < (vec2.getBlockZ() + 1));
+    }
+
+    public List<Vector> getFlags() {
+	return flagLocations;
+    }
+
+    public void addFlag(Vector flag) {
+	flagLocations.add(flag);
+	flag.toLocation(world).getBlock().setType(Material.BEDROCK);
+	PacketArenaUpdate packet = new PacketArenaUpdate();
+	packet.processArena(this);
+	packet.send(RMUtils.getSpoutPlayers());
+	PacketInfo.addPacket(packet, packet);
+    }
+
+    public List<Vector> getObjectives() {
+	return objectiveLocations;
+    }
+
+    public List<Vector> getActiveObjectives() {
+	return activeObjectiveLocations;
+    }
+
+    public void addActiveObjective(Vector activeObjective) {
+	activeObjectiveLocations.add(activeObjective);
+	PacketArenaUpdate packet = new PacketArenaUpdate();
+	packet.processArena(this);
+	packet.send(RMUtils.getSpoutPlayers());
+	PacketInfo.addPacket(packet, packet);
+    }
+
+    public void removeActiveObjective(Vector activeObjective) {
+	if (activeObjectiveLocations.contains(activeObjective)) {
+	    activeObjectiveLocations.remove(activeObjective);
+	    PacketArenaUpdate packet = new PacketArenaUpdate();
+	    packet.processArena(this);
+	    packet.send(RMUtils.getSpoutPlayers());
+	    PacketInfo.addPacket(packet, packet);
+	}
+    }
+
+    public void addObjective(Vector objective) {
+	objectiveLocations.add(objective);
+	objective.toLocation(world).getBlock().setType(Material.BEDROCK);
+	PacketArenaUpdate packet = new PacketArenaUpdate();
+	packet.processArena(this);
+	packet.send(RMUtils.getSpoutPlayers());
+	PacketInfo.addPacket(packet, packet);
+    }
+
+    public void addCapturePoint(Team team, Vector capturePoint) {
+	captureLocations.put(team, capturePoint);
+	capturePoint.toLocation(world).getBlock().setType(Material.BEDROCK);
+	PacketArenaUpdate packet = new PacketArenaUpdate();
+	packet.processArena(this);
+	packet.send(RMUtils.getSpoutPlayers());
+	PacketInfo.addPacket(packet, packet);
+    }
+
+    public Map<Team, Vector> getCapturePoints() {
+	return captureLocations;
+    }
+
+    public boolean getCompleted() {
+	return (vec1 != null) && (vec2 != null);
+    }
+
+    public void onDelete() {
+	if (flagLocations != null) {
+	    for (Vector v : flagLocations) {
+		v.toLocation(world).getBlock().setTypeId(0);
+	    }
+	}
+	if (captureLocations != null) {
+	    for (Vector v : captureLocations.values()) {
+		v.toLocation(world).getBlock().setTypeId(0);
+	    }
+	}
+	if (objectiveLocations != null) {
+	    for (Vector v : objectiveLocations) {
+		v.toLocation(world).getBlock().setTypeId(0);
+	    }
+	}
+	PacketArenaUpdate packet = new PacketArenaUpdate();
+	packet.processArena(this);
+	packet.send(RMUtils.getSpoutPlayers());
+	PacketInfo.addPacket(packet, packet);
+    }
+
+    public List<Team> getOtherTeams(Team team) {
+	List<Team> tempTeams = new ArrayList<Team>(teams.size());
+	for (Team t : this.teams) {
+	    if (!(t.equals(team))) {
+		tempTeams.add(t);
+	    }
+	}
+	return tempTeams;
+    }
+
+    public int numberOfTeams() {
+	return teams.size();
+    }
+
+    public World getWorld() {
+	return world;
+    }
+
+    public UUID getUUID() {
+	return uuid;
+    }
+
+    private static class savedInventories {
+	private static final Map<String, PlayerInventory> inventories = new HashMap<String, PlayerInventory>();
+
+	protected static PlayerInventory getInventory(String player) {
+	    return inventories.get(player);
 	}
 
-	public boolean hasPlayer(Player player) {
-		return hasPlayer(player.getEntityId());
+	protected static PlayerInventory getInventory(Player player) {
+	    return getInventory(player.getName());
 	}
 
-	public boolean hasPlayer(int player) {
-		return players.contains(player);
+	protected static boolean hasInventory(Player player) {
+	    return hasInventory(player.getName());
 	}
 
-	public TIntSet getPlayers() {
-		return players;
+	protected static boolean hasInventory(String player) {
+	    return inventories.containsKey(player);
 	}
 
-	public boolean isStarted() {
-		return started;
+	protected static void removeInventory(Player player) {
+	    removeInventory(player.getName());
 	}
 
-	public String getTimeBeforeStart() {
-		if (started) {
-			return "Already started";
-		}
-		if (startingIn == -1) {
-			return "Not starting";
-		}
-		return RMUtils.parseIntForMinute(startingIn);
+	protected static void removeInventory(String player) {
+	    inventories.remove(player);
 	}
 
-	private void doSecond() {
-		timeLeft--;
-		if (timeLeft == 0) {
-			stop();
-		}
-		boolean gameWon = false;
-		for (Team team : teams) {
-			if (gameWon) {
-				team.doWon();
-				return;
-			}
-			if ((team.getSpawnsLeft() == 0) && !(team.getInfiniteSpawns())) {
-				stop();
-				team.doLost();
-				gameWon = true;
-			}
-		}
-		PacketArenaUpdate packet = new PacketArenaUpdate();
-		packet.processArena(this);
-		packet.send(RMUtils.getSpoutPlayers());
-		PacketInfo.addPacket(packet, packet);
+	protected static void addInventory(Player player, PlayerInventory pi) {
+	    addInventory(player.getName(), pi);
 	}
 
-	public int getCreator() {
-		return creator;
+	protected static void addInventory(String player, PlayerInventory pi) {
+	    inventories.put(player, pi);
 	}
 
-	public void start() {
-		if (started) {
-			return;
-		}
-		RushMe.getInstance().getServer().getScheduler()
-				.cancelTask(startingScheduler);
-		startingScheduler = 0;
-		startingIn = 0;
-		timeLeft = gamemode.getTime();
-		doSecondScheduler = RushMe
-				.getInstance()
-				.getServer()
-				.getScheduler()
-				.scheduleSyncRepeatingTask(RushMe.getInstance(),
-						new Runnable() {
-							public void run() {
-								doSecond();
-							}
-						}, 0, 20);
-		started = true;
-		PacketArenaUpdate packet = new PacketArenaUpdate();
-		packet.processArena(this);
-		packet.send(RMUtils.getSpoutPlayers());
-		PacketInfo.addPacket(packet, packet);
+    }
+
+    private static class savedGamemodes {
+	private static final Map<String, org.bukkit.GameMode> gamemodes = new HashMap<String, org.bukkit.GameMode>();
+
+	protected static org.bukkit.GameMode getGameMode(String player) {
+	    return gamemodes.get(player);
 	}
 
-	public void stop() {
-		if (!started) {
-			return;
-		}
-		RushMe.getInstance().getServer().getScheduler()
-				.cancelTask(doSecondScheduler);
-		doSecondScheduler = 0;
-		for (int s : getPlayers().toArray()) {
-			Player p = SpoutManager.getPlayerFromId(s);
-			if (p != null) {
-				MainHUD hud = SpoutGUI.getHudOf(p);
-				if (hud != null) {
-					hud.shutdown();
-				}
-			}
-		}
-		startCountdownTillStart(60);
-		started = false;
-		PacketArenaUpdate packet = new PacketArenaUpdate();
-		packet.processArena(this);
-		packet.send(RMUtils.getSpoutPlayers());
-		PacketInfo.addPacket(packet, packet);
+	protected static org.bukkit.GameMode getGameMode(Player player) {
+	    return getGameMode(player.getName());
 	}
 
-	public Vector getVector1() {
-		return vec1;
+	protected static boolean hasGameMode(Player player) {
+	    return hasGameMode(player.getName());
 	}
 
-	public Vector getVector2() {
-		return vec2;
+	protected static boolean hasGameMode(String player) {
+	    return gamemodes.containsKey(player);
 	}
 
-	public void setVector1(Vector loc) {
-		if (vec1 == null) {
-			vec1 = loc;
-			if (vec2 != null) {
-				organizeVectors();
-			}
-		}
-		PacketArenaUpdate packet = new PacketArenaUpdate();
-		packet.processArena(this);
-		packet.send(RMUtils.getSpoutPlayers());
-		PacketInfo.addPacket(packet, packet);
+	protected static void removeGameMode(Player player) {
+	    removeGameMode(player.getName());
 	}
 
-	private void organizeVectors() {
-		int minX = vec1.getBlockX();
-		int minZ = vec1.getBlockZ();
-		int maxX = minX;
-		int maxZ = minZ;
-
-		int x = vec2.getBlockX();
-		int z = vec2.getBlockZ();
-
-		if (x < minX) {
-			minX = x;
-		}
-		if (z < minZ) {
-			minZ = z;
-		}
-
-		if (x > maxX) {
-			maxX = x;
-		}
-		if (z > maxZ) {
-			maxZ = z;
-		}
-
-		vec1 = new Vector(minX, vec1.getY(), minZ);
-		vec2 = new Vector(maxX, vec2.getY(), maxZ);
+	protected static void removeGameMode(String player) {
+	    gamemodes.remove(player);
 	}
 
-	public void setVector2(Vector loc) {
-		if (vec2 == null) {
-			vec2 = loc;
-			if (vec1 != null) {
-				organizeVectors();
-			}
-		}
-		PacketArenaUpdate packet = new PacketArenaUpdate();
-		packet.processArena(this);
-		packet.send(RMUtils.getSpoutPlayers());
-		PacketInfo.addPacket(packet, packet);
+	protected static void addGameMode(Player player, org.bukkit.GameMode g) {
+	    addGameMode(player.getName(), g);
 	}
 
-	public boolean inArena(Vector vec) {
-		if (!getCompleted()) {
-			return true;
-		}
-		final double x = vec.getX();
-		final double z = vec.getZ();
-		return (x >= vec1.getBlockX()) && (x < (vec2.getBlockX() + 1))
-				&& (z >= vec1.getBlockZ()) && (z < (vec2.getBlockZ() + 1));
+	protected static void addGameMode(String player, org.bukkit.GameMode g) {
+	    gamemodes.put(player, g);
 	}
 
-	public List<Vector> getFlags() {
-		return flagLocations;
-	}
-
-	public void addFlag(Vector flag) {
-		flagLocations.add(flag);
-		flag.toLocation(world).getBlock().setType(Material.BEDROCK);
-		PacketArenaUpdate packet = new PacketArenaUpdate();
-		packet.processArena(this);
-		packet.send(RMUtils.getSpoutPlayers());
-		PacketInfo.addPacket(packet, packet);
-	}
-
-	public List<Vector> getObjectives() {
-		return objectiveLocations;
-	}
-
-	public List<Vector> getActiveObjectives() {
-		return activeObjectiveLocations;
-	}
-
-	public void addActiveObjective(Vector activeObjective) {
-		activeObjectiveLocations.add(activeObjective);
-		PacketArenaUpdate packet = new PacketArenaUpdate();
-		packet.processArena(this);
-		packet.send(RMUtils.getSpoutPlayers());
-		PacketInfo.addPacket(packet, packet);
-	}
-
-	public void removeActiveObjective(Vector activeObjective) {
-		if (activeObjectiveLocations.contains(activeObjective)) {
-			activeObjectiveLocations.remove(activeObjective);
-			PacketArenaUpdate packet = new PacketArenaUpdate();
-			packet.processArena(this);
-			packet.send(RMUtils.getSpoutPlayers());
-			PacketInfo.addPacket(packet, packet);
-		}
-	}
-
-	public void addObjective(Vector objective) {
-		objectiveLocations.add(objective);
-		objective.toLocation(world).getBlock().setType(Material.BEDROCK);
-		PacketArenaUpdate packet = new PacketArenaUpdate();
-		packet.processArena(this);
-		packet.send(RMUtils.getSpoutPlayers());
-		PacketInfo.addPacket(packet, packet);
-	}
-
-	public void addCapturePoint(Team team, Vector capturePoint) {
-		captureLocations.put(team, capturePoint);
-		capturePoint.toLocation(world).getBlock().setType(Material.BEDROCK);
-		PacketArenaUpdate packet = new PacketArenaUpdate();
-		packet.processArena(this);
-		packet.send(RMUtils.getSpoutPlayers());
-		PacketInfo.addPacket(packet, packet);
-	}
-
-	public Map<Team, Vector> getCapturePoints() {
-		return captureLocations;
-	}
-
-	public boolean getCompleted() {
-		return (vec1 != null) && (vec2 != null);
-	}
-
-	public void onDelete() {
-		if (flagLocations != null) {
-			for (Vector v : flagLocations) {
-				v.toLocation(world).getBlock().setTypeId(0);
-			}
-		}
-		if (captureLocations != null) {
-			for (Vector v : captureLocations.values()) {
-				v.toLocation(world).getBlock().setTypeId(0);
-			}
-		}
-		if (objectiveLocations != null) {
-			for (Vector v : objectiveLocations) {
-				v.toLocation(world).getBlock().setTypeId(0);
-			}
-		}
-		PacketArenaUpdate packet = new PacketArenaUpdate();
-		packet.processArena(this);
-		packet.send(RMUtils.getSpoutPlayers());
-		PacketInfo.addPacket(packet, packet);
-	}
-
-	public List<Team> getOtherTeams(Team team) {
-		List<Team> tempTeams = new ArrayList<Team>(teams.size());
-		for (Team t : this.teams) {
-			if (!(t.equals(team))) {
-				tempTeams.add(t);
-			}
-		}
-		return tempTeams;
-	}
-
-	public int numberOfTeams() {
-		return teams.size();
-	}
-
-	public World getWorld() {
-		return world;
-	}
-
-	public UUID getUUID() {
-		return uuid;
-	}
-
-	private static class savedInventories {
-		private static final Map<String, PlayerInventory> inventories = new HashMap<String, PlayerInventory>();
-
-		protected static PlayerInventory getInventory(String player) {
-			return inventories.get(player);
-		}
-
-		protected static PlayerInventory getInventory(Player player) {
-			return getInventory(player.getName());
-		}
-
-		protected static boolean hasInventory(Player player) {
-			return hasInventory(player.getName());
-		}
-
-		protected static boolean hasInventory(String player) {
-			return inventories.containsKey(player);
-		}
-
-		protected static void removeInventory(Player player) {
-			removeInventory(player.getName());
-		}
-
-		protected static void removeInventory(String player) {
-			inventories.remove(player);
-		}
-
-		protected static void addInventory(Player player, PlayerInventory pi) {
-			addInventory(player.getName(), pi);
-		}
-
-		protected static void addInventory(String player, PlayerInventory pi) {
-			inventories.put(player, pi);
-		}
-
-	}
-
-	private static class savedGamemodes {
-		private static final Map<String, org.bukkit.GameMode> gamemodes = new HashMap<String, org.bukkit.GameMode>();
-
-		protected static org.bukkit.GameMode getGameMode(String player) {
-			return gamemodes.get(player);
-		}
-
-		protected static org.bukkit.GameMode getGameMode(Player player) {
-			return getGameMode(player.getName());
-		}
-
-		protected static boolean hasGameMode(Player player) {
-			return hasGameMode(player.getName());
-		}
-
-		protected static boolean hasGameMode(String player) {
-			return gamemodes.containsKey(player);
-		}
-
-		protected static void removeGameMode(Player player) {
-			removeGameMode(player.getName());
-		}
-
-		protected static void removeGameMode(String player) {
-			gamemodes.remove(player);
-		}
-
-		protected static void addGameMode(Player player, org.bukkit.GameMode g) {
-			addGameMode(player.getName(), g);
-		}
-
-		protected static void addGameMode(String player, org.bukkit.GameMode g) {
-			gamemodes.put(player, g);
-		}
-
-	}
+    }
 }

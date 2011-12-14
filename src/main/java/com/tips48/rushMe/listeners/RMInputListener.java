@@ -36,49 +36,49 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class RMInputListener extends InputListener {
-	@Override
-	public void onKeyPressedEvent(KeyPressedEvent event) {
-		Player p = event.getPlayer();
-		if (!(GameManager.inGame(p))) {
-			return;
-		}
-		Keyboard key = event.getKey();
-		if (key.equals(Keyboard.KEY_R)) {
-			if (RMUtils.isHoldingGun(p)) {
-				Gun g = RMUtils.getGunOf(p);
-				g.reload(p);
-
-				// TODO show reloading
-			}
-		} else if (key.equals(Keyboard.KEY_TAB)) {
-			if (Scoreboard.hasScoreboardOpen(SpoutManager.getPlayer(p))) {
-				Scoreboard.remove(SpoutManager.getPlayer(p));
-			} else {
-				Scoreboard.draw(SpoutManager.getPlayer(p));
-			}
-		} else if (key.equals(Keyboard.KEY_Q)) {
-			TIntSet playersSpotted = RMUtils.spot(p);
-			Set<Player> players = new HashSet<Player>();
-			for (int id : playersSpotted.toArray()) {
-				Player pl = SpoutManager.getPlayerFromId(id);
-				if (pl != null) {
-					players.add(pl);
-				}
-			}
-			Set<Player> playersNotOnTeam = new HashSet<Player>();
-			Team playerTeam = GameManager.getArenaOf(p).getTeamOf(p);
-			for (Player ply : players) {
-				if (!(GameManager.inGame(ply))) {
-					continue;
-				}
-				if (GameManager.getArenaOf(ply).getTeamOf(ply)
-						.equals(playerTeam)) {
-					playersNotOnTeam.add(ply);
-				}
-			}
-			for (Player player : playersNotOnTeam) {
-				PlayerData.setSpotted(player, true);
-			}
-		}
+    @Override
+    public void onKeyPressedEvent(KeyPressedEvent event) {
+	Player p = event.getPlayer();
+	if (!(GameManager.inGame(p))) {
+	    return;
 	}
+	Keyboard key = event.getKey();
+	if (key.equals(Keyboard.KEY_R)) {
+	    if (RMUtils.isHoldingGun(p)) {
+		Gun g = RMUtils.getGunOf(p);
+		g.reload(p);
+
+		// TODO show reloading
+	    }
+	} else if (key.equals(Keyboard.KEY_TAB)) {
+	    if (Scoreboard.hasScoreboardOpen(SpoutManager.getPlayer(p))) {
+		Scoreboard.remove(SpoutManager.getPlayer(p));
+	    } else {
+		Scoreboard.draw(SpoutManager.getPlayer(p));
+	    }
+	} else if (key.equals(Keyboard.KEY_Q)) {
+	    TIntSet playersSpotted = RMUtils.spot(p);
+	    Set<Player> players = new HashSet<Player>();
+	    for (int id : playersSpotted.toArray()) {
+		Player pl = SpoutManager.getPlayerFromId(id);
+		if (pl != null) {
+		    players.add(pl);
+		}
+	    }
+	    Set<Player> playersNotOnTeam = new HashSet<Player>();
+	    Team playerTeam = GameManager.getArenaOf(p).getTeamOf(p);
+	    for (Player ply : players) {
+		if (!(GameManager.inGame(ply))) {
+		    continue;
+		}
+		if (GameManager.getArenaOf(ply).getTeamOf(ply)
+			.equals(playerTeam)) {
+		    playersNotOnTeam.add(ply);
+		}
+	    }
+	    for (Player player : playersNotOnTeam) {
+		PlayerData.setSpotted(player, true);
+	    }
+	}
+    }
 }

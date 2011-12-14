@@ -27,105 +27,105 @@ import java.util.UUID;
 
 public class GameMode {
 
-	private final GameModeType type;
-	private final String name;
-	private final Integer time;
-	private final Boolean respawn;
-	private final Integer respawnTime;
-	private final Integer maxPlayers;
-	private final List<Team> teams;
+    private final GameModeType type;
+    private final String name;
+    private final Integer time;
+    private final Boolean respawn;
+    private final Integer respawnTime;
+    private final Integer maxPlayers;
+    private final List<Team> teams;
 
-	private final UUID uuid;
+    private final UUID uuid;
 
-	public GameMode(String name, GameModeType type, Integer time,
-			Boolean respawn, Integer respawnTime, Integer maxPlayers,
-			List<Team> teams, UUID uuid) {
-		this.name = name;
-		this.type = type;
-		this.time = time;
-		this.respawn = respawn;
-		this.respawnTime = respawnTime;
-		this.maxPlayers = maxPlayers;
-		this.teams = teams;
+    public GameMode(String name, GameModeType type, Integer time,
+	    Boolean respawn, Integer respawnTime, Integer maxPlayers,
+	    List<Team> teams, UUID uuid) {
+	this.name = name;
+	this.type = type;
+	this.time = time;
+	this.respawn = respawn;
+	this.respawnTime = respawnTime;
+	this.maxPlayers = maxPlayers;
+	this.teams = teams;
 
-		this.uuid = uuid;
+	this.uuid = uuid;
 
-		for (Team team : this.teams) {
-			team.setOwnerUUID(this.uuid);
-		}
-
-		PacketGameModeCreate packet = new PacketGameModeCreate();
-		packet.processGameMode(this);
-		packet.send(RMUtils.getSpoutPlayers());
-		PacketInfo.addPacket(packet, packet);
+	for (Team team : this.teams) {
+	    team.setOwnerUUID(this.uuid);
 	}
 
-	public GameModeType getType() {
-		return type;
-	}
+	PacketGameModeCreate packet = new PacketGameModeCreate();
+	packet.processGameMode(this);
+	packet.send(RMUtils.getSpoutPlayers());
+	PacketInfo.addPacket(packet, packet);
+    }
 
-	public String getName() {
-		return name;
-	}
+    public GameModeType getType() {
+	return type;
+    }
 
-	public int getTime() {
-		return time;
-	}
+    public String getName() {
+	return name;
+    }
 
-	public boolean shouldRespawn() {
-		return respawn;
-	}
+    public int getTime() {
+	return time;
+    }
 
-	public int getRespawnTime() {
-		return respawnTime;
-	}
+    public boolean shouldRespawn() {
+	return respawn;
+    }
 
-	public int getMaxPlayers() {
-		return maxPlayers;
-	}
+    public int getRespawnTime() {
+	return respawnTime;
+    }
 
-	public List<Team> getTeams() {
-		return teams;
-	}
+    public int getMaxPlayers() {
+	return maxPlayers;
+    }
 
-	public void replaceTeam(Team team) {
-		for (Team t : teams) {
-			if (t.getUUID().equals(team.getUUID())) {
-				teams.remove(t);
-				teams.add(team);
-			}
-		}
-		PacketGameModeCreate packet = new PacketGameModeCreate();
-		packet.processGameMode(this);
-		packet.send(RMUtils.getSpoutPlayers());
-		PacketInfo.addPacket(packet, packet);
-	}
+    public List<Team> getTeams() {
+	return teams;
+    }
 
-	public void addTeam(Team team) {
+    public void replaceTeam(Team team) {
+	for (Team t : teams) {
+	    if (t.getUUID().equals(team.getUUID())) {
+		teams.remove(t);
 		teams.add(team);
-		PacketGameModeCreate packet = new PacketGameModeCreate();
-		packet.processGameMode(this);
-		packet.send(RMUtils.getSpoutPlayers());
-		PacketInfo.addPacket(packet, packet);
+	    }
 	}
+	PacketGameModeCreate packet = new PacketGameModeCreate();
+	packet.processGameMode(this);
+	packet.send(RMUtils.getSpoutPlayers());
+	PacketInfo.addPacket(packet, packet);
+    }
 
-	public void removeTeam(Team team) {
-		if (teams.contains(team)) {
-			teams.remove(team);
-			PacketGameModeCreate packet = new PacketGameModeCreate();
-			packet.processGameMode(this);
-			packet.send(RMUtils.getSpoutPlayers());
-			PacketInfo.addPacket(packet, packet);
-		}
-	}
+    public void addTeam(Team team) {
+	teams.add(team);
+	PacketGameModeCreate packet = new PacketGameModeCreate();
+	packet.processGameMode(this);
+	packet.send(RMUtils.getSpoutPlayers());
+	PacketInfo.addPacket(packet, packet);
+    }
 
-	public UUID getUUID() {
-		return uuid;
+    public void removeTeam(Team team) {
+	if (teams.contains(team)) {
+	    teams.remove(team);
+	    PacketGameModeCreate packet = new PacketGameModeCreate();
+	    packet.processGameMode(this);
+	    packet.send(RMUtils.getSpoutPlayers());
+	    PacketInfo.addPacket(packet, packet);
 	}
+    }
 
-	@Override
-	public String toString() {
-		return name;
-	}
+    public UUID getUUID() {
+	return uuid;
+    }
+
+    @Override
+    public String toString() {
+	return name;
+    }
 
 }

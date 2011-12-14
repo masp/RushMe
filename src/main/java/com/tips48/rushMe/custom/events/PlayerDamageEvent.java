@@ -26,65 +26,65 @@ import org.bukkit.event.Event;
 
 public class PlayerDamageEvent extends Event implements Cancellable {
 
-	private static final long serialVersionUID = 2697858965092148205L;
-	private Player damager;
-	private Player damaged;
-	private int damage;
-	private Gun gun;
-	private Grenade grenade;
-	private boolean cancel;
+    private static final long serialVersionUID = 2697858965092148205L;
+    private Player damager;
+    private Player damaged;
+    private int damage;
+    private Gun gun;
+    private Grenade grenade;
+    private boolean cancel;
 
-	public PlayerDamageEvent(Player damaged, Player damager, int damage,
-			Gun gun, Grenade grenade) {
-		super("PlayerDamageEvent");
-		this.damaged = damaged;
-		this.damager = damager;
-		this.damage = damage;
-		this.gun = gun;
-		this.grenade = grenade;
-		this.cancel = false;
-	}
+    public PlayerDamageEvent(Player damaged, Player damager, int damage,
+	    Gun gun, Grenade grenade) {
+	super("PlayerDamageEvent");
+	this.damaged = damaged;
+	this.damager = damager;
+	this.damage = damage;
+	this.gun = gun;
+	this.grenade = grenade;
+	this.cancel = false;
+    }
 
-	@Override
-	public boolean isCancelled() {
-		return cancel;
-	}
+    @Override
+    public boolean isCancelled() {
+	return cancel;
+    }
 
-	@Override
-	public void setCancelled(boolean cancel) {
-		this.cancel = cancel;
-	}
+    @Override
+    public void setCancelled(boolean cancel) {
+	this.cancel = cancel;
+    }
 
-	public Player getDamager() {
-		return damager;
-	}
+    public Player getDamager() {
+	return damager;
+    }
 
-	public Player getDamaged() {
-		return damaged;
-	}
+    public Player getDamaged() {
+	return damaged;
+    }
 
-	public int getDamage() {
-		return damage;
-	}
+    public int getDamage() {
+	return damage;
+    }
 
-	public void setDamage(int damage) {
-		this.damage = damage;
-	}
+    public void setDamage(int damage) {
+	this.damage = damage;
+    }
 
-	public boolean hasGun() {
-		return gun != null;
-	}
+    public boolean hasGun() {
+	return gun != null;
+    }
 
-	public Gun getGun() {
-		return gun;
-	}
+    public Gun getGun() {
+	return gun;
+    }
 
-	public boolean hasGrenade() {
-		return grenade != null;
-	}
+    public boolean hasGrenade() {
+	return grenade != null;
+    }
 
-	public Grenade getGrenade() {
-		return grenade;
-	}
+    public Grenade getGrenade() {
+	return grenade;
+    }
 
 }

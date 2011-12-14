@@ -30,105 +30,105 @@ import java.util.UUID;
 import java.util.logging.*;
 
 public class Ping {
-	private static final File configFile = new File(
-			"plugins/PluginStats/config.yml");
-	private static final String logFile = "plugins/PluginStats/log.txt";
-	private static final YamlConfiguration config = YamlConfiguration
-			.loadConfiguration(configFile);
-	private static Logger logger = null;
+    private static final File configFile = new File(
+	    "plugins/PluginStats/config.yml");
+    private static final String logFile = "plugins/PluginStats/log.txt";
+    private static final YamlConfiguration config = YamlConfiguration
+	    .loadConfiguration(configFile);
+    private static Logger logger = null;
 
-	public static void init(Plugin plugin) {
-		if (configExists() && logExists() && !config.getBoolean("opt-out")) {
-			plugin.getServer()
-					.getScheduler()
-					.scheduleAsyncRepeatingTask(
-							plugin,
-							new Pinger(plugin, config.getString("guid"), logger),
-							10L, 20L * 60L * 60 * 24);
-			System.out
-					.println("["
-							+ plugin.getDescription().getName()
-							+ "] Stats are being kept for this plugin. To opt-out for any reason, check plugins/PluginStats/config.yml");
-		}
+    public static void init(Plugin plugin) {
+	if (configExists() && logExists() && !config.getBoolean("opt-out")) {
+	    plugin.getServer()
+		    .getScheduler()
+		    .scheduleAsyncRepeatingTask(
+			    plugin,
+			    new Pinger(plugin, config.getString("guid"), logger),
+			    10L, 20L * 60L * 60 * 24);
+	    System.out
+		    .println("["
+			    + plugin.getDescription().getName()
+			    + "] Stats are being kept for this plugin. To opt-out for any reason, check plugins/PluginStats/config.yml");
 	}
+    }
 
-	private static Boolean configExists() {
-		config.addDefault("opt-out", false);
-		config.addDefault("guid", UUID.randomUUID().toString());
-		if (!configFile.exists() || (config.get("hash", null) == null)) {
-			System.out
-					.println("PluginStats is initializing for the first time. To opt-out for any reason check plugins/PluginStats/config.yml");
-			try {
-				config.options().copyDefaults(true);
-				config.save(configFile);
-			} catch (Exception ex) {
-				System.out
-						.println("Error creating PluginStats configuration file.");
-				ex.printStackTrace();
-				return false;
-			}
-		}
-		return true;
+    private static Boolean configExists() {
+	config.addDefault("opt-out", false);
+	config.addDefault("guid", UUID.randomUUID().toString());
+	if (!configFile.exists() || (config.get("hash", null) == null)) {
+	    System.out
+		    .println("PluginStats is initializing for the first time. To opt-out for any reason check plugins/PluginStats/config.yml");
+	    try {
+		config.options().copyDefaults(true);
+		config.save(configFile);
+	    } catch (Exception ex) {
+		System.out
+			.println("Error creating PluginStats configuration file.");
+		ex.printStackTrace();
+		return false;
+	    }
 	}
+	return true;
+    }
 
-	private static Boolean logExists() {
-		try {
-			FileHandler handler = new FileHandler(logFile, true);
-			logger = Logger.getLogger("com.randomappdev");
-			logger.setUseParentHandlers(false);
-			logger.addHandler(handler);
-		} catch (Exception ex) {
-			System.out.println("Error creating PluginStats log file.");
-			ex.printStackTrace();
-			return false;
-		}
-		return true;
+    private static Boolean logExists() {
+	try {
+	    FileHandler handler = new FileHandler(logFile, true);
+	    logger = Logger.getLogger("com.randomappdev");
+	    logger.setUseParentHandlers(false);
+	    logger.addHandler(handler);
+	} catch (Exception ex) {
+	    System.out.println("Error creating PluginStats log file.");
+	    ex.printStackTrace();
+	    return false;
 	}
+	return true;
+    }
 }
 
 class Pinger implements Runnable {
-	private final Plugin plugin;
-	private final String guid;
-	private final Logger logger;
+    private final Plugin plugin;
+    private final String guid;
+    private final Logger logger;
 
-	public Pinger(Plugin plugin, String guid, Logger theLogger) {
-		this.plugin = plugin;
-		this.guid = guid;
-		logger = theLogger;
-	}
+    public Pinger(Plugin plugin, String guid, Logger theLogger) {
+	this.plugin = plugin;
+	this.guid = guid;
+	logger = theLogger;
+    }
 
-	public void run() {
-		pingServer();
-	}
+    public void run() {
+	pingServer();
+    }
 
-	private void pingServer() {
-		String authors = "";
-		try {
-			for (String auth : plugin.getDescription().getAuthors()) {
-				authors = authors + " " + auth;
-			}
-			authors = authors.trim();
-			String url = String
-					.format("http://pluginstats.randomappdev.com/ping.aspx?snam=%s&sprt=%s&shsh=%s&sver=%s&spcnt=%s&pnam=%s&pmcla=%s&paut=%s&pweb=%s&pver=%s",
-							URLEncoder.encode(plugin.getServer()
-									.getServerName(), "UTF-8"),
-							plugin.getServer().getPort(),
-							guid,
-							URLEncoder.encode(Bukkit.getVersion(), "UTF-8"),
-							plugin.getServer().getOnlinePlayers().length,
-							URLEncoder.encode(
-									plugin.getDescription().getName(), "UTF-8"),
-							URLEncoder.encode(
-									plugin.getDescription().getMain(), "UTF-8"),
-							URLEncoder.encode(authors, "UTF-8"), URLEncoder
-									.encode(plugin.getDescription()
-											.getWebsite(), "UTF-8"), URLEncoder
-									.encode(plugin.getDescription()
-											.getVersion(), "UTF-8"));
-			new URL(url).openConnection().getInputStream();
-			logger.log(Level.INFO, "PluginStats pinged the central server.");
-		} catch (Exception ex) {
-			RMLogging.log(ex, "Error pinging the centeral server");
-		}
+    private void pingServer() {
+	String authors = "";
+	try {
+	    for (String auth : plugin.getDescription().getAuthors()) {
+		authors = authors + " " + auth;
+	    }
+	    authors = authors.trim();
+	    String url = String
+		    .format("http://pluginstats.randomappdev.com/ping.aspx?snam=%s&sprt=%s&shsh=%s&sver=%s&spcnt=%s&pnam=%s&pmcla=%s&paut=%s&pweb=%s&pver=%s",
+			    URLEncoder.encode(plugin.getServer()
+				    .getServerName(), "UTF-8"),
+			    plugin.getServer().getPort(),
+			    guid,
+			    URLEncoder.encode(Bukkit.getVersion(), "UTF-8"),
+			    plugin.getServer().getOnlinePlayers().length,
+			    URLEncoder.encode(
+				    plugin.getDescription().getName(), "UTF-8"),
+			    URLEncoder.encode(
+				    plugin.getDescription().getMain(), "UTF-8"),
+			    URLEncoder.encode(authors, "UTF-8"), URLEncoder
+				    .encode(plugin.getDescription()
+					    .getWebsite(), "UTF-8"), URLEncoder
+				    .encode(plugin.getDescription()
+					    .getVersion(), "UTF-8"));
+	    new URL(url).openConnection().getInputStream();
+	    logger.log(Level.INFO, "PluginStats pinged the central server.");
+	} catch (Exception ex) {
+	    RMLogging.log(ex, "Error pinging the centeral server");
 	}
+    }
 }

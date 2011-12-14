@@ -26,38 +26,38 @@ import org.getspout.spoutapi.player.SpoutPlayer;
 import java.util.logging.Level;
 
 public class PacketQueueKill extends AddonPacket {
-	private String message;
+    private String message;
 
-	@Override
-	public void read(SpoutInputStream stream) {
-		message = stream.readString();
-		RMLogging.debugLog(Level.INFO, "Read PacketQueueKill with message: "
-				+ message);
-	}
+    @Override
+    public void read(SpoutInputStream stream) {
+	message = stream.readString();
+	RMLogging.debugLog(Level.INFO, "Read PacketQueueKill with message: "
+		+ message);
+    }
 
-	@Override
-	public void run(SpoutPlayer sp) {
-		RMLogging.debugLog(Level.INFO,
-				"Running PacketQueueKill for " + sp.getName());
-		MainHUD hud = SpoutGUI.getHudOf(sp);
-		if (hud != null) {
-			hud.queueKill(message);
-		}
+    @Override
+    public void run(SpoutPlayer sp) {
+	RMLogging.debugLog(Level.INFO,
+		"Running PacketQueueKill for " + sp.getName());
+	MainHUD hud = SpoutGUI.getHudOf(sp);
+	if (hud != null) {
+	    hud.queueKill(message);
 	}
+    }
 
-	@Override
-	public void write(SpoutOutputStream stream) {
-		stream.writeString(message);
-		RMLogging.debugLog(Level.INFO, "Wrote PacketQueueKill with message: "
-				+ message);
-	}
+    @Override
+    public void write(SpoutOutputStream stream) {
+	stream.writeString(message);
+	RMLogging.debugLog(Level.INFO, "Wrote PacketQueueKill with message: "
+		+ message);
+    }
 
-	public String getMessage() {
-		return message;
-	}
+    public String getMessage() {
+	return message;
+    }
 
-	public void setMessage(String message) {
-		this.message = message;
-	}
+    public void setMessage(String message) {
+	this.message = message;
+    }
 
 }

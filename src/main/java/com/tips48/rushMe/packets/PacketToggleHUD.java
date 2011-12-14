@@ -28,27 +28,27 @@ import java.util.logging.Level;
 
 public class PacketToggleHUD extends AddonPacket {
 
-	@Override
-	public void read(SpoutInputStream stream) {
-	}
+    @Override
+    public void read(SpoutInputStream stream) {
+    }
 
-	@Override
-	public void run(SpoutPlayer sp) {
-		RMLogging.debugLog(Level.INFO,
-				"Running PacketToggleHUD for " + sp.getName());
-		MainHUD hud = SpoutGUI.getHudOf(sp);
-		if (hud == null) {
-			return;
-		}
-		if (!hud.isActive()) {
-			hud.init();
-		} else {
-			hud.shutdown();
-		}
+    @Override
+    public void run(SpoutPlayer sp) {
+	RMLogging.debugLog(Level.INFO,
+		"Running PacketToggleHUD for " + sp.getName());
+	MainHUD hud = SpoutGUI.getHudOf(sp);
+	if (hud == null) {
+	    return;
 	}
+	if (!hud.isActive()) {
+	    hud.init();
+	} else {
+	    hud.shutdown();
+	}
+    }
 
-	@Override
-	public void write(SpoutOutputStream stream) {
-	}
+    @Override
+    public void write(SpoutOutputStream stream) {
+    }
 
 }

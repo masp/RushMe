@@ -32,109 +32,109 @@ import java.util.logging.Level;
 
 public class GrenadeManager {
 
-	private static final Set<Grenade> grenades = new HashSet<Grenade>();
+    private static final Set<Grenade> grenades = new HashSet<Grenade>();
 
-	private static final TIntObjectMap<List<Grenade>> playerGrenades = new TIntObjectHashMap<List<Grenade>>();
-	private static final TIntIntMap selectedIndex = new TIntIntHashMap();
+    private static final TIntObjectMap<List<Grenade>> playerGrenades = new TIntObjectHashMap<List<Grenade>>();
+    private static final TIntIntMap selectedIndex = new TIntIntHashMap();
 
-	private GrenadeManager() {
+    private GrenadeManager() {
 
+    }
+
+    public static Grenade createGrenade(String name, String shortName,
+	    String texture, GrenadeType type, Integer startAmount,
+	    Integer explosionSize, Integer timeBeforeExplosion, Integer damage,
+	    Integer stunTime, UUID uuid) {
+
+	Grenade grenade = new Grenade(name, shortName, texture, type,
+		startAmount, explosionSize, timeBeforeExplosion, damage,
+		stunTime, uuid == null ? UUID.randomUUID() : uuid);
+
+	grenades.add(grenade);
+
+	RMLogging.debugLog(Level.INFO, "Created grenade " + name
+		+ ".  Atributes:");
+	RMLogging.debugLog(Level.INFO, "ShortName = " + shortName + ";Type = "
+		+ type + ";StartAmount = " + startAmount + ";ExplosionSize = "
+		+ explosionSize + ";TimeBeforeExplosion = "
+		+ timeBeforeExplosion + ";Damage = " + damage + ";StunTime = "
+		+ stunTime);
+
+	return grenade;
+    }
+
+    public static Set<Grenade> getGrenades() {
+	return grenades;
+    }
+
+    public static Grenade getGrenade(String name) {
+	for (Grenade g : getGrenades()) {
+	    if (g.getName().equals(name)) {
+		return g;
+	    }
 	}
+	return null;
+    }
 
-	public static Grenade createGrenade(String name, String shortName,
-			String texture, GrenadeType type, Integer startAmount,
-			Integer explosionSize, Integer timeBeforeExplosion, Integer damage,
-			Integer stunTime, UUID uuid) {
-
-		Grenade grenade = new Grenade(name, shortName, texture, type,
-				startAmount, explosionSize, timeBeforeExplosion, damage,
-				stunTime, uuid == null ? UUID.randomUUID() : uuid);
-
-		grenades.add(grenade);
-
-		RMLogging.debugLog(Level.INFO, "Created grenade " + name
-				+ ".  Atributes:");
-		RMLogging.debugLog(Level.INFO, "ShortName = " + shortName + ";Type = "
-				+ type + ";StartAmount = " + startAmount + ";ExplosionSize = "
-				+ explosionSize + ";TimeBeforeExplosion = "
-				+ timeBeforeExplosion + ";Damage = " + damage + ";StunTime = "
-				+ stunTime);
-
-		return grenade;
+    public static Grenade getGrenade(CustomItem item) {
+	for (Grenade g : getGrenades()) {
+	    if (item.equals(g)) {
+		return g;
+	    }
 	}
+	return null;
+    }
 
-	public static Set<Grenade> getGrenades() {
-		return grenades;
+    public static Grenade getGrenade(UUID uuid) {
+	for (Grenade g : getGrenades()) {
+	    if (g.getUUID().equals(uuid)) {
+		return g;
+	    }
 	}
+	return null;
+    }
 
-	public static Grenade getGrenade(String name) {
-		for (Grenade g : getGrenades()) {
-			if (g.getName().equals(name)) {
-				return g;
-			}
-		}
-		return null;
-	}
+    public static Grenade getSelectedGrenade(Player player) {
+	return getSelectedGrenade(player.getEntityId());
+    }
 
-	public static Grenade getGrenade(CustomItem item) {
-		for (Grenade g : getGrenades()) {
-			if (item.equals(g)) {
-				return g;
-			}
-		}
-		return null;
+    public static Grenade getSelectedGrenade(int player) {
+	if (!(playerGrenades.containsKey(player))) {
+	    return null;
 	}
+	return playerGrenades.get(player).get(selectedIndex.get(player));
+    }
 
-	public static Grenade getGrenade(UUID uuid) {
-		for (Grenade g : getGrenades()) {
-			if (g.getUUID().equals(uuid)) {
-				return g;
-			}
-		}
-		return null;
+    public static Set<String> getGrenadeNames() {
+	Set<String> names = new HashSet<String>();
+	for (Grenade g : getGrenades()) {
+	    names.add(g.getName());
 	}
+	return names;
+    }
 
-	public static Grenade getSelectedGrenade(Player player) {
-		return getSelectedGrenade(player.getEntityId());
-	}
+    public static List<Grenade> getGrenades(Player player) {
+	return getGrenades(player.getEntityId());
+    }
 
-	public static Grenade getSelectedGrenade(int player) {
-		if (!(playerGrenades.containsKey(player))) {
-			return null;
-		}
-		return playerGrenades.get(player).get(selectedIndex.get(player));
-	}
+    public static List<Grenade> getGrenades(int player) {
+	return playerGrenades.get(player);
+    }
 
-	public static Set<String> getGrenadeNames() {
-		Set<String> names = new HashSet<String>();
-		for (Grenade g : getGrenades()) {
-			names.add(g.getName());
-		}
-		return names;
-	}
+    public static void createGrenades(int player) {
+	playerGrenades.put(player, toList());
+    }
 
-	public static List<Grenade> getGrenades(Player player) {
-		return getGrenades(player.getEntityId());
-	}
+    public static void createGrenades(Player player) {
+	createGrenades(player.getEntityId());
+    }
 
-	public static List<Grenade> getGrenades(int player) {
-		return playerGrenades.get(player);
+    private static List<Grenade> toList() {
+	List<Grenade> result = new ArrayList<Grenade>(grenades.size());
+	for (Grenade g : grenades) {
+	    result.add(g);
 	}
-
-	public static void createGrenades(int player) {
-		playerGrenades.put(player, toList());
-	}
-
-	public static void createGrenades(Player player) {
-		createGrenades(player.getEntityId());
-	}
-
-	private static List<Grenade> toList() {
-		List<Grenade> result = new ArrayList<Grenade>(grenades.size());
-		for (Grenade g : grenades) {
-			result.add(g);
-		}
-		return result;
-	}
+	return result;
+    }
 
 }

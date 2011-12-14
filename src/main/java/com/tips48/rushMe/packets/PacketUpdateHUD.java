@@ -28,22 +28,22 @@ import java.util.logging.Level;
 
 public class PacketUpdateHUD extends AddonPacket {
 
-	@Override
-	public void read(SpoutInputStream stream) {
-	}
+    @Override
+    public void read(SpoutInputStream stream) {
+    }
 
-	@Override
-	public void run(SpoutPlayer sp) {
-		RMLogging.debugLog(Level.INFO,
-				"Running PacketUpdateHUD for " + sp.getName());
-		MainHUD hud = SpoutGUI.getHudOf(sp);
-		if (hud != null) {
-			hud.updateHUD();
-		}
+    @Override
+    public void run(SpoutPlayer sp) {
+	RMLogging.debugLog(Level.INFO,
+		"Running PacketUpdateHUD for " + sp.getName());
+	MainHUD hud = SpoutGUI.getHudOf(sp);
+	if (hud != null) {
+	    hud.updateHUD();
 	}
+    }
 
-	@Override
-	public void write(SpoutOutputStream stream) {
-	}
+    @Override
+    public void write(SpoutOutputStream stream) {
+    }
 
 }

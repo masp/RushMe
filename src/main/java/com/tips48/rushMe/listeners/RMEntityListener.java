@@ -26,38 +26,38 @@ import org.bukkit.event.entity.EntityRegainHealthEvent;
 
 public class RMEntityListener extends EntityListener {
 
-	@Override
-	public void onEntityDamage(EntityDamageEvent event) {
-		if (event.isCancelled()) {
-			return;
-		}
-		Entity e = event.getEntity();
-		if (!(e instanceof Player)) {
-			return;
-		}
-		PlayerData.damage((Player) e, event.getDamage());
-		event.setCancelled(true);
-		if (PlayerData.getHealth((Player) e) <= 0) {
-			((Player) e).setHealth(0);
-		}
+    @Override
+    public void onEntityDamage(EntityDamageEvent event) {
+	if (event.isCancelled()) {
+	    return;
+	}
+	Entity e = event.getEntity();
+	if (!(e instanceof Player)) {
+	    return;
+	}
+	PlayerData.damage((Player) e, event.getDamage());
+	event.setCancelled(true);
+	if (PlayerData.getHealth((Player) e) <= 0) {
+	    ((Player) e).setHealth(0);
+	}
+    }
+
+    @Override
+    public void onEntityRegainHealth(EntityRegainHealthEvent event) {
+	if (event.isCancelled()) {
+	    return;
+	}
+	Entity e = event.getEntity();
+	if (!(e instanceof Player)) {
+	    return;
 	}
 
-	@Override
-	public void onEntityRegainHealth(EntityRegainHealthEvent event) {
-		if (event.isCancelled()) {
-			return;
-		}
-		Entity e = event.getEntity();
-		if (!(e instanceof Player)) {
-			return;
-		}
-
-		// TODO custom health regain
-		/*
-		 * if(!(PlayerData.isActive((Player) e))) { return; }
-		 * PlayerData.heal((Player) e, event.getAmount() * 5);
-		 * event.setCancelled(true); }
-		 */
-	}
+	// TODO custom health regain
+	/*
+	 * if(!(PlayerData.isActive((Player) e))) { return; }
+	 * PlayerData.heal((Player) e, event.getAmount() * 5);
+	 * event.setCancelled(true); }
+	 */
+    }
 
 }

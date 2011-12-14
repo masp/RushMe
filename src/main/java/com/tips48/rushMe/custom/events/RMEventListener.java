@@ -22,27 +22,27 @@ import org.bukkit.event.Event;
 
 public class RMEventListener extends CustomEventListener {
 
-	@Override
-	public void onCustomEvent(Event event) {
-		if (event instanceof PlayerDamageEvent) {
-			onPlayerDamage((PlayerDamageEvent) event);
-		} else if (event instanceof PlayerFireGunEvent) {
-			onPlayerFireGun((PlayerFireGunEvent) event);
-		} else if (event instanceof PlayerThrowGrenadeEvent) {
-			onPlayerThrowGrenade((PlayerThrowGrenadeEvent) event);
-		}
+    @Override
+    public void onCustomEvent(Event event) {
+	if (event instanceof PlayerDamageEvent) {
+	    onPlayerDamage((PlayerDamageEvent) event);
+	} else if (event instanceof PlayerFireGunEvent) {
+	    onPlayerFireGun((PlayerFireGunEvent) event);
+	} else if (event instanceof PlayerThrowGrenadeEvent) {
+	    onPlayerThrowGrenade((PlayerThrowGrenadeEvent) event);
 	}
+    }
 
-	public void onPlayerDamage(PlayerDamageEvent event) {
+    public void onPlayerDamage(PlayerDamageEvent event) {
 
-	}
+    }
 
-	public void onPlayerFireGun(PlayerFireGunEvent event) {
+    public void onPlayerFireGun(PlayerFireGunEvent event) {
 
-	}
+    }
 
-	public void onPlayerThrowGrenade(PlayerThrowGrenadeEvent event) {
+    public void onPlayerThrowGrenade(PlayerThrowGrenadeEvent event) {
 
-	}
+    }
 
 }
