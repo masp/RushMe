@@ -33,7 +33,7 @@ GameModes:
     teams:
         Russians:
             skin: http://dl.dropbox.com/u/31280142/ArmySkin1.png
-            preifx: RUS
+            prefix: RUS
             infiniteSpawns: true
             spawns: 1
         Americans:
