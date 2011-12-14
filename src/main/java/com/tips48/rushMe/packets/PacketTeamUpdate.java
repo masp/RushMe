@@ -57,8 +57,8 @@ public class PacketTeamUpdate extends AddonPacket implements PriorityPacket {
 		playerLimit = stream.readInt();
 		spawnsLeft = stream.readInt();
 		maxSpawnsLeft = stream.readInt();
-		uuid = UUID.fromString(stream.readString());
-		ownerUUID = UUID.fromString(stream.readString());
+		uuid = stream.readUUID();
+		ownerUUID = stream.readUUID();
 		int spawnsLength = stream.readInt();
 		for (int i = 0; i < spawnsLength; i++) {
 			spawns.add(stream.readLocation());
@@ -103,8 +103,8 @@ public class PacketTeamUpdate extends AddonPacket implements PriorityPacket {
 		stream.writeInt(playerLimit);
 		stream.writeInt(spawnsLeft);
 		stream.writeInt(maxSpawnsLeft);
-		stream.writeString(uuid.toString());
-		stream.writeString(ownerUUID.toString());
+		stream.writeUUID(uuid);
+		stream.writeUUID(ownerUUID);
 		stream.writeInt(spawns.size());
 		for (Location loc : spawns) {
 			stream.writeLocation(loc);
@@ -218,7 +218,6 @@ public class PacketTeamUpdate extends AddonPacket implements PriorityPacket {
 		return this;
 	}
 
-	@Override
 	public PacketPriority getPriority() {
 		return PacketPriority.HIGH;
 	}

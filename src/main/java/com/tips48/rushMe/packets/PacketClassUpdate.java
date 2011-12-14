@@ -20,7 +20,7 @@ package com.tips48.rushMe.packets;
 import org.getspout.spoutapi.io.*;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
-public class PacketClassUpdate extends AddonPacket implements PriorityPacket {
+public class PacketClassUpdate extends AddonPacket {
 
 	@Override
 	public void read(SpoutInputStream stream) {
@@ -32,11 +32,6 @@ public class PacketClassUpdate extends AddonPacket implements PriorityPacket {
 
 	@Override
 	public void write(SpoutOutputStream stream) {
-	}
-
-	@Override
-	public PacketPriority getPriority() {
-		return PacketPriority.LOWEST;
 	}
 
 }

@@ -59,7 +59,7 @@ public class PacketGunUpdate extends AddonPacket implements PriorityPacket {
 		entityDamageDistance = stream.readDouble();
 		headshotDamage = stream.readInt();
 		bodyDamage = stream.readInt();
-		uuid = UUID.fromString(stream.readString());
+		uuid = stream.readUUID();
 		RMLogging.debugLog(Level.INFO, "Read PacketGunUpdate.  Atributes:");
 		RMLogging.debugLog(Level.INFO, "Name = " + name + ";ReloadTime = "
 				+ reloadTime + ";MaxClipSize = " + maxClipSize
@@ -104,7 +104,7 @@ public class PacketGunUpdate extends AddonPacket implements PriorityPacket {
 		stream.writeDouble(entityDamageDistance);
 		stream.writeInt(headshotDamage);
 		stream.writeInt(bodyDamage);
-		stream.writeString(uuid.toString());
+		stream.writeUUID(uuid);
 		RMLogging.debugLog(Level.INFO, "Wrote PacketGunUpdate.  Atributes:");
 		RMLogging.debugLog(Level.INFO, "Name = " + name + ";ReloadTime = "
 				+ reloadTime + ";MaxClipSize = " + maxClipSize

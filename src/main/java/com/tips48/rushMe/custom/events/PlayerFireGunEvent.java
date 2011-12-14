@@ -28,23 +28,23 @@ public class PlayerFireGunEvent extends Event implements Cancellable {
 	private static final long serialVersionUID = 8735696261382213209L;
 	private Player player;
 	private Gun gun;
-	private boolean cancelled;
+	private boolean cancel;
 
 	public PlayerFireGunEvent(Player player, Gun gun) {
 		super("PlayerFireGunEvent");
 		this.player = player;
 		this.gun = gun;
-		this.cancelled = false;
+		this.cancel = false;
 	}
 
 	@Override
 	public boolean isCancelled() {
-		return cancelled;
+		return cancel;
 	}
 
 	@Override
-	public void setCancelled(boolean cancelled) {
-		this.cancelled = cancelled;
+	public void setCancelled(boolean cancel) {
+		this.cancel = cancel;
 	}
 
 	public Player getPlayer() {

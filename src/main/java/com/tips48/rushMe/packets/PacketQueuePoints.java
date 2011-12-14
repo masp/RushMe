@@ -25,7 +25,7 @@ import org.getspout.spoutapi.player.SpoutPlayer;
 
 import java.util.logging.Level;
 
-public class PacketQueuePoints extends AddonPacket implements PriorityPacket {
+public class PacketQueuePoints extends AddonPacket {
 
 	private String message;
 
@@ -61,8 +61,4 @@ public class PacketQueuePoints extends AddonPacket implements PriorityPacket {
 		this.message = message;
 	}
 
-	@Override
-	public PacketPriority getPriority() {
-		return PacketPriority.LOWEST;
-	}
 }

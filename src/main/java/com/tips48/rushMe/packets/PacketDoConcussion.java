@@ -25,7 +25,7 @@ import org.getspout.spoutapi.player.SpoutPlayer;
 
 import java.util.logging.Level;
 
-public class PacketDoConcussion extends AddonPacket implements PriorityPacket {
+public class PacketDoConcussion extends AddonPacket {
 
 	private int startingAlpha;
 	private int time;
@@ -72,11 +72,6 @@ public class PacketDoConcussion extends AddonPacket implements PriorityPacket {
 
 	public void setTime(int time) {
 		this.time = time;
-	}
-
-	@Override
-	public PacketPriority getPriority() {
-		return PacketPriority.LOWEST;
 	}
 
 }

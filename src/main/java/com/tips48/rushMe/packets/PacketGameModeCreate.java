@@ -51,7 +51,7 @@ public class PacketGameModeCreate extends AddonPacket implements PriorityPacket 
 		respawn = stream.readInt() == 0;
 		respawnTime = stream.readInt();
 		maxPlayers = stream.readInt();
-		uuid = UUID.fromString(stream.readString());
+		uuid = stream.readUUID();
 	}
 
 	@Override
@@ -74,7 +74,7 @@ public class PacketGameModeCreate extends AddonPacket implements PriorityPacket 
 		stream.writeInt(respawn == true ? 0 : 1);
 		stream.writeInt(respawnTime);
 		stream.writeInt(maxPlayers);
-		stream.writeString(uuid.toString());
+		stream.writeUUID(uuid);
 	}
 
 	public String getName() {

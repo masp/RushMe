@@ -56,7 +56,7 @@ public class PacketGrenadeUpdate extends AddonPacket implements PriorityPacket {
 		timeBeforeExplosion = stream.readInt();
 		damage = stream.readInt();
 		stunTime = stream.readInt();
-		uuid = UUID.fromString(stream.readString());
+		uuid = stream.readUUID();
 		RMLogging.debugLog(Level.INFO, "Read PacketGrenadeUpdate.  Atributes:");
 		RMLogging.debugLog(Level.INFO, "Name = " + name + ";ShortName = "
 				+ shortName + ";TypeInt = " + typeInt + ";Type = " + type
@@ -91,7 +91,7 @@ public class PacketGrenadeUpdate extends AddonPacket implements PriorityPacket {
 		stream.writeInt(timeBeforeExplosion);
 		stream.writeInt(damage);
 		stream.writeInt(stunTime);
-		stream.writeString(uuid.toString());
+		stream.writeUUID(uuid);
 		RMLogging.debugLog(Level.INFO, "Read PacketGrenadeUpdate.  Atributes:");
 		RMLogging.debugLog(Level.INFO, "Name = " + name + ";ShortName = "
 				+ shortName + ";TypeInt = " + typeInt + ";Type = " + type

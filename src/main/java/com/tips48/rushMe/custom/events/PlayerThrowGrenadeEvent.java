@@ -28,13 +28,13 @@ public class PlayerThrowGrenadeEvent extends Event implements Cancellable {
 	private static final long serialVersionUID = -753883085563151172L;
 	private Player player;
 	private Grenade grenade;
-	private boolean cancelled;
+	private boolean cancel;
 
 	public PlayerThrowGrenadeEvent(Player player, Grenade grenade) {
 		super("PlayerThrowGrenadeEvent");
 		this.player = player;
 		this.grenade = grenade;
-		this.cancelled = false;
+		this.cancel = false;
 	}
 
 	public Player getPlayer() {
@@ -47,12 +47,12 @@ public class PlayerThrowGrenadeEvent extends Event implements Cancellable {
 
 	@Override
 	public boolean isCancelled() {
-		return cancelled;
+		return cancel;
 	}
 
 	@Override
 	public void setCancelled(boolean cancelled) {
-		this.cancelled = cancelled;
+		this.cancel = cancelled;
 	}
 
 }

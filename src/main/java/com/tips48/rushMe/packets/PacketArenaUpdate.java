@@ -51,9 +51,9 @@ public class PacketArenaUpdate extends AddonPacket implements PriorityPacket {
 	public void read(SpoutInputStream stream) {
 		name = stream.readString();
 		creator = stream.readInt();
-		uuid = UUID.fromString(stream.readString());
-		gamemodeUUID = UUID.fromString(stream.readString());
-		worldUUID = UUID.fromString(stream.readString());
+		uuid = stream.readUUID();
+		gamemodeUUID = stream.readUUID();
+		worldUUID = stream.readUUID();
 		int vectorsNotNull = stream.readInt();
 		if (vectorsNotNull >= 2) {
 			vec1 = stream.readVector();
@@ -72,8 +72,7 @@ public class PacketArenaUpdate extends AddonPacket implements PriorityPacket {
 		}
 		int captureLocationsLength = stream.readInt();
 		for (int i = 0; i < captureLocationsLength; i++) {
-			captureLocations.put(UUID.fromString(stream.readString()),
-					stream.readVector());
+			captureLocations.put(stream.readUUID(), stream.readVector());
 		}
 		int objectLocationsLength = stream.readInt();
 		for (int i = 0; i < objectLocationsLength; i++) {
@@ -127,9 +126,9 @@ public class PacketArenaUpdate extends AddonPacket implements PriorityPacket {
 	public void write(SpoutOutputStream stream) {
 		stream.writeString(name);
 		stream.writeInt(creator);
-		stream.writeString(uuid.toString());
-		stream.writeString(gamemodeUUID.toString());
-		stream.writeString(worldUUID.toString());
+		stream.writeUUID(uuid);
+		stream.writeUUID(gamemodeUUID);
+		stream.writeUUID(worldUUID);
 		if (vec1 != null && vec2 != null) {
 			stream.writeInt(2);
 			stream.writeVector(vec1);
@@ -160,7 +159,7 @@ public class PacketArenaUpdate extends AddonPacket implements PriorityPacket {
 		if (captureLocations != null) {
 			stream.writeInt(captureLocations.size());
 			for (UUID uuid : captureLocations.keySet()) {
-				stream.writeString(uuid.toString());
+				stream.writeUUID(uuid);
 				stream.writeVector(captureLocations.get(uuid));
 			}
 		} else {

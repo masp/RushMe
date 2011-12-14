@@ -26,7 +26,7 @@ import org.getspout.spoutapi.player.SpoutPlayer;
 
 import java.util.logging.Level;
 
-public class PacketToggleHUD extends AddonPacket implements PriorityPacket {
+public class PacketToggleHUD extends AddonPacket {
 
 	@Override
 	public void read(SpoutInputStream stream) {
@@ -49,11 +49,6 @@ public class PacketToggleHUD extends AddonPacket implements PriorityPacket {
 
 	@Override
 	public void write(SpoutOutputStream stream) {
-	}
-
-	@Override
-	public PacketPriority getPriority() {
-		return PacketPriority.LOWEST;
 	}
 
 }

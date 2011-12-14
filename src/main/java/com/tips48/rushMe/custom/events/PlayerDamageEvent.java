@@ -32,7 +32,7 @@ public class PlayerDamageEvent extends Event implements Cancellable {
 	private int damage;
 	private Gun gun;
 	private Grenade grenade;
-	private boolean cancelled;
+	private boolean cancel;
 
 	public PlayerDamageEvent(Player damaged, Player damager, int damage,
 			Gun gun, Grenade grenade) {
@@ -42,17 +42,17 @@ public class PlayerDamageEvent extends Event implements Cancellable {
 		this.damage = damage;
 		this.gun = gun;
 		this.grenade = grenade;
-		this.cancelled = false;
+		this.cancel = false;
 	}
 
 	@Override
 	public boolean isCancelled() {
-		return cancelled;
+		return cancel;
 	}
 
 	@Override
-	public void setCancelled(boolean cancelled) {
-		this.cancelled = cancelled;
+	public void setCancelled(boolean cancel) {
+		this.cancel = cancel;
 	}
 
 	public Player getDamager() {
