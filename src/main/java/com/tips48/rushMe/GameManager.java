@@ -221,42 +221,30 @@ public class GameManager {
 
     public static void updateNames(Arena arena) {
 	RMLogging.debugLog(Level.INFO, "Updating names for " + arena.getName());
-	new UpdateNames(arena).run();
-    }
-
-    private static class UpdateNames extends Thread {
-	private Arena arena;
-
-	public UpdateNames(Arena arena) {
-	    this.arena = arena;
-	}
-
-	public void run() {
-	    for (int i = 0; i <= arena.getTeams().size(); i++) {
-		Team t = arena.getTeams().get(i);
-		for (int player : t.getPlayers().toArray()) {
-		    Player p = SpoutManager.getPlayerFromId(player);
-		    if (p != null) {
-			for (Player onlinePlayer : RushMe.getInstance()
-				.getServer().getOnlinePlayers()) {
-			    if (onlinePlayer == p) {
-				continue;
-			    }
-			    Team team = arena.getTeamOf(onlinePlayer);
-			    ChatColor color = ChatColor.WHITE;
-			    if (team != null) {
-				color = t.equals(team) ? ChatColor.GREEN : null;
-			    }
-			    if (color == null) {
-				SpoutManager.getPlayer(p).setTitleFor(
-					SpoutManager.getPlayer(onlinePlayer),
-					"[hide]");
-				continue;
-			    }
+	for (int i = 0; i <= arena.getTeams().size(); i++) {
+	    Team t = arena.getTeams().get(i);
+	    for (int player : t.getPlayers().toArray()) {
+		Player p = SpoutManager.getPlayerFromId(player);
+		if (p != null) {
+		    for (Player onlinePlayer : RushMe.getInstance().getServer()
+			    .getOnlinePlayers()) {
+			if (onlinePlayer == p) {
+			    continue;
+			}
+			Team team = arena.getTeamOf(onlinePlayer);
+			ChatColor color = ChatColor.WHITE;
+			if (team != null) {
+			    color = t.equals(team) ? ChatColor.GREEN : null;
+			}
+			if (color == null) {
 			    SpoutManager.getPlayer(p).setTitleFor(
 				    SpoutManager.getPlayer(onlinePlayer),
-				    color + onlinePlayer.getName());
+				    "[hide]");
+			    continue;
 			}
+			SpoutManager.getPlayer(p).setTitleFor(
+				SpoutManager.getPlayer(onlinePlayer),
+				color + onlinePlayer.getName());
 		    }
 		}
 	    }
