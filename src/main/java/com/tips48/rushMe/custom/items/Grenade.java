@@ -27,7 +27,6 @@ import com.tips48.rushMe.util.RMUtils;
 
 import org.bukkit.Location;
 import org.bukkit.entity.*;
-import org.bukkit.inventory.ItemStack;
 import org.getspout.spoutapi.SpoutManager;
 import org.getspout.spoutapi.inventory.SpoutItemStack;
 import org.getspout.spoutapi.material.item.GenericCustomItem;
@@ -35,7 +34,7 @@ import org.getspout.spoutapi.player.SpoutPlayer;
 
 import java.util.UUID;
 
-public class Grenade extends GenericCustomItem {
+public class Grenade extends GenericCustomItem implements Weapon {
 
     private final GrenadeType type;
     private final Integer startAmount;
@@ -111,7 +110,7 @@ public class Grenade extends GenericCustomItem {
 	return stunTime;
     }
 
-    public ItemStack toItemStack(int amount) {
+    public SpoutItemStack toItemStack(int amount) {
 	return new SpoutItemStack(this, amount);
     }
 

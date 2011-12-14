@@ -21,8 +21,7 @@ import com.tips48.rushMe.GameManager;
 import com.tips48.rushMe.custom.GUI.MainHUD;
 import com.tips48.rushMe.custom.GUI.SpoutGUI;
 import com.tips48.rushMe.custom.events.PlayerDamageEvent;
-import com.tips48.rushMe.custom.items.Grenade;
-import com.tips48.rushMe.custom.items.Gun;
+import com.tips48.rushMe.custom.items.Weapon;
 import com.tips48.rushMe.packets.PacketPlayerDataUpdate;
 
 import org.bukkit.Bukkit;
@@ -47,78 +46,13 @@ public class PlayerData {
     }
 
     public static void registerDamage(Player hurt, Player damager, int damage,
-	    Gun gun) {
-	registerDamage(hurt.getEntityId(), damager.getEntityId(), damage, gun);
-    }
-
-    public static void registerDamage(int hurt, int damager, int damage, Gun gun) {
-	Player hurtP = SpoutManager.getPlayerFromId(hurt);
-	Player damagerP = SpoutManager.getPlayerFromId(damager);
-
-	MainHUD hurtHUD = SpoutGUI.getHudOf(hurtP);
-	MainHUD damagerHUD = SpoutGUI.getHudOf(damagerP);
-
-	if (!(GameManager.inGame(hurtP))) {
-	    return;
-	}
-
-	if ((hurtP == null) || (damagerP == null) || (hurtHUD == null)
-		|| (damagerHUD == null)) {
-	    setHealth(hurt, damage);
-	    return;
-	}
-
-	PlayerDamageEvent event = new PlayerDamageEvent(hurtP, damagerP,
-		damage, gun, null);
-	Bukkit.getPluginManager().callEvent(event);
-	if (event.isCancelled()) {
-	    return;
-	}
-	damage = event.getDamage();
-
-	setHealth(hurt, damage);
-
-	if (hurtHUD.isActive()) {
-	    hurtHUD.updateHUD();
-	}
-
-	if (damagerHUD.isActive()) {
-	    damagerHUD.updateHUD();
-	    damagerHUD.showHit();
-	}
-
-	if (getHealth(hurt) <= 0) {
-	    addDeath(damager);
-	    SpoutGUI.showKill(damagerP, hurtP, gun);
-	    damagerHUD.queuePoints("Enemy killed - 100");
-	    setScore(damagerP, getScore(damagerP) + 100);
-	}
-	PacketPlayerDataUpdate packet = new PacketPlayerDataUpdate();
-	packet.setPlayer(hurt);
-	packet.setDeaths(PlayerData.getDeaths(hurtP));
-	packet.setKills(PlayerData.getKills(hurtP));
-	packet.setScore(PlayerData.getScore(hurtP));
-	packet.setSpotted(PlayerData.isSpotted(hurtP));
-	packet.send(SpoutManager.getPlayer(hurtP));
-
-	PacketPlayerDataUpdate packet2 = new PacketPlayerDataUpdate();
-	packet2.setPlayer(damager);
-	packet2.setDeaths(PlayerData.getDeaths(damagerP));
-	packet2.setKills(PlayerData.getKills(damagerP));
-	packet2.setScore(PlayerData.getScore(damagerP));
-	packet2.setSpotted(PlayerData.isSpotted(damagerP));
-	packet2.send(SpoutManager.getPlayer(damagerP));
-	// TODO if keeping gun stats, do here
-    }
-
-    public static void registerDamage(Player hurt, Player damager, int damage,
-	    Grenade grenade) {
+	    Weapon weapon) {
 	registerDamage(hurt.getEntityId(), damager.getEntityId(), damage,
-		grenade);
+		weapon);
     }
 
     public static void registerDamage(int hurt, int damager, int damage,
-	    Grenade grenade) {
+	    Weapon weapon) {
 	Player hurtP = SpoutManager.getPlayerFromId(hurt);
 	Player damagerP = SpoutManager.getPlayerFromId(damager);
 
@@ -136,7 +70,7 @@ public class PlayerData {
 	}
 
 	PlayerDamageEvent event = new PlayerDamageEvent(hurtP, damagerP,
-		damage, null, grenade);
+		damage, weapon);
 	Bukkit.getPluginManager().callEvent(event);
 	if (event.isCancelled()) {
 	    return;
@@ -156,7 +90,7 @@ public class PlayerData {
 
 	if (getHealth(hurt) <= 0) {
 	    addDeath(damager);
-	    SpoutGUI.showKill(damagerP, hurtP, grenade);
+	    SpoutGUI.showKill(damagerP, hurtP, weapon);
 	    damagerHUD.queuePoints("Enemy killed - 100");
 	    setScore(damagerP, getScore(damagerP) + 100);
 	}

@@ -30,7 +30,7 @@ import org.getspout.spoutapi.material.item.GenericCustomItem;
 
 import java.util.UUID;
 
-public class Gun extends GenericCustomItem {
+public class Gun extends GenericCustomItem implements Weapon {
     // LAST FIRED
     private long lastFired;
     // RELOAD

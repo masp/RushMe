@@ -21,6 +21,7 @@ import com.tips48.rushMe.GameManager;
 import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.arenas.Arena;
 import com.tips48.rushMe.commands.RushMeCommand;
+import com.tips48.rushMe.custom.GUI.MainHUD;
 import com.tips48.rushMe.custom.GUI.SpoutGUI;
 import com.tips48.rushMe.custom.events.PlayerFireGunEvent;
 import com.tips48.rushMe.custom.items.GrenadeManager;
@@ -250,19 +251,13 @@ public class RMPlayerListener extends PlayerListener {
 	}
 	PlayerData.setHealth(player, 100);
 	PlayerData.addDeath(player);
-	SpoutGUI.getHudOf(player).updateHUD();
+	MainHUD hud = SpoutGUI.getHudOf(player);
+	if (hud != null) {
+	    hud.updateHUD();
+	}
     }
 
     private LivingEntity getLookingAtHead(Player player) {
-	List<Entity> ne = player.getNearbyEntities(500, 500, 500);
-	Set<LivingEntity> entities = new HashSet<LivingEntity>();
-
-	for (Entity e : ne) {
-	    if (e instanceof LivingEntity) {
-		entities.add((LivingEntity) e);
-	    }
-	}
-
 	LivingEntity target = null;
 	BlockIterator bitr = new BlockIterator(player, 100);
 	Block b;
@@ -276,6 +271,13 @@ public class RMPlayerListener extends PlayerListener {
 	    by = b.getY();
 	    bz = b.getZ();
 	    // check for entities near this block in the line of sight
+	    Set<LivingEntity> entities = new HashSet<LivingEntity>();
+	    for (Entity e : RMUtils.getNearbyEntities(new Location(
+		    b.getWorld(), bx, by, bz), 3, 3, 3)) {
+		if (e instanceof LivingEntity) {
+		    entities.add((LivingEntity) e);
+		}
+	    }
 	    for (LivingEntity e : entities) {
 		l = e.getEyeLocation();
 		ex = l.getX();
@@ -304,15 +306,6 @@ public class RMPlayerListener extends PlayerListener {
     }
 
     private LivingEntity getLookingAt(Player player) {
-	List<Entity> ne = player.getNearbyEntities(500, 500, 500);
-	Set<LivingEntity> entities = new HashSet<LivingEntity>();
-
-	for (Entity e : ne) {
-	    if (e instanceof LivingEntity) {
-		entities.add((LivingEntity) e);
-	    }
-	}
-
 	LivingEntity target = null;
 	BlockIterator bitr = new BlockIterator(player, 100);
 	Block b;
@@ -326,6 +319,13 @@ public class RMPlayerListener extends PlayerListener {
 	    by = b.getY();
 	    bz = b.getZ();
 	    // check for entities near this block in the line of sight
+	    Set<LivingEntity> entities = new HashSet<LivingEntity>();
+	    for (Entity e : RMUtils.getNearbyEntities(new Location(
+		    b.getWorld(), bx, by, bz), 3, 3, 3)) {
+		if (e instanceof LivingEntity) {
+		    entities.add((LivingEntity) e);
+		}
+	    }
 	    for (LivingEntity e : entities) {
 		l = e.getLocation();
 		ex = l.getX();

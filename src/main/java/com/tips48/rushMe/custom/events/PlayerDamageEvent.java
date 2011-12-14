@@ -17,8 +17,7 @@
 
 package com.tips48.rushMe.custom.events;
 
-import com.tips48.rushMe.custom.items.Grenade;
-import com.tips48.rushMe.custom.items.Gun;
+import com.tips48.rushMe.custom.items.Weapon;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -30,18 +29,16 @@ public class PlayerDamageEvent extends Event implements Cancellable {
     private Player damager;
     private Player damaged;
     private int damage;
-    private Gun gun;
-    private Grenade grenade;
+    private Weapon weapon;
     private boolean cancel;
 
     public PlayerDamageEvent(Player damaged, Player damager, int damage,
-	    Gun gun, Grenade grenade) {
+	    Weapon weapon) {
 	super("PlayerDamageEvent");
 	this.damaged = damaged;
 	this.damager = damager;
 	this.damage = damage;
-	this.gun = gun;
-	this.grenade = grenade;
+	this.weapon = weapon;
 	this.cancel = false;
     }
 
@@ -71,20 +68,8 @@ public class PlayerDamageEvent extends Event implements Cancellable {
 	this.damage = damage;
     }
 
-    public boolean hasGun() {
-	return gun != null;
-    }
-
-    public Gun getGun() {
-	return gun;
-    }
-
-    public boolean hasGrenade() {
-	return grenade != null;
-    }
-
-    public Grenade getGrenade() {
-	return grenade;
+    public Weapon getWeapon() {
+	return weapon;
     }
 
 }
