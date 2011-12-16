@@ -14,38 +14,36 @@ import java.util.logging.Logger;
 public class RMLogging extends Thread {
 
     private static final Logger logger = Logger.getLogger("Minecraft");
-    
+
     private static BufferedWriter writer;
 
     private static BufferedWriter debugWriter;
     private static boolean debug;
-    
+
     private static List<String> toRun = new ArrayList<String>();
     private static List<String> debugToRun = new ArrayList<String>();
-    
+
     private static final DateFormat df = new SimpleDateFormat("HH:mm:ss");
-    
+
     @Override
     public void run() {
 	for (String string : toRun) {
-		if (writer != null) {
-		    try {
-			writer.write(df
-				.format(System.currentTimeMillis()) + string);
-			writer.newLine();
-			writer.flush();
-		    } catch (Exception e) {
-			RMLogging.log(e, "Could not write " + string
-				+ " to the log file!");
-		    }
-		    toRun.remove(string);
+	    if (writer != null) {
+		try {
+		    writer.write(df.format(System.currentTimeMillis()) + string);
+		    writer.newLine();
+		    writer.flush();
+		} catch (Exception e) {
+		    RMLogging.log(e, "Could not write " + string
+			    + " to the log file!");
 		}
+		toRun.remove(string);
+	    }
 	}
 	for (String string : debugToRun) {
 	    if (debugWriter != null) {
 		try {
-		    debugWriter.write(df.format(System
-			    .currentTimeMillis())
+		    debugWriter.write(df.format(System.currentTimeMillis())
 			    + string);
 		    debugWriter.newLine();
 		    debugWriter.flush();
@@ -57,7 +55,7 @@ public class RMLogging extends Thread {
 	}
 	if (debugToRun.isEmpty() && toRun.isEmpty()) {
 	    try {
-	    Thread.sleep(60000);
+		Thread.sleep(60000);
 	    } catch (Exception e) {
 		RMLogging.log(e, "Writer thread was interupted!");
 	    }
