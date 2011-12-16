@@ -24,42 +24,46 @@ public class RMLogging extends Thread {
     private static List<String> debugToRun = new ArrayList<String>();
 
     private static final DateFormat df = new SimpleDateFormat("HH:mm:ss");
+    
+    public RMLogging() {
+    	super("Rushme Logging Thread");
+    }
 
     @Override
     public void run() {
-	for (String string : toRun) {
-	    if (writer != null) {
-		try {
-		    writer.write(df.format(System.currentTimeMillis()) + string);
-		    writer.newLine();
-		    writer.flush();
-		} catch (Exception e) {
-		    RMLogging.log(e, "Could not write " + string
-			    + " to the log file!");
-		}
-		toRun.remove(string);
-	    }
-	}
-	for (String string : debugToRun) {
-	    if (debugWriter != null) {
-		try {
-		    debugWriter.write(df.format(System.currentTimeMillis())
-			    + string);
-		    debugWriter.newLine();
-		    debugWriter.flush();
-		} catch (Exception e) {
-		    log(e, "Could not write " + string + " to the debug file!");
-		}
-		debugToRun.remove(string);
-	    }
-	}
-	if (debugToRun.isEmpty() && toRun.isEmpty()) {
-	    try {
-		Thread.sleep(60000);
-	    } catch (Exception e) {
-		RMLogging.log(e, "Writer thread was interupted!");
-	    }
-	}
+    	while(!this.isInterrupted()) {
+			for (String string : toRun) {
+			    if (writer != null) {
+				try {
+				    writer.write(df.format(System.currentTimeMillis()) + string);
+				    writer.newLine();
+				    writer.flush();
+				} catch (Exception e) {
+				    RMLogging.log(e, "Could not write " + string
+					    + " to the log file!");
+				}
+				toRun.remove(string);
+			    }
+			}
+			for (String string : debugToRun) {
+			    if (debugWriter != null) {
+				try {
+				    debugWriter.write(df.format(System.currentTimeMillis())
+					    + string);
+				    debugWriter.newLine();
+				    debugWriter.flush();
+				} catch (Exception e) {
+				    log(e, "Could not write " + string + " to the debug file!");
+				}
+				debugToRun.remove(string);
+			    }
+			}
+			try {
+				Thread.sleep(1000);
+		   	 } catch (Exception e) {
+				RMLogging.log(e, "Writer thread was interupted!");
+		   	 }
+ 		}
     }
 
     public static synchronized void shutdown() {
