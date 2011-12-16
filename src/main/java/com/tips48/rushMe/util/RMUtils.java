@@ -143,7 +143,7 @@ public class RMUtils {
 	player.getInventory().clear();
 	for (ItemStack item : inventory) {
 	    if (item == null) {
-		return;
+		continue;
 	    }
 	    if (!isGun(item)) {
 		player.getInventory().addItem(item);
