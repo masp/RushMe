@@ -101,6 +101,11 @@ public class RushMe extends JavaPlugin {
 	GameManager.removeAll();
 	logger.log(Level.INFO, "Disabled");
 	logger.shutdown();
+	try {
+	    logger.join();
+	} catch (Exception e) {
+	    logger.log(e, "Error shutting down the logger!");
+	}
     }
 
     public RMLogging getLogger() {
