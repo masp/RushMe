@@ -63,7 +63,7 @@ public class RMLogging extends Thread {
 	    try {
 		Thread.sleep(1000);
 	    } catch (Exception e) {
-		this.log(e, "Writer thread was interupted!");
+		this.log(e, "Logging thread was interupted!");
 	    }
 	}
     }
