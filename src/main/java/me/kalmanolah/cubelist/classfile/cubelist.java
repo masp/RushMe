@@ -17,7 +17,7 @@
 
 package me.kalmanolah.cubelist.classfile;
 
-import com.tips48.rushMe.util.RMLogging;
+import com.tips48.rushMe.RushMe;
 
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -36,8 +36,10 @@ public class cubelist {
 	File thelockfile = new File("cubelist.lck");
 	if (thelockfile.exists()) {
 	    if (!(thelockfile.delete())) {
-		RMLogging.log(Level.SEVERE,
-			"Error deleting " + thelockfile.getName());
+		RushMe.getInstance()
+			.getLogger()
+			.log(Level.SEVERE,
+				"Error deleting " + thelockfile.getName());
 	    }
 	}
 	final File lockfile = thelockfile;
@@ -52,9 +54,12 @@ public class cubelist {
 				    .getPlugin("CubeList") == null) {
 				try {
 				    if (!(lockfile.createNewFile())) {
-					RMLogging.log(Level.SEVERE,
-						"Error creating the file "
-							+ lockfile.getName());
+					RushMe.getInstance()
+						.getLogger()
+						.log(Level.SEVERE,
+							"Error creating the file "
+								+ lockfile
+									.getName());
 				    }
 				} catch (IOException e) {
 				    e.printStackTrace();
@@ -65,7 +70,8 @@ public class cubelist {
 						new Runnable() {
 						    public void run() {
 							if (!(lockfile.delete())) {
-							    RMLogging
+							    RushMe.getInstance()
+								    .getLogger()
 								    .log(Level.SEVERE,
 									    "Error deleting the file "
 										    + lockfile
@@ -102,7 +108,8 @@ public class cubelist {
 	    result = sb.toString();
 	    wr.close();
 	} catch (Exception e) {
-	    RMLogging.log(e, "Error sending post request!");
+	    RushMe.getInstance().getLogger()
+		    .log(e, "Error sending post request!");
 	}
 	return result;
     }

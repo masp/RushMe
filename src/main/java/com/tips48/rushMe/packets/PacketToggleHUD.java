@@ -17,9 +17,9 @@
 
 package com.tips48.rushMe.packets;
 
+import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.custom.GUI.MainHUD;
 import com.tips48.rushMe.custom.GUI.SpoutGUI;
-import com.tips48.rushMe.util.RMLogging;
 
 import org.getspout.spoutapi.io.*;
 import org.getspout.spoutapi.player.SpoutPlayer;
@@ -34,8 +34,10 @@ public class PacketToggleHUD extends AddonPacket {
 
     @Override
     public void run(SpoutPlayer sp) {
-	RMLogging.debugLog(Level.INFO,
-		"Running PacketToggleHUD for " + sp.getName());
+	RushMe.getInstance()
+		.getLogger()
+		.debugLog(Level.INFO,
+			"Running PacketToggleHUD for " + sp.getName());
 	MainHUD hud = SpoutGUI.getHudOf(sp);
 	if (hud == null) {
 	    return;

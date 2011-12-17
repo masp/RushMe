@@ -289,6 +289,15 @@ public class Team extends PacketInfo {
 	PacketInfo.addPacket(packet, packet);
     }
 
+    public int checkStatus() {
+	throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void reset() {
+	spawnsLeft = maxSpawnsLeft;
+	// TODO reset spawns
+    }
+
     @Override
     public String toString() {
 	return name;

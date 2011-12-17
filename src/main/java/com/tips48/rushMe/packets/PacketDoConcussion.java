@@ -16,9 +16,9 @@
  */
 package com.tips48.rushMe.packets;
 
+import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.custom.GUI.MainHUD;
 import com.tips48.rushMe.custom.GUI.SpoutGUI;
-import com.tips48.rushMe.util.RMLogging;
 
 import org.getspout.spoutapi.io.*;
 import org.getspout.spoutapi.player.SpoutPlayer;
@@ -34,15 +34,20 @@ public class PacketDoConcussion extends AddonPacket {
     public void read(SpoutInputStream stream) {
 	startingAlpha = stream.readInt();
 	time = stream.readInt();
-	RMLogging.debugLog(Level.INFO,
-		"Read PacketDoConcussion with startingAlpha = " + startingAlpha
-			+ " and time = " + time);
+	RushMe.getInstance()
+		.getLogger()
+		.debugLog(
+			Level.INFO,
+			"Read PacketDoConcussion with startingAlpha = "
+				+ startingAlpha + " and time = " + time);
     }
 
     @Override
     public void run(SpoutPlayer sp) {
-	RMLogging.debugLog(Level.INFO,
-		"Running PacketDoConcussion for " + sp.getName());
+	RushMe.getInstance()
+		.getLogger()
+		.debugLog(Level.INFO,
+			"Running PacketDoConcussion for " + sp.getName());
 	MainHUD hud = SpoutGUI.getHudOf(sp);
 	if (hud != null) {
 	    hud.doConcussion(startingAlpha, time);
@@ -53,9 +58,12 @@ public class PacketDoConcussion extends AddonPacket {
     public void write(SpoutOutputStream stream) {
 	stream.writeInt(startingAlpha);
 	stream.writeInt(time);
-	RMLogging.debugLog(Level.INFO,
-		"Wrote PacketDoConcussion with startingAlpha = "
-			+ startingAlpha + " and time = " + time);
+	RushMe.getInstance()
+		.getLogger()
+		.debugLog(
+			Level.INFO,
+			"Wrote PacketDoConcussion with startingAlpha = "
+				+ startingAlpha + " and time = " + time);
     }
 
     public int getStartingAlpha() {

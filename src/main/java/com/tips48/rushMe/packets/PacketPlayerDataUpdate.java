@@ -17,8 +17,8 @@
 
 package com.tips48.rushMe.packets;
 
+import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.data.PlayerData;
-import com.tips48.rushMe.util.RMLogging;
 
 import org.getspout.spoutapi.io.*;
 import org.getspout.spoutapi.player.SpoutPlayer;
@@ -43,17 +43,25 @@ public class PacketPlayerDataUpdate extends AddonPacket implements
 	deaths = stream.readInt();
 	health = stream.readInt();
 	spotted = stream.readInt() == 0;
-	RMLogging.debugLog(Level.INFO,
-		"Read PacketPlayerDataUpdate.  Atributes:");
-	RMLogging.debugLog(Level.INFO, "Score = " + score + ";Kills = " + kills
-		+ ";Deaths = " + deaths + ";Healths = " + health
-		+ ";Spotted = " + spotted);
+	RushMe.getInstance()
+		.getLogger()
+		.debugLog(Level.INFO,
+			"Read PacketPlayerDataUpdate.  Atributes:");
+	RushMe.getInstance()
+		.getLogger()
+		.debugLog(
+			Level.INFO,
+			"Score = " + score + ";Kills = " + kills + ";Deaths = "
+				+ deaths + ";Healths = " + health
+				+ ";Spotted = " + spotted);
     }
 
     @Override
     public void run(SpoutPlayer sp) {
-	RMLogging.debugLog(Level.INFO, "Running PacketPlayerDataUpdate for "
-		+ sp.getName());
+	RushMe.getInstance()
+		.getLogger()
+		.debugLog(Level.INFO,
+			"Running PacketPlayerDataUpdate for " + sp.getName());
 	PlayerData.setScore(player, score);
 	PlayerData.setKills(player, kills);
 	PlayerData.setDeaths(player, deaths);
@@ -69,11 +77,17 @@ public class PacketPlayerDataUpdate extends AddonPacket implements
 	stream.writeInt(deaths);
 	stream.writeInt(health);
 	stream.writeInt(spotted ? 0 : 1);
-	RMLogging.debugLog(Level.INFO,
-		"Wrote PacketPlayerDataUpdate.  Atributes:");
-	RMLogging.debugLog(Level.INFO, "Score = " + score + ";Kills = " + kills
-		+ ";Deaths = " + deaths + ";Healths = " + health
-		+ ";Spotted = " + spotted);
+	RushMe.getInstance()
+		.getLogger()
+		.debugLog(Level.INFO,
+			"Wrote PacketPlayerDataUpdate.  Atributes:");
+	RushMe.getInstance()
+		.getLogger()
+		.debugLog(
+			Level.INFO,
+			"Score = " + score + ";Kills = " + kills + ";Deaths = "
+				+ deaths + ";Healths = " + health
+				+ ";Spotted = " + spotted);
     }
 
     public int getPlayer() {

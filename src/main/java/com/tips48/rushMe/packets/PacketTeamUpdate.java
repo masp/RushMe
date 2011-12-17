@@ -17,11 +17,11 @@
 
 package com.tips48.rushMe.packets;
 
+import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.GameManager;
 import com.tips48.rushMe.arenas.Arena;
 import com.tips48.rushMe.gamemodes.GameMode;
 import com.tips48.rushMe.teams.Team;
-import com.tips48.rushMe.util.RMLogging;
 
 import org.bukkit.Location;
 import org.getspout.spoutapi.io.*;
@@ -91,7 +91,8 @@ public class PacketTeamUpdate extends AddonPacket implements PriorityPacket {
 	    a.replaceTeam(team);
 	    return;
 	}
-	RMLogging.log(Level.SEVERE, "PacketTeamUpdate sent wrongly!");
+	RushMe.getInstance().getLogger()
+		.log(Level.SEVERE, "PacketTeamUpdate sent wrongly!");
     }
 
     @Override

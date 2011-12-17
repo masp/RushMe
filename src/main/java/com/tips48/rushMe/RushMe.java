@@ -48,6 +48,8 @@ public class RushMe extends JavaPlugin {
     private RMPlayerListener playerListener;
     private RMEntityListener entityListener;
 
+    private RMLogging logger;
+
     private static RushMe instance;
 
     @Override
@@ -60,11 +62,12 @@ public class RushMe extends JavaPlugin {
 
     public void onEnable() {
 
-	RMLogging.setFile(this.getDataFolder().getPath() + File.separator
+	logger = new RMLogging();
+	logger.setFile(this.getDataFolder().getPath() + File.separator
 		+ "RushMeLog.log");
-	RMLogging.setDebugFile(this.getDataFolder().getPath() + File.separator
+	logger.setDebugFile(this.getDataFolder().getPath() + File.separator
 		+ "RushMeDebug.log");
-	RMLogging.setDebug(true);
+	logger.setDebug(true);
 
 	GunConfiguration.loadGuns();
 	GameModeConfiguration.loadGameModes();
@@ -80,18 +83,15 @@ public class RushMe extends JavaPlugin {
 	GrenadeManager.createGrenade("TestGrenade1234", "Test", "Bleh",
 		GrenadeType.CONCUSSION, 3, 1, 2, 5, 5, null);
 
-	RMLogging.log(Level.INFO, "RushMe Version " + version + "_"
-		+ subVersion + " enabled");
-	RMLogging
-		.log(Level.INFO,
-			"Guns loaded: "
-				+ RMUtils.readableSet(GunManager.getGunNames()));
-	RMLogging
-		.log(Level.INFO,
-			"Grenades loaded: "
-				+ RMUtils.readableSet(GrenadeManager
-					.getGrenadeNames()));
-	RMLogging.log(
+	logger.log(Level.INFO, "RushMe Version " + version + "_" + subVersion
+		+ " enabled");
+	logger.log(Level.INFO,
+		"Guns loaded: " + RMUtils.readableSet(GunManager.getGunNames()));
+	logger.log(
+		Level.INFO,
+		"Grenades loaded: "
+			+ RMUtils.readableSet(GrenadeManager.getGrenadeNames()));
+	logger.log(
 		Level.INFO,
 		"GameModes loaded: "
 			+ RMUtils.readableSet(GameManager.getGameModeNames()));
@@ -99,8 +99,12 @@ public class RushMe extends JavaPlugin {
 
     public void onDisable() {
 	GameManager.removeAll();
-	RMLogging.log(Level.INFO, "Disabled");
-	RMLogging.shutdown();
+	logger.log(Level.INFO, "Disabled");
+	logger.shutdown();
+    }
+
+    public RMLogging getLogger() {
+	return logger;
     }
 
     public static RushMe getInstance() {

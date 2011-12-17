@@ -17,10 +17,10 @@
 
 package com.tips48.rushMe.packets;
 
+import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.GameManager;
 import com.tips48.rushMe.gamemodes.GameMode;
 import com.tips48.rushMe.gamemodes.GameModeType;
-import com.tips48.rushMe.util.RMLogging;
 
 import org.getspout.spoutapi.io.*;
 import org.getspout.spoutapi.player.SpoutPlayer;
@@ -46,7 +46,8 @@ public class PacketGameModeCreate extends AddonPacket implements PriorityPacket 
 	try {
 	    type = GameModeType.getByCode(typeInt);
 	} catch (Exception e) {
-	    RMLogging.log(e, "PacketGameModeCreate was sent wrongly!");
+	    RushMe.getInstance().getLogger()
+		    .log(e, "PacketGameModeCreate was sent wrongly!");
 	}
 	respawn = stream.readInt() == 0;
 	respawnTime = stream.readInt();
@@ -61,8 +62,9 @@ public class PacketGameModeCreate extends AddonPacket implements PriorityPacket 
 	    GameManager.createGameMode(name, type, time, respawn, respawnTime,
 		    maxPlayers, null, uuid);
 	} else {
-	    RMLogging.log(Level.SEVERE,
-		    "PacketGameModeCreate was sent wrongly!");
+	    RushMe.getInstance()
+		    .getLogger()
+		    .log(Level.SEVERE, "PacketGameModeCreate was sent wrongly!");
 	}
     }
 

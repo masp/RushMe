@@ -17,7 +17,7 @@
 
 package com.tips48.rushMe.custom.items;
 
-import com.tips48.rushMe.util.RMLogging;
+import com.tips48.rushMe.RushMe;
 
 import org.getspout.spoutapi.material.CustomItem;
 
@@ -46,15 +46,22 @@ public class GunManager {
 
 	guns.add(gun);
 
-	RMLogging.debugLog(Level.INFO, "Created gun " + gun + ".  Atributes:");
-	RMLogging.debugLog(Level.INFO, "ReloadTime = " + reloadTime
-		+ ";MaxClipSize = " + maxClipSize + ";MaxAmmo = " + maxAmmo
-		+ ";TimeBetweenFire = " + timeBetweenFire + ";AutoReload = "
-		+ autoReload + ";BulletsExplode = " + bulletsExplode
-		+ ";ExplosionSize = " + explosionSize
-		+ ";EntityDamageDistance = " + entityDamageDistance
-		+ ";HeadshotDamage = " + headshotDamage + ";BodyDamage = "
-		+ bodyDamage);
+	RushMe.getInstance().getLogger()
+		.debugLog(Level.INFO, "Created gun " + gun + ".  Atributes:");
+	RushMe.getInstance()
+		.getLogger()
+		.debugLog(
+			Level.INFO,
+			"ReloadTime = " + reloadTime + ";MaxClipSize = "
+				+ maxClipSize + ";MaxAmmo = " + maxAmmo
+				+ ";TimeBetweenFire = " + timeBetweenFire
+				+ ";AutoReload = " + autoReload
+				+ ";BulletsExplode = " + bulletsExplode
+				+ ";ExplosionSize = " + explosionSize
+				+ ";EntityDamageDistance = "
+				+ entityDamageDistance + ";HeadshotDamage = "
+				+ headshotDamage + ";BodyDamage = "
+				+ bodyDamage);
 
 	return gun;
     }

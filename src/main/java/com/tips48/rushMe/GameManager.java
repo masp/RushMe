@@ -23,7 +23,6 @@ import com.tips48.rushMe.data.PlayerData;
 import com.tips48.rushMe.gamemodes.GameMode;
 import com.tips48.rushMe.gamemodes.GameModeType;
 import com.tips48.rushMe.teams.Team;
-import com.tips48.rushMe.util.RMLogging;
 
 import org.bukkit.ChatColor;
 import org.bukkit.World;
@@ -52,8 +51,10 @@ public class GameManager {
     public static void addToGame(Arena arena, int player, Team prefered) {
 	GrenadeManager.createGrenades(player);
 	arena.addPlayer(player, prefered);
-	RMLogging.debugLog(Level.INFO,
-		"Added " + player + " to " + arena.getName());
+	RushMe.getInstance()
+		.getLogger()
+		.debugLog(Level.INFO,
+			"Added " + player + " to " + arena.getName());
     }
 
     public static void removeFromGame(Arena arena, Player player) {
@@ -63,8 +64,10 @@ public class GameManager {
     public static void removeFromGame(Arena arena, int player) {
 	if (arena.hasPlayer(player)) {
 	    arena.removePlayer(player);
-	    RMLogging.debugLog(Level.INFO, "Removed " + player + " from "
-		    + arena.getName());
+	    RushMe.getInstance()
+		    .getLogger()
+		    .debugLog(Level.INFO,
+			    "Removed " + player + " from " + arena.getName());
 	}
     }
 
@@ -129,11 +132,14 @@ public class GameManager {
 		uuid == null ? UUID.randomUUID() : uuid);
 	games.add(a);
 
-	RMLogging.debugLog(
-		Level.INFO,
-		"Created arena " + a.getName() + " with gamemode: "
-			+ gamemode.getName() + ";Creator: " + a.getCreator()
-			+ ";In world: " + world.getName());
+	RushMe.getInstance()
+		.getLogger()
+		.debugLog(
+			Level.INFO,
+			"Created arena " + a.getName() + " with gamemode: "
+				+ gamemode.getName() + ";Creator: "
+				+ a.getCreator() + ";In world: "
+				+ world.getName());
 
 	return a;
     }
@@ -146,10 +152,15 @@ public class GameManager {
 
 	gameModes.add(gm);
 
-	RMLogging.debugLog(Level.INFO, "Created gamemode " + gm.getName()
-		+ " with max players: " + gm.getMaxPlayers() + ";Time: " + time
-		+ ";Type: " + type + ";Respawn: " + respawn + ";RespawnTime: "
-		+ respawnTime);
+	RushMe.getInstance()
+		.getLogger()
+		.debugLog(
+			Level.INFO,
+			"Created gamemode " + gm.getName()
+				+ " with max players: " + gm.getMaxPlayers()
+				+ ";Time: " + time + ";Type: " + type
+				+ ";Respawn: " + respawn + ";RespawnTime: "
+				+ respawnTime);
 
 	return gm;
     }
@@ -179,7 +190,8 @@ public class GameManager {
 	if (defaultGameMode == null) {
 	    defaultGameMode = g;
 	} else {
-	    RMLogging
+	    RushMe.getInstance()
+		    .getLogger()
 		    .log(Level.SEVERE,
 			    "Something tried to change the default GameMode.  Make sure you don't have two default GameMode's or a rouge plugin.");
 	}
@@ -220,7 +232,8 @@ public class GameManager {
     }
 
     public static void updateNames(Arena arena) {
-	RMLogging.debugLog(Level.INFO, "Updating names for " + arena.getName());
+	RushMe.getInstance().getLogger()
+		.debugLog(Level.INFO, "Updating names for " + arena.getName());
 	for (int i = 0; i <= arena.getTeams().size(); i++) {
 	    Team t = arena.getTeams().get(i);
 	    for (int player : t.getPlayers().toArray()) {

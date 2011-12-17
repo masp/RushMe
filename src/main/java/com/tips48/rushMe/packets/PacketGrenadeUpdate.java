@@ -17,8 +17,8 @@
 
 package com.tips48.rushMe.packets;
 
+import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.custom.items.*;
-import com.tips48.rushMe.util.RMLogging;
 
 import org.getspout.spoutapi.io.*;
 import org.getspout.spoutapi.player.SpoutPlayer;
@@ -48,7 +48,8 @@ public class PacketGrenadeUpdate extends AddonPacket implements PriorityPacket {
 	try {
 	    type = GrenadeType.getByCode(typeInt);
 	} catch (Exception e) {
-	    RMLogging.log(e, "PacketGrenadeUpdate was sent wrongly!");
+	    RushMe.getInstance().getLogger()
+		    .log(e, "PacketGrenadeUpdate was sent wrongly!");
 	}
 	amount = stream.readInt();
 	startAmount = stream.readInt();
@@ -57,20 +58,27 @@ public class PacketGrenadeUpdate extends AddonPacket implements PriorityPacket {
 	damage = stream.readInt();
 	stunTime = stream.readInt();
 	uuid = stream.readUUID();
-	RMLogging.debugLog(Level.INFO, "Read PacketGrenadeUpdate.  Atributes:");
-	RMLogging.debugLog(Level.INFO, "Name = " + name + ";ShortName = "
-		+ shortName + ";TypeInt = " + typeInt + ";Type = " + type
-		+ ";Amount = " + amount + ";StartAmount = " + startAmount
-		+ ";ExplosionSize = " + explosionSize
-		+ ";TimeBeforeExplosion = " + timeBeforeExplosion
-		+ ";Damage = " + damage + ";StunTime = " + stunTime
-		+ ";UUID = " + uuid);
+	RushMe.getInstance().getLogger()
+		.debugLog(Level.INFO, "Read PacketGrenadeUpdate.  Atributes:");
+	RushMe.getInstance()
+		.getLogger()
+		.debugLog(
+			Level.INFO,
+			"Name = " + name + ";ShortName = " + shortName
+				+ ";TypeInt = " + typeInt + ";Type = " + type
+				+ ";Amount = " + amount + ";StartAmount = "
+				+ startAmount + ";ExplosionSize = "
+				+ explosionSize + ";TimeBeforeExplosion = "
+				+ timeBeforeExplosion + ";Damage = " + damage
+				+ ";StunTime = " + stunTime + ";UUID = " + uuid);
     }
 
     @Override
     public void run(SpoutPlayer sp) {
-	RMLogging.debugLog(Level.INFO,
-		"Running PacketGrenadeUpdate for " + sp.getName());
+	RushMe.getInstance()
+		.getLogger()
+		.debugLog(Level.INFO,
+			"Running PacketGrenadeUpdate for " + sp.getName());
 	Grenade grenade = GrenadeManager.getGrenade(name);
 	if (grenade == null) {
 	    grenade = GrenadeManager.createGrenade(name, null, shortName, type,
@@ -92,14 +100,19 @@ public class PacketGrenadeUpdate extends AddonPacket implements PriorityPacket {
 	stream.writeInt(damage);
 	stream.writeInt(stunTime);
 	stream.writeUUID(uuid);
-	RMLogging.debugLog(Level.INFO, "Read PacketGrenadeUpdate.  Atributes:");
-	RMLogging.debugLog(Level.INFO, "Name = " + name + ";ShortName = "
-		+ shortName + ";TypeInt = " + typeInt + ";Type = " + type
-		+ ";Amount = " + amount + ";StartAmount = " + startAmount
-		+ ";ExplosionSize = " + explosionSize
-		+ ";TimeBeforeExplosion = " + timeBeforeExplosion
-		+ ";Damage = " + damage + ";StunTime = " + stunTime
-		+ ";UUID = " + uuid);
+	RushMe.getInstance().getLogger()
+		.debugLog(Level.INFO, "Read PacketGrenadeUpdate.  Atributes:");
+	RushMe.getInstance()
+		.getLogger()
+		.debugLog(
+			Level.INFO,
+			"Name = " + name + ";ShortName = " + shortName
+				+ ";TypeInt = " + typeInt + ";Type = " + type
+				+ ";Amount = " + amount + ";StartAmount = "
+				+ startAmount + ";ExplosionSize = "
+				+ explosionSize + ";TimeBeforeExplosion = "
+				+ timeBeforeExplosion + ";Damage = " + damage
+				+ ";StunTime = " + stunTime + ";UUID = " + uuid);
     }
 
     public GrenadeType getType() {

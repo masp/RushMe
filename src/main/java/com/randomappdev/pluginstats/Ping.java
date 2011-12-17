@@ -18,7 +18,7 @@
 
 package com.randomappdev.pluginstats;
 
-import com.tips48.rushMe.util.RMLogging;
+import com.tips48.rushMe.RushMe;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -128,7 +128,8 @@ class Pinger implements Runnable {
 	    new URL(url).openConnection().getInputStream();
 	    logger.log(Level.INFO, "PluginStats pinged the central server.");
 	} catch (Exception ex) {
-	    RMLogging.log(ex, "Error pinging the centeral server");
+	    RushMe.getInstance().getLogger()
+		    .log(ex, "Error pinging the centeral server");
 	}
     }
 }

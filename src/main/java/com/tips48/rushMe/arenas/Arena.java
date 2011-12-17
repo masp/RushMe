@@ -148,7 +148,9 @@ public class Arena {
     }
 
     public void replaceTeam(Team team) {
-	for (Team t : teams) {
+	Iterator<Team> it = teams.iterator();
+	while (it.hasNext()) {
+	    Team t = it.next();
 	    if (t.getUUID().equals(team.getUUID())) {
 		teams.remove(t);
 		teams.add(team);
@@ -187,7 +189,6 @@ public class Arena {
 	boolean team = false;
 	if (prefered != null) {
 	    team = prefered.addPlayer(player);
-	    team = true;
 	}
 	Random r = new Random();
 	while (!team) {
@@ -197,10 +198,10 @@ public class Arena {
 
 	SpoutPlayer p = SpoutManager.getPlayerFromId(player);
 	if (p != null) {
-	    savedInventories.addInventory(p, p.getInventory());
+	    SavedInventories.addInventory(p, p.getInventory());
 	    p.getInventory().clear();
 	    RMUtils.giveAllGuns(p);
-	    savedGamemodes.addGameMode(p, p.getGameMode());
+	    SavedGamemodes.addGameMode(p, p.getGameMode());
 	    p.setGameMode(org.bukkit.GameMode.SURVIVAL);
 	    p.setSkin(getTeamOf(p).getSkin());
 	    MainHUD h = SpoutGUI.getHudOf(p);
@@ -225,15 +226,15 @@ public class Arena {
 	    if (p != null) {
 		p.resetSkin();
 		RMUtils.clearInventoryOfGuns(p);
-		if (savedInventories.hasInventory(p)) {
-		    PlayerInventory pi = savedInventories.getInventory(p);
+		if (SavedInventories.hasInventory(p)) {
+		    PlayerInventory pi = SavedInventories.getInventory(p);
 		    p.getInventory().setContents(pi.getContents());
 		    p.getInventory().setArmorContents(pi.getArmorContents());
-		    savedInventories.removeInventory(p);
+		    SavedInventories.removeInventory(p);
 		}
-		if (savedGamemodes.hasGameMode(p)) {
-		    p.setGameMode(savedGamemodes.getGameMode(p));
-		    savedGamemodes.removeGameMode(p);
+		if (SavedGamemodes.hasGameMode(p)) {
+		    p.setGameMode(SavedGamemodes.getGameMode(p));
+		    SavedGamemodes.removeGameMode(p);
 		}
 		MainHUD h = SpoutGUI.getHudOf(p);
 		if (h != null) {
@@ -278,16 +279,29 @@ public class Arena {
 	if (timeLeft == 0) {
 	    stop();
 	}
-	boolean gameWon = false;
+	int currentStatus = 0;
 	for (Team team : teams) {
-	    if (gameWon) {
+	    if (currentStatus == 1) {
+		// Won
 		team.doWon();
-		return;
+		continue;
 	    }
-	    if ((team.getSpawnsLeft() == 0) && !(team.getInfiniteSpawns())) {
-		stop();
+	    if (currentStatus == 2) {
+		// Lost
 		team.doLost();
-		gameWon = true;
+	    }
+	    int status = team.checkStatus();
+	    if (status == 0) {
+		// Nothing
+		continue;
+	    } else if (status == 1) {
+		// Won
+		team.doWon();
+		currentStatus = 1;
+	    } else {
+		// Lost
+		team.doLost();
+		currentStatus = 2;
 	    }
 	}
 	PacketArenaUpdate packet = new PacketArenaUpdate();
@@ -333,14 +347,17 @@ public class Arena {
 	RushMe.getInstance().getServer().getScheduler()
 		.cancelTask(doSecondScheduler);
 	doSecondScheduler = 0;
-	for (int s : getPlayers().toArray()) {
-	    Player p = SpoutManager.getPlayerFromId(s);
+	for (int player : getPlayers().toArray()) {
+	    Player p = SpoutManager.getPlayerFromId(player);
 	    if (p != null) {
 		MainHUD hud = SpoutGUI.getHudOf(p);
 		if (hud != null) {
 		    hud.shutdown();
 		}
 	    }
+	}
+	for (Team team : teams) {
+	    team.reset();
 	}
 	startCountdownTillStart(60);
 	started = false;
@@ -487,6 +504,7 @@ public class Arena {
     }
 
     public void onDelete() {
+	stop();
 	if (flagLocations != null) {
 	    for (Vector v : flagLocations) {
 		v.toLocation(world).getBlock().setTypeId(0);
@@ -501,6 +519,9 @@ public class Arena {
 	    for (Vector v : objectiveLocations) {
 		v.toLocation(world).getBlock().setTypeId(0);
 	    }
+	}
+	for (int player : players.toArray()) {
+	    removePlayer(player);
 	}
 	PacketArenaUpdate packet = new PacketArenaUpdate();
 	packet.processArena(this);
@@ -530,7 +551,7 @@ public class Arena {
 	return uuid;
     }
 
-    private static class savedInventories {
+    private static class SavedInventories {
 	private static final Map<String, PlayerInventory> inventories = new HashMap<String, PlayerInventory>();
 
 	protected static PlayerInventory getInventory(String player) {
@@ -567,7 +588,7 @@ public class Arena {
 
     }
 
-    private static class savedGamemodes {
+    private static class SavedGamemodes {
 	private static final Map<String, org.bukkit.GameMode> gamemodes = new HashMap<String, org.bukkit.GameMode>();
 
 	protected static org.bukkit.GameMode getGameMode(String player) {

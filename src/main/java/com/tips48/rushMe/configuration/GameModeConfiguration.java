@@ -21,7 +21,6 @@ import com.tips48.rushMe.GameManager;
 import com.tips48.rushMe.RushMe;
 import com.tips48.rushMe.gamemodes.GameModeType;
 import com.tips48.rushMe.teams.Team;
-import com.tips48.rushMe.util.RMLogging;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -47,26 +46,38 @@ public class GameModeConfiguration {
 	if (!(gamemodeFile.exists())) {
 	    if (!(gamemodeFile.getParentFile().exists())) {
 		if (!(gamemodeFile.getParentFile().mkdirs())) {
-		    RMLogging.log(Level.SEVERE, "Error creating the folder "
-			    + gamemodeFile.getParentFile().getName());
+		    RushMe.getInstance()
+			    .getLogger()
+			    .log(Level.SEVERE,
+				    "Error creating the folder "
+					    + gamemodeFile.getParentFile()
+						    .getName());
 		}
 	    }
 	    try {
 		if (!(gamemodeFile.createNewFile())) {
-		    RMLogging.log(Level.SEVERE, "Error creating the file "
-			    + gamemodeFile.getName());
+		    RushMe.getInstance()
+			    .getLogger()
+			    .log(Level.SEVERE,
+				    "Error creating the file "
+					    + gamemodeFile.getName());
 		}
 	    } catch (Exception e) {
-		RMLogging.log(e,
-			"Error creating the file " + gamemodeFile.getName());
+		RushMe.getInstance()
+			.getLogger()
+			.log(e,
+				"Error creating the file "
+					+ gamemodeFile.getName());
 	    }
 	    gamemode.options().copyDefaults(true);
 	    try {
 		gamemode.save(gamemodeFile);
 	    } catch (Exception e) {
-		RMLogging.log(e, "Error saving " + gamemodeFile.getName());
+		RushMe.getInstance().getLogger()
+			.log(e, "Error saving " + gamemodeFile.getName());
 	    }
-	    RMLogging.log(Level.INFO, "Created " + gamemodeFile.getName());
+	    RushMe.getInstance().getLogger()
+		    .log(Level.INFO, "Created " + gamemodeFile.getName());
 	}
 	gamemode = YamlConfiguration.loadConfiguration(gamemodeFile);
 	for (String name : gamemode.getConfigurationSection("GameModes")
@@ -76,9 +87,12 @@ public class GameModeConfiguration {
 		    "GameModes." + name + ".gameModeType").trim();
 	    GameModeType t = GameModeType.valueOf(gmtString);
 	    if (t == null) {
-		RMLogging.log(Level.SEVERE, "Error loading GameMode " + name
-			+ ".  The GameModeType " + gmtString
-			+ " is not a valid GameModeType.");
+		RushMe.getInstance()
+			.getLogger()
+			.log(Level.SEVERE,
+				"Error loading GameMode " + name
+					+ ".  The GameModeType " + gmtString
+					+ " is not a valid GameModeType.");
 		continue;
 	    }
 	    Boolean respawn = gamemode.getBoolean("GameModes." + name
